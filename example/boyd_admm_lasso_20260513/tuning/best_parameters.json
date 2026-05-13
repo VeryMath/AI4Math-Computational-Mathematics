@@ -1,0 +1,23 @@
+{
+  "selection_status": "best_valid_trial",
+  "trial": 10,
+  "rho": 1,
+  "alpha": 1.2,
+  "iterations": 13,
+  "final_objective": 17.269630223534392,
+  "r_norm": 0.06635631967327256,
+  "eps_pri": 0.08163775182046383,
+  "s_norm": 0.059589267124141872,
+  "eps_dual": 0.060479575782457246,
+  "primal_satisfied": true,
+  "dual_satisfied": true,
+  "objective_close": true,
+  "valid": true,
+  "elapsed_seconds": 0.25243791666666665,
+  "baseline": {
+    "rho": 1,
+    "alpha": 1,
+    "iterations": 15,
+    "final_objective": 17.2693553575
+  }
+}

@@ -15,15 +15,23 @@ def _to_float(row: dict, key: str) -> float | None:
         return None
 
 
+def _first_float(row: dict, keys: list[str]) -> float | None:
+    for key in keys:
+        value = _to_float(row, key)
+        if value is not None:
+            return value
+    return None
+
+
 def plot_convergence(convergence_csv: Path | str, out: Path | str) -> list[Path]:
     convergence_csv = Path(convergence_csv)
     out = Path(out)
     rows = list(csv.DictReader(convergence_csv.open()))
     if not rows:
         return []
-    x_values = [_to_float(row, "iteration") or index for index, row in enumerate(rows, start=1)]
+    x_values = [_first_float(row, ["iteration", "iter"]) or index for index, row in enumerate(rows, start=1)]
     figures = []
-    objective = [_to_float(row, "objective_value") for row in rows]
+    objective = [_first_float(row, ["objective_value", "objective"]) for row in rows]
     objective_values = [value for value in objective if value is not None]
     if len(objective_values) == len(rows):
         figures.append(write_line_chart(out / "figures" / "convergence_objective.svg", "Objective Convergence", x_values, {"objective": objective_values}, "objective"))

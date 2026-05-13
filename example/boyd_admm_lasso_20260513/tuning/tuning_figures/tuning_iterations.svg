@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+<rect width="100%" height="100%" fill="white"/>
+<text x="360.0" y="28" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700">ADMM Tuning Iterations by Trial</text>
+<line x1="70" y1="360" x2="690" y2="360" stroke="#111827"/>
+<line x1="70" y1="50" x2="70" y2="360" stroke="#111827"/>
+<text x="380.0" y="402" text-anchor="middle" font-family="Arial" font-size="12">iteration / trial</text>
+<text x="18" y="205.0" text-anchor="middle" font-family="Arial" font-size="12" transform="rotate(-90 18 205.0)">iterations</text>
+<text x="62" y="55" text-anchor="end" font-family="Arial" font-size="10">103</text>
+<text x="62" y="360" text-anchor="end" font-family="Arial" font-size="10">11</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="2.2" points="70.00,50.00 102.63,107.28 135.26,164.57 167.89,201.63 200.53,279.13 233.16,299.35 265.79,316.20 298.42,312.83 331.05,346.52 363.68,353.26 396.32,356.63 428.95,353.26 461.58,336.41 494.21,343.15 526.84,353.26 559.47,360.00 592.11,191.52 624.74,218.48 657.37,248.80 690.00,269.02"/>
+<line x1="540" y1="70" x2="560" y2="70" stroke="#2563eb" stroke-width="2.2"/>
+<text x="566" y="74" font-family="Arial" font-size="12">iterations</text>
+<polyline fill="none" stroke="#dc2626" stroke-width="2.2" points="70.00,50.00 102.63,108.56 135.26,167.11 167.89,205.00 200.53,284.22 233.16,304.89 265.79,322.11 298.42,322.11 331.05,353.11 363.68,360.00 396.32,360.00 428.95,360.00 461.58,360.00 494.21,360.00 526.84,360.00 559.47,360.00 592.11,360.00 624.74,360.00 657.37,360.00 690.00,360.00"/>
+<line x1="540" y1="88" x2="560" y2="88" stroke="#dc2626" stroke-width="2.2"/>
+<text x="566" y="92" font-family="Arial" font-size="12">best_valid_so_far</text>
+</svg>

@@ -95,6 +95,13 @@ Python 是当前主要自动执行目标。MATLAB 配置由 `matlab_environment_
 
 所有入口都指回 `skills/registry.yaml` 和 `computational_math_reproduction_workflow_skill`。平台文件应保持短小，不应变成另一套 workflow 定义。
 
+## 案例
+
+本仓库不是复现案例库，但 `example/` 保留了一些紧凑参考产物，用来展示一次完整 Skill-first workflow 长什么样。
+
+- `example/boyd_admm_lasso_20260513/`：Stanford Boyd ADMM Lasso 的 MATLAB 复现案例，包含运行计划审批、`grabcode` 只打开未保存 buffer 的修复、收敛可视化，以及获批后的 `rho` / `alpha` 调参。基线复现对齐公开示例的 15 次迭代；调参后 `rho = 1.0`、`alpha = 1.2` 在保持目标函数接近的前提下把迭代数降到 13。
+- `example/admm_bhushan23_20260511/`：基于当前 `ai4math` Python 环境，对 `bhushan23/ADMM` 做的最小 ADMM Lasso objective 复现。
+
 ## 输出产物
 
 紧凑默认工作流把产物写到 `outputs/{run_id}/`：

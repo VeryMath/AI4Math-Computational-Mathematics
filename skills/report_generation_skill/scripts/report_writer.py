@@ -28,6 +28,80 @@ def _pip_freeze() -> str:
         return "pip freeze timed out"
 
 
+def _read_jsonl(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    rows = []
+    for line in path.read_text().splitlines():
+        if line.strip():
+            rows.append(json.loads(line))
+    return rows
+
+
+def _format_commands(executions: list[dict]) -> str:
+    if not executions:
+        return "No commands recorded."
+    lines = []
+    for item in executions:
+        command = item.get("command", [])
+        command_text = " ".join(command) if isinstance(command, list) else str(command)
+        lines.append(
+            f"- `{command_text}` -> {item.get('status', 'unknown')}"
+            f" (exit_code={item.get('exit_code')}, runtime={item.get('runtime', 0):.3f}s)"
+        )
+    return "\n".join(lines)
+
+
+def _status(executions: list[dict]) -> str:
+    if not executions:
+        return "not run"
+    statuses = {item.get("status") for item in executions}
+    if statuses == {"success"}:
+        return "success"
+    if "success" in statuses:
+        return "partial"
+    return "failed"
+
+
+def _source_summary(run: Path) -> str:
+    analysis = _read_json(run / "repo_analysis.json") or {}
+    source = analysis.get("repo_path", "not recorded")
+    language = analysis.get("language", "unknown")
+    algorithms = analysis.get("detected_algorithms", [])
+    return f"- source: `{source}`\n- language: {language}\n- detected_algorithms: {', '.join(algorithms) if algorithms else 'not identified'}"
+
+
+def _result_summary(run: Path) -> str:
+    collected = _read_json(run / "collected_results.json") or {}
+    metrics = collected.get("parsed_metrics", {})
+    if not metrics:
+        return collected.get("parse_note", "No parsed metrics.")
+    return "```json\n" + json.dumps(metrics, indent=2) + "\n```"
+
+
+def _evidence_summary(run: Path) -> str:
+    candidates = [
+        run / "plan.md",
+        run / "repo_analysis.json",
+        run / "run_plan.json",
+        run / "execution_log.jsonl",
+        run / "run_log.txt",
+        run / "collected_results.json",
+    ]
+    existing = [path.relative_to(run).as_posix() for path in candidates if path.exists()]
+    return "\n".join(f"- `{path}`" for path in existing) if existing else "No evidence artifacts recorded."
+
+
+def _limitations(run: Path) -> str:
+    limitations = []
+    matlab_report = _read_json(run / "matlab_environment_report.json") or {}
+    if matlab_report.get("execution_mode") == "static-only":
+        limitations.append("MATLAB/Octave execution was not available in this environment.")
+    if not (run / "tuning" / "tuning_results.csv").exists():
+        limitations.append("Tuning was not run.")
+    return "\n".join(f"- {item}" for item in limitations) if limitations else "No major limitations recorded."
+
+
 def write_reports(run: Path | str) -> list[Path]:
     """Write compact Markdown reports for the minimal output tree.
 
@@ -47,36 +121,37 @@ def write_reports(run: Path | str) -> list[Path]:
         tuning_rows = list(csv.DictReader(tuning_csv.open()))
     figures = sorted((run / "figures").glob("*.svg")) if (run / "figures").exists() else []
     figure_links = "\n".join(f"![{path.stem}](figures/{path.name})" for path in figures)
+    executions = _read_jsonl(run / "execution_log.jsonl")
 
     reports = {
         "RUN_SUMMARY.md": f"""# Run Summary
 
 ## Status
-{{status}}
+{_status(executions)}
 
 ## Source
-{{source}}
+{_source_summary(run)}
 
 ## Commands Run
-{{commands}}
+{_format_commands(executions)}
 
 ## Evidence
-{{evidence}}
+{_evidence_summary(run)}
 
 ## Results
-{{results}}
+{_result_summary(run)}
 
 ## Figures
 {figure_links or 'No figures generated.'}
 
 ## Patches
-{{patches}}
+No patches were applied.
 
 ## Limitations
-{{limitations}}
+{_limitations(run)}
 
 ## Optional Tuning Recommendation
-{{tuning_recommendation}}
+Propose tuning only after the human approves a `tuning/tuning_plan.md`.
 """,
     }
 

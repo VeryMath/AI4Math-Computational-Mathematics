@@ -97,6 +97,13 @@ Thin platform adapters help other coding agents load the same workflow without c
 
 All adapters point back to `skills/registry.yaml` and `computational_math_reproduction_workflow_skill`. Platform files should stay small and should not become separate workflow definitions.
 
+## Examples
+
+The repository is not a reproduction case library, but `example/` contains compact reference artifacts that show what a completed Skill-first workflow looks like.
+
+- `example/boyd_admm_lasso_20260513/`: Stanford Boyd ADMM Lasso reproduction in MATLAB, including plan approval, repair for unsaved `grabcode` buffers, convergence figures, and approved `rho` / `alpha` tuning. The baseline run matches the published 15-iteration example, and the tuned setting `rho = 1.0`, `alpha = 1.2` reduces the iteration count to 13 while preserving objective closeness.
+- `example/admm_bhushan23_20260511/`: minimal ADMM Lasso objective reproduction for `bhushan23/ADMM` using the current `ai4math` Python environment.
+
 ## Outputs
 
 The compact default workflow writes artifacts under `outputs/{run_id}/`:
