@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python matrix-computation/cholesky-decomposition/scripts/solve_cholesky.py)"
-    ]
-  }
-}
