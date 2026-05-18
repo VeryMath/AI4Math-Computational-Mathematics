@@ -9,9 +9,11 @@ outputs/*
 
 tests/fixtures/**/metrics.json
 tests/fixtures/**/convergence.csv
-tests/
 .venv/
 venv/
 env/
+tests/
+
+projects/
 
 docs/
