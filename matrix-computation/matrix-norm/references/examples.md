@@ -1,413 +1,369 @@
-# Matrix Norm Examples
+# Matrix Norm - Skill Usage Examples
 
-## 基础示例
+> **Note**: This file demonstrates how to use the `/matrix-norm` skill. For low-level implementation details using numpy/scipy, see [implementation.md](./implementation.md).
 
-### Example 1: Frobenius范数
+---
 
-Frobenius范数是最常用的矩阵范数，定义为元素平方和的平方根：
+## Skill 概述
 
-$$\|A\|_F = \sqrt{\sum_{i,j} |a_{ij}|^2}$$
+`/matrix-norm` 用于计算矩阵的各种范数、条件数和矩阵距离。
 
-```python
-import numpy as np
+**主要范数类型**:
+- Frobenius 范数: $\|A\|_F = \sqrt{\sum_{i,j} |a_{ij}|^2}$
+- 谱范数: $\|A\|_2 = \sigma_{\max}(A)$
+- 1-范数: $\|A\|_1 = \max_j \sum_i |a_{ij}|$
+- ∞-范数: $\|A\|_\infty = \max_i \sum_j |a_{ij}|$
+- 核范数: $\|A\|_* = \sum_i \sigma_i(A)$
 
-A = np.array([
-    [1.0, 2.0, 3.0],
-    [4.0, 5.0, 6.0],
-    [7.0, 8.0, 9.0],
-])
+---
 
-fro_norm = np.linalg.norm(A, ord='fro')
-print(f"Frobenius norm: {fro_norm:.6f}")
-# 手动计算验证
-manual = np.sqrt(np.sum(A**2))
-print(f"Manual calculation: {manual:.6f}")
+## Example 1: 计算多种范数
+
+**问题**: 计算矩阵的各种范数
+
+**调用方式**:
+
+```
+计算矩阵 A 的各种范数
+A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+使用 /matrix-norm skill
+计算: Frobenius, 谱范数, 1-范数, ∞-范数, 核范数
 ```
 
-### Example 2: 谱范数(2-范数)
+**预期输出**:
 
-谱范数是矩阵的最大奇异值：
+- skill 计算各种范数
+- 报告各范数数值
+- 解释各范数的含义
+- 比较各范数的大小关系
 
-$$\|A\|_2 = \sigma_{\max}(A)$$
+---
 
-```python
-import numpy as np
+## Example 2: 条件数分析
 
-A = np.array([
-    [3.0, 1.0],
-    [1.0, 2.0],
-])
+**问题**: 分析矩阵的条件数
 
-spec_norm = np.linalg.norm(A, ord=2)
-print(f"Spectral norm: {spec_norm:.6f}")
+**调用方式**:
 
-# 通过SVD验证
-u, s, vt = np.linalg.svd(A)
-print(f"Max singular value: {s[0]:.6f}")
+```
+分析矩阵 A 的条件数
+A = [[1, 1], [1, 1.000001]]
+
+使用 /matrix-norm skill
+计算不同范数的条件数
+分析数值稳定性
 ```
 
-### Example 3: 1-范数和∞-范数
+**预期输出**:
 
-1-范数是最大列和，∞-范数是最大行和：
+- skill 计算条件数
+- 报告 κ₁(A), κ₂(A), κ_∞(A)
+- 分析数值稳定性
+- 讨论对求解的影响
 
-$$\|A\|_1 = \max_j \sum_i |a_{ij}|, \quad \|A\|_\infty = \max_i \sum_j |a_{ij}|$$
+---
 
-```python
-import numpy as np
+## Example 3: 矩阵距离
 
-A = np.array([
-    [1.0, -2.0, 3.0],
-    [-4.0, 5.0, -6.0],
-])
+**问题**: 计算两个矩阵之间的距离
 
-norm_1 = np.linalg.norm(A, ord=1)
-norm_inf = np.linalg.norm(A, ord=np.inf)
+**调用方式**:
 
-print(f"1-norm (max column sum): {norm_1:.6f}")
-# 手动验证列和
-col_sums = np.sum(np.abs(A), axis=0)
-print(f"Column sums: {col_sums}")
-print(f"Max column sum: {np.max(col_sums):.6f}")
+```
+计算矩阵 A 和 B 之间的 Frobenius 距离
+A = [[1, 2], [3, 4]]
+B = [[1.1, 2.1], [2.9, 4.1]]
 
-print(f"\nInfinity-norm (max row sum): {norm_inf:.6f}")
-# 手动验证行和
-row_sums = np.sum(np.abs(A), axis=1)
-print(f"Row sums: {row_sums}")
-print(f"Max row sum: {np.max(row_sums):.6f}")
+使用 /matrix-norm skill
+同时计算相对距离
 ```
 
-### Example 4: 核范数(Nuclear Norm)
+**预期输出**:
 
-核范数是所有奇异值之和：
+- skill 计算 ||A - B||_F
+- 报告相对距离 ||A - B||_F / ||A||_F
+- 讨论近似质量
 
-$$\|A\|_* = \sum_i \sigma_i(A)$$
+---
 
-```python
-import numpy as np
+## Example 4: 特殊矩阵 - 正交矩阵
 
-A = np.array([
-    [3.0, 1.0],
-    [1.0, 2.0],
-])
+**问题**: 分析正交矩阵的范数性质
 
-nuc_norm = np.linalg.norm(A, ord='nuc')
-print(f"Nuclear norm: {nuc_norm:.6f}")
+**调用方式**:
 
-# 通过SVD验证
-u, s, vt = np.linalg.svd(A)
-print(f"Sum of singular values: {np.sum(s):.6f}")
+```
+分析随机正交矩阵 Q 的范数性质
+Q 是 3×3 随机正交矩阵
+
+使用 /matrix-norm skill
+验证 ||Q||_2 = 1 和 ||Q||_F = √3
 ```
 
-### Example 5: 一般p-范数
+**预期输出**:
 
-对于 $p \geq 1$：
+- skill 构造正交矩阵
+- 计算各范数
+- 验证理论性质
+- 解释为何谱范数为1
 
-$$\|A\|_p = \max_{\|x\|_p=1} \|Ax\|_p$$
+---
 
-```python
-import numpy as np
+## Example 5: 特殊矩阵 - 对角矩阵
 
-A = np.array([
-    [2.0, 1.0],
-    [1.0, 2.0],
-])
+**问题**: 分析对角矩阵的范数
 
-# 1-范数, 2-范数, ∞-范数
-for p in [1, 2, np.inf]:
-    norm_p = np.linalg.norm(A, ord=p)
-    print(f"||A||_{p if p != np.inf else 'inf'} = {norm_p:.6f}")
+**调用方式**:
+
+```
+分析对角矩阵的范数
+D = diag([1, 2, 3])
+
+使用 /matrix-norm skill
+验证 ||D||_2 = ||D||_1 = ||D||_∞ = max |d_i|
+```
+
+**预期输出**:
+
+- skill 构造对角矩阵
+- 计算各范数
+- 验证理论性质
+- 解释简化关系
+
+---
+
+## Example 6: 范数不等式验证
+
+**问题**: 验证范数之间的不等式关系
+
+**调用方式**:
+
+```
+对随机矩阵 A (4×3) 验证以下不等式:
+1. ||A||_2 ≤ ||A||_F ≤ √(min(m,n)) × ||A||_2
+2. ||A||_2 ≤ √(||A||_1 × ||A||_∞)
+
+使用 /matrix-norm skill
+```
+
+**预期输出**:
+
+- skill 构造随机矩阵
+- 计算各范数
+- 验证不等式
+- 解释理论背景
+
+---
+
+## Example 7: Hilbert 矩阵分析
+
+**问题**: 分析 Hilbert 矩阵的范数和条件数
+
+**调用方式**:
+
+```
+分析不同大小 Hilbert 矩阵的范数和条件数
+n = 3, 5, 8
+
+使用 /matrix-norm skill
+Hilbert 矩阵定义: H[i,j] = 1/(i+j+1)
+```
+
+**预期输出**:
+
+- skill 构造各大小 Hilbert 矩阵
+- 计算范数和条件数
+- 分析条件数增长
+- 讨论数值问题
+
+---
+
+## Example 8: 低秩矩阵范数
+
+**问题**: 分析秩1矩阵的核范数性质
+
+**调用方式**:
+
+```
+构造秩1矩阵 A = u @ v^T
+u = [1, 2, 3]^T
+v = [2, 1, 0.5]^T
+
+使用 /matrix-norm skill
+验证 ||A||_* = ||A||_2（秩1矩阵性质）
+```
+
+**预期输出**:
+
+- skill 构造秩1矩阵
+- 计算核范数和谱范数
+- 验证相等性
+- 解释低秩性质
+
+---
+
+## Example 9: Vandermonde 矩阵
+
+**问题**: 分析 Vandermonde 矩阵的范数和条件数
+
+**调用方式**:
+
+```
+分析 Vandermonde 矩阵的范数
+节点: 几何级数 from 0.1 to 10, 10 points
+
+使用 /matrix-norm skill
+分析条件数和数值稳定性
+```
+
+**预期输出**:
+
+- skill 构造 Vandermonde 矩阵
+- 计算范数和条件数
+- 分析数值问题
+- 讨论节点选择的影响
+
+---
+
+## Example 10: 完整范数分析
+
+**问题**: 对矩阵进行完整的范数分析
+
+**调用方式**:
+
+```
+对矩阵 A 进行完整的范数分析
+A = [[3, 1, 2], [1, 4, 1], [2, 1, 5]]
+
+使用 /matrix-norm skill
+提供完整报告:
+- 所有主要范数
+- 条件数（不同范数）
+- 范数关系验证
+- 矩阵特性总结
+```
+
+**预期输出**:
+
+- skill 生成结构化报告
+  - Frobenius, 谱范数, 1-范数, ∞-范数, 核范数
+  - 各范数的条件数
+  - 范数不等式验证
+  - 矩阵特性（形状、秩等）
+  - 数值稳定性评估
+
+---
+
+## Example 11: 范数选择建议
+
+**问题**: 根据应用场景推荐合适的范数
+
+**调用方式**:
+
+```
+我有以下需求，请推荐合适的矩阵范数:
+1. 度量重构误差
+2. 分析迭代法收敛性
+3. 评估列空间性质
+4. 低秩约束问题
+
+使用 /matrix-norm skill
+```
+
+**预期输出**:
+
+- skill 分析各场景
+- 推荐对应范数
+- 解释理由
+- 提供使用建议
+
+---
+
+## Example 12: 相对误差计算
+
+**问题**: 计算矩阵近似的相对误差
+
+**调用方式**:
+
+```
+计算近似矩阵 B 对 A 的逼近误差
+A = [[1, 2], [3, 4], [5, 6]]
+B = [[1.05, 1.95], [3.1, 3.9], [4.9, 6.1]]
+
+使用 /matrix-norm skill
+计算绝对误差和相对误差
+```
+
+**预期输出**:
+
+- skill 计算误差
+- 报告 ||A - B||_F
+- 报告相对误差 ||A - B||_F / ||A||_F
+- 评估逼近质量
+
+---
+
+## 通用调用模板
+
+**多种范数**:
+
+```
+计算矩阵 A 的各种范数
+A = [...]
+
+使用 /matrix-norm skill
+```
+
+**条件数**:
+
+```
+计算矩阵 A 的条件数
+A = [...]
+
+使用 /matrix-norm skill
+使用 2-范数
+```
+
+**矩阵距离**:
+
+```
+计算 A 和 B 的距离
+A = [...]
+B = [...]
+
+使用 /matrix-norm skill
+使用 Frobenius 范数
+```
+
+**特定范数**:
+
+```
+计算矩阵 A 的 [范数类型]
+A = [...]
+
+使用 /matrix-norm skill
+```
+
+**完整分析**:
+
+```
+对矩阵 A 进行完整范数分析
+A = [...]
+
+使用 /matrix-norm skill
 ```
 
 ---
 
-## 条件数示例
-
-### Example 6: 条件数与数值稳定性
-
-条件数 $\kappa(A) = \|A\| \cdot \|A^{-1}\|$ 衡量矩阵对扰动的敏感性：
-
-```python
-import numpy as np
-
-# 条件数良好的矩阵
-A_well = np.array([
-    [1.0, 0.0],
-    [0.0, 1.0],
-])
-print(f"Well-conditioned: kappa(A) = {np.linalg.cond(A_well):.2f}")
-
-# 条件数较差的矩阵
-A_poor = np.array([
-    [1.0, 1.0],
-    [1.0, 1.000001],
-])
-print(f"Poor-conditioned: kappa(A) = {np.linalg.cond(A_poor):.2e}")
-
-# 不同范数的条件数
-A = np.array([
-    [2.0, 1.0],
-    [1.0, 2.0],
-])
-print(f"\nCondition numbers for different norms:")
-for p in [1, 2, np.inf, 'fro']:
-    if p != 'fro':
-        kappa = np.linalg.cond(A, p=p)
-        print(f"kappa_{p if p != np.inf else 'inf'}(A) = {kappa:.6f}")
-```
-
----
-
-## 矩阵距离示例
-
-### Example 7: Frobenius距离
-
-```python
-import numpy as np
-
-A = np.array([
-    [1.0, 2.0],
-    [3.0, 4.0],
-])
-
-B = np.array([
-    [1.1, 2.1],
-    [2.9, 4.1],
-])
-
-distance_fro = np.linalg.norm(A - B, ord='fro')
-print(f"Frobenius distance: {distance_fro:.6f}")
-print(f"Relative distance: {distance_fro / np.linalg.norm(A, ord='fro'):.4%}")
-```
-
-### Example 8: 谱距离
-
-```python
-import numpy as np
-
-A = np.array([
-    [3.0, 1.0],
-    [1.0, 2.0],
-])
-
-B = np.array([
-    [3.0, 1.0],
-    [1.0, 2.001],
-])
-
-distance_spec = np.linalg.norm(A - B, ord=2)
-print(f"Spectral distance: {distance_spec:.8f}")
-```
-
----
-
-## 特殊矩阵范数性质
-
-### Example 9: 正交矩阵的范数
-
-对于正交矩阵 $Q$，满足 $Q^T Q = I$：
-
-- $\|Q\|_2 = 1$
-- $\|Q\|_F = \sqrt{n}$ (n×n正交矩阵)
-
-```python
-import numpy as np
-
-# 生成随机正交矩阵
-A = np.random.randn(3, 3)
-Q, _ = np.linalg.qr(A)
-
-print("Orthogonal matrix Q:")
-print(Q)
-
-print(f"\n||Q||_2 = {np.linalg.norm(Q, ord=2):.6f} (expected: 1)")
-print(f"||Q||_F = {np.linalg.norm(Q, ord='fro'):.6f} (expected: {np.sqrt(3):.6f})")
-print(f"||Q||_1 = {np.linalg.norm(Q, ord=1):.6f}")
-print(f"||Q||_inf = {np.linalg.norm(Q, ord=np.inf):.6f}")
-```
-
-### Example 10: 对角矩阵的范数
-
-对于对角矩阵 $D = \text{diag}(d_1, ..., d_n)$：
-
-- $\|D\|_2 = \max_i |d_i|$
-- $\|D\|_F = \sqrt{\sum_i d_i^2}$
-- $\|D\|_1 = \|D\|_\infty = \max_i |d_i|$
-
-```python
-import numpy as np
-
-D = np.diag([1.0, 2.0, 3.0])
-
-print("Diagonal matrix D:")
-print(D)
-
-print(f"\n||D||_2 = {np.linalg.norm(D, ord=2):.6f} (max |d_i|)")
-print(f"||D||_F = {np.linalg.norm(D, ord='fro'):.6f} (sqrt(sum d_i^2))")
-print(f"||D||_1 = {np.linalg.norm(D, ord=1):.6f} (max |d_i|)")
-print(f"||D||_inf = {np.linalg.norm(D, ord=np.inf):.6f} (max |d_i|)")
-```
-
----
-
-## 范数不等式验证
-
-### Example 11: Frobenius与谱范数的关系
-
-理论性质：$\|A\|_2 \leq \|A\|_F \leq \sqrt{\min(m,n)} \|A\|_2$
-
-```python
-import numpy as np
-
-A = np.random.randn(4, 3)
-
-fro = np.linalg.norm(A, ord='fro')
-spec = np.linalg.norm(A, ord=2)
-
-print(f"Frobenius norm: {fro:.6f}")
-print(f"Spectral norm: {spec:.6f}")
-print(f"sqrt(min(m,n)) * ||A||_2: {np.sqrt(min(A.shape)) * spec:.6f}")
-print(f"\nInequality check:")
-print(f"||A||_2 <= ||A||_F: {spec <= fro}")
-print(f"||A||_F <= sqrt(min(m,n)) * ||A||_2: {fro <= np.sqrt(min(A.shape)) * spec}")
-```
-
-### Example 12: 范数关系不等式
-
-理论性质：$\|A\|_2 \leq \sqrt{\|A\|_1 \|A\|_\infty}$
-
-```python
-import numpy as np
-
-A = np.array([
-    [2.0, 1.0, 3.0],
-    [1.0, 4.0, 1.0],
-])
-
-spec = np.linalg.norm(A, ord=2)
-norm_1 = np.linalg.norm(A, ord=1)
-norm_inf = np.linalg.norm(A, ord=np.inf)
-
-print(f"||A||_2: {spec:.6f}")
-print(f"sqrt(||A||_1 * ||A||_inf): {np.sqrt(norm_1 * norm_inf):.6f}")
-print(f"Inequality holds: {spec <= np.sqrt(norm_1 * norm_inf)}")
-```
-
----
-
-## 低秩矩阵的范数
-
-### Example 13: 秩1矩阵的核范数
-
-对于秩1矩阵 $A = uv^T$，有 $\|A\|_* = \|A\|_2$：
-
-```python
-import numpy as np
-
-u = np.array([1.0, 2.0, 3.0]).reshape(-1, 1)
-v = np.array([2.0, 1.0, 0.5]).reshape(-1, 1)
-
-A = u @ v.T  # Rank-1 matrix
-
-print("Rank-1 matrix A = u @ v^T:")
-print(A)
-print(f"Rank of A: {np.linalg.matrix_rank(A)}")
-
-spec = np.linalg.norm(A, ord=2)
-nuc = np.linalg.norm(A, ord='nuc')
-print(f"\n||A||_2 = {spec:.6f}")
-print(f"||A||_* = {nuc:.6f}")
-print(f"For rank-1 matrix: ||A||_2 = ||A||_*: {np.isclose(spec, nuc)}")
-```
-
----
-
-## 病态矩阵示例
-
-### Example 14: Hilbert矩阵的范数和条件数
-
-**Paper Source:**
-- Hilbert, D. (1894). "Ein Beitrag zur Theorie des Legendre'schen Polynoms". *Acta Mathematica*.
-- Higham, N. J. (2002). *Accuracy and Stability of Numerical Algorithms*, 2nd ed. SIAM.
-
-```python
-import numpy as np
-
-def hilbert(n: int) -> np.ndarray:
-    return np.array([[1.0 / (i + j + 1) for j in range(n)] for i in range(n)], dtype=float)
-
-for n in [3, 5, 8]:
-    H = hilbert(n)
-    fro = np.linalg.norm(H, ord='fro')
-    spec = np.linalg.norm(H, ord=2)
-    cond = np.linalg.cond(H)
-
-    print(f"\nHilbert({n}):")
-    print(f"  Frobenius norm: {fro:.6e}")
-    print(f"  Spectral norm: {spec:.6e}")
-    print(f"  Condition number: {cond:.6e}")
-```
-
-### Example 15: Vandermonde矩阵的范数
-
-**Paper Source:**
-- Vandermonde, A.-T. (1771). "Memoire sur l'elimination". *Histoire de l'Academie Royale des Sciences*.
-- Gautschi, W. (1978). "On Inverses of Vandermonde and Confluent Vandermonde Matrices". *Numerische Mathematik*.
-
-```python
-import numpy as np
-
-x = np.geomspace(0.1, 10, 10)
-V = np.vander(x, N=len(x), increasing=True)
-
-print(f"Vandermonde matrix shape: {V.shape}")
-print(f"Frobenius norm: {np.linalg.norm(V, ord='fro'):.6e}")
-print(f"Spectral norm: {np.linalg.norm(V, ord=2):.6e}")
-print(f"Condition number: {np.linalg.cond(V):.6e}")
-```
-
----
-
-## 输出模板
-
-```markdown
-### 问题重述
-矩阵 A = [...], 目标: 计算范数/条件数
-
-### 矩阵检查
-- shape: (m, n)
-- rank: ...
-
-### 范数计算结果
-- Frobenius norm ||A||_F: ...
-- Spectral norm ||A||_2: ...
-- 1-norm ||A||_1: ...
-- ∞-norm ||A||_inf: ...
-- Nuclear norm ||A||_*: ...
-
-### 条件数 (如适用)
-- kappa_2(A): ...
-- kappa_1(A): ...
-- kappa_inf(A): ...
-
-### 范数关系验证
-- ||A||_2 <= ||A||_F: ...
-- ||A||_F <= sqrt(min(m,n)) * ||A||_2: ...
-
-### 结果解释
-...
-```
-
----
-
-## 不同范数的选择建议
+## 范数选择速查表
 
 | 应用场景 | 推荐范数 | 理由 |
 |---------|---------|------|
-| 一般矩阵大小度量 | Frobenius | 计算高效，直观 |
-| 重构误差、逼近质量 | Frobenius | 元素级误差 |
-| 条件数分析 | Spectral | 对应最大放大因子 |
-| 迭代法收敛性 | Spectral | 与谱半径相关 |
-| 列空间性质分析 | 1-norm | 最大列和 |
-| 行空间性质分析 | ∞-norm | 最大行和 |
-| 低秩约束问题 | Nuclear | 奇异值之和 |
-| 稀疏性度量 | 其他 | 取决于具体问题 |
+| 一般度量 | Frobenius | 直观、高效 |
+| 重构误差 | Frobenius | 元素级 |
+| 条件数 | Spectral (2-范数) | 最大放大因子 |
+| 迭代收敛 | Spectral | 与谱半径相关 |
+| 列分析 | 1-范数 | 最大列和 |
+| 行分析 | ∞-范数 | 最大行和 |
+| 低秩约束 | Nuclear | 奇异值之和 |

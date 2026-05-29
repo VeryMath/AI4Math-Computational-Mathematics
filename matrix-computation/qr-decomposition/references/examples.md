@@ -1,422 +1,398 @@
-# QR Decomposition Examples
+# QR Decomposition - Skill Usage Examples
 
-## 基础示例
+> **Note**: This file demonstrates how to use the `/qr-decomposition` skill. For low-level implementation details using numpy/scipy, see [implementation.md](./implementation.md).
 
-### Example 1: 完整 QR 分解
+---
 
-```python
-import numpy as np
+## Skill 概述
 
-A = np.array([
-    [1.0, 2.0],
-    [3.0, 4.0],
-    [5.0, 6.0],
-])
+`/qr-decomposition` 用于对任意矩阵进行 QR 分解（A = QR），求解最小二乘问题，计算正交基等。
 
-Q, R = np.linalg.qr(A, mode='complete')
-print("Q (complete) =\n", Q)
-print("R (complete) =\n", R)
-print("Q is orthogonal:", np.allclose(Q.T @ Q, np.eye(Q.shape[1])))
-print("Reconstruction error:", np.linalg.norm(A - Q @ R))
+**适用场景**:
+- 任意矩阵的 QR 分解（方阵或长方形）
+- 最小二乘问题（过定系统）
+- 欠定系统的最小范数解
+- 正交基计算、投影
+- Gram-Schmidt 正交化
+
+**不适用场景**:
+- 明显秩亏或病态 → 推荐 SVD
+- SPD 矩阵 → 优先使用 Cholesky
+
+---
+
+## Example 1: 基础 QR 分解
+
+**问题**: 对矩阵进行 QR 分解
+
+$$
+A = \begin{bmatrix}
+1 & 2 \\
+3 & 4 \\
+5 & 6
+\end{bmatrix}
+$$
+
+**调用方式**:
+
+```
+对矩阵 A 进行 QR 分解
+A = [[1, 2], [3, 4], [5, 6]]
+
+使用 /qr-decomposition skill
+说明: 使用经济型 QR
 ```
 
-### Example 2: 经济型 QR 分解
+**预期输出**:
 
-```python
-import numpy as np
+- skill 执行 QR 分解
+- 返回 Q (3×2) 和 R (2×2)
+- 验证 A ≈ QR
+- 验证 Q 的正交性
 
-A = np.array([
-    [1.0, 2.0, 3.0],
-    [4.0, 5.0, 6.0],
-    [7.0, 8.0, 9.0],
-])
+---
 
-Q, R = np.linalg.qr(A, mode='reduced')
-print("Q (reduced) =\n", Q)
-print("R (reduced) =\n", R)
-print("Q^T Q =\n", Q.T @ Q)
-print("Reconstruction error:", np.linalg.norm(A - Q @ R))
+## Example 2: 求解最小二乘问题
+
+**问题**: 求解过定系统的最小二乘解
+
+$$
+\begin{bmatrix}
+1 & 1 \\
+1 & 2 \\
+1 & 3 \\
+1 & 4
+\end{bmatrix} x = \begin{bmatrix}
+6 \\
+9 \\
+20 \\
+25
+\end{bmatrix}
+$$
+
+**调用方式**:
+
+```
+求解过定系统的最小二乘解
+A = [[1, 1], [1, 2], [1, 3], [1, 4]]
+b = [6, 9, 20, 25]
+
+使用 /qr-decomposition skill
 ```
 
-### Example 3: 求解最小二乘问题
+**预期输出**:
 
-```python
-import numpy as np
+- skill 执行 QR 分解
+- 求解 R x = Q^T b
+- 返回最小二乘解 x
+- 报告残差 ||Ax - b||
 
-# 过定系统：更多方程组
-A = np.array([
-    [1.0, 1.0],
-    [1.0, 2.0],
-    [1.0, 3.0],
-    [1.0, 4.0],
-])
-b = np.array([6.0, 9.0, 20.0, 25.0])
+---
 
-Q, R = np.linalg.qr(A, mode='reduced')
-x = np.linalg.solve(R, Q.T @ b)
-print("Least squares solution x =", x)
-print("Residual ||Ax - b|| =", np.linalg.norm(A @ x - b))
+## Example 3: 带列选主元的 QR
+
+**问题**: 对近似秩亏矩阵进行 rank-revealing QR
+
+**调用方式**:
+
+```
+对矩阵 A 进行 rank-revealing QR 分解
+A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+使用 /qr-decomposition skill
+使用列选主元（pivoting=True）
+估计数值秩
 ```
 
-### Example 4: 带列选主元的 QR（rank-revealing）
+**预期输出**:
 
-```python
-import numpy as np
-from scipy.linalg import qr
+- skill 执行带列选主元的 QR
+- 返回 Q, R, P（置换）
+- 分析 R 的对角元
+- 估计数值秩
 
-A = np.array([
-    [1.0, 2.0, 3.0],
-    [4.0, 5.0, 6.0],
-    [7.0, 8.0, 9.0],
-])
+---
 
-Q, R, P = qr(A, pivoting=True, mode='economic')
-print("Q =\n", Q)
-print("R =\n", R)
-print("Permutation vector P =", P)
-print("Diagonal of R:", np.abs(np.diag(R)))
+## Example 4: Hilbert 矩阵（病态测试）
+
+**问题**: 对病态 Hilbert 矩阵进行 QR 分解
+
+**调用方式**:
+
+```
+对 12×12 Hilbert 矩阵进行 QR 分解
+Hilbert 矩阵定义: H[i,j] = 1/(i + j + 1)
+
+使用 /qr-decomposition skill
+分析数值稳定性
+```
+
+**预期输出**:
+
+- skill 构造 Hilbert 矩阵
+- 执行 QR 分解
+- 报告 R 的条件数
+- 讨论病态影响
+
+---
+
+## Example 5: 欠定系统
+
+**问题**: 求解欠定系统的最小范数解
+
+**调用方式**:
+
+```
+求解欠定线性系统的最小范数解
+A = [[1, 2, 3], [4, 5, 6]]
+b = [7, 8]
+
+使用 /qr-decomposition skill
+求最小范数解
+```
+
+**预期输出**:
+
+- skill 识别为欠定系统
+- 使用 A^T 的 QR 分解
+- 返回最小范数解 x
+- 验证 ||x|| 最小
+
+---
+
+## Example 6: Vandermonde 矩阵
+
+**问题**: 分析 Vandermonde 矩阵的 QR 分解
+
+**调用方式**:
+
+```
+对 Vandermonde 矩阵进行 QR 分解
+节点 x = linspace(0.1, 5.0, 10)
+
+使用 /qr-decomposition skill
+分析 R 的对角元衰减
+```
+
+**预期输出**:
+
+- skill 构造 Vandermonde 矩阵
+- 执行 QR 分解
+- 分析对角元
+- 讨论多项式拟合的数值问题
+
+---
+
+## Example 7: Grcar 矩阵（非正规）
+
+**问题**: 对非正规矩阵进行 QR 分解
+
+**调用方式**:
+
+```
+对 20×20 Grcar 矩阵进行 QR 分解
+Grcar 矩阵定义: 对角线=1, 下对角线=-1, 上对角线前k个=1
+k = 3
+
+使用 /qr-decomposition skill
+分析正交性误差
+```
+
+**预期输出**:
+
+- skill 构造 Grcar 矩阵
+- 执行 QR 分解
+- 报告正交性误差
+- 讨论非正规矩阵
+
+---
+
+## Example 8: Gram-Schmidt 正交化
+
+**问题**: 使用 QR 分解进行 Gram-Schmidt 正交化
+
+**调用方式**:
+
+```
+对矩阵 A 的列向量进行 Gram-Schmidt 正交化
+A = [[1, 1, 0], [1, 0, 1], [0, 1, 1]]
+
+使用 /qr-decomposition skill
+获取正交化的 Q 矩阵
+```
+
+**预期输出**:
+
+- skill 执行 QR 分解
+- 返回正交矩阵 Q
+- 验证正交性
+- 解释 Gram-Schmidt 关系
+
+---
+
+## Example 9: 秩亏矩阵检测
+
+**问题**: 检测和处理秩亏矩阵
+
+**调用方式**:
+
+```
+检测矩阵的秩并处理秩亏情况
+A = [[1, 2, 3], [2, 4, 6], [3, 6, 9]]
+
+使用 /qr-decomposition skill
+估计数值秩
+处理秩亏情况
+```
+
+**预期输出**:
+
+- skill 执行 QR 分解
+- 分析 R 对角元
+- 估计数值秩
+- 讨论处理策略
+
+---
+
+## Example 10: 正交基计算
+
+**问题**: 计算矩阵列空间的正交基
+
+**调用方式**:
+
+```
+计算矩阵 A 列空间的正交基
+A = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]
+
+使用 /qr-decomposition skill
+返回 Q 作为正交基
+```
+
+**预期输出**:
+
+- skill 执行经济型 QR
+- 返回 Q (4×3)
+- 验证正交性
+- 解释基的性质
+
+---
+
+## Example 11: 与 SVD 比较
+
+**问题**: 比较 QR 和 SVD 在最小二乘问题上的表现
+
+**调用方式**:
+
+```
+对同一最小二乘问题比较 QR 和 SVD 方法
+A = [[1, 2], [3, 4], [5, 6]]
+b = [7, 8, 9]
+
+使用 /qr-decomposition skill
+同时演示 SVD 方法
+比较结果和稳定性
+```
+
+**预期输出**:
+
+- skill 执行 QR 和 SVD
+- 比较解的差异
+- 讨论各自优势
+- 建议使用场景
+
+---
+
+## Example 12: 完整的诊断报告
+
+**问题**: 获取 QR 分解的完整诊断
+
+**调用方式**:
+
+```
+对矩阵 A 进行完整的 QR 分解分析
+A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+使用 /qr-decomposition skill
+提供完整报告:
+- 矩阵特性
+- 分解结果（Q, R）
+- 正交性验证
+- 秩估计
+- 数值稳定性评估
+```
+
+**预期输出**:
+
+- skill 生成结构化报告
+  - 矩阵形状和特性
+  - Q, R 矩阵
+  - 正交性误差 ||Q^T Q - I||
+  - R 的对角元分析
+  - 数值秩估计
+  - 条件数（如适用）
+  - 数值稳定性评估
+
+---
+
+## 通用调用模板
+
+**基础分解**:
+
+```
+对矩阵 A 进行 QR 分解
+A = [...]
+
+使用 /qr-decomposition skill
+```
+
+**最小二乘**:
+
+```
+求解 Ax = b 的最小二乘解
+A = [...]
+b = [...]
+
+使用 /qr-decomposition skill
+```
+
+**带选主元**:
+
+```
+对矩阵 A 进行 rank-revealing QR 分解
+A = [...]
+
+使用 /qr-decomposition skill
+使用列选主元
+```
+
+**正交基**:
+
+```
+计算矩阵 A 列空间的正交基
+A = [...]
+
+使用 /qr-decomposition skill
+```
+
+**完整诊断**:
+
+```
+对矩阵 A 进行完整 QR 分析
+A = [...]
+
+使用 /qr-decomposition skill
 ```
 
 ---
 
-## 病态矩阵示例
-
-### Example 5: Hilbert 矩阵（极病态）
-
-**Paper Source:**
-- Hilbert, D. (1894). "Ein Beitrag zur Theorie des Legendre'schen Polynoms". *Acta Mathematica*, 18, 155-159.
-- Higham, N. J. (2002). *Accuracy and Stability of Numerical Algorithms*, 2nd ed. SIAM.
-
-```python
-import numpy as np
-
-def hilbert(n: int) -> np.ndarray:
-    return np.array([[1.0 / (i + j + 1) for j in range(n)] for i in range(n)], dtype=float)
-
-n = 12
-A = hilbert(n)
-b = np.ones(n)
-
-Q, R = np.linalg.qr(A)
-x = np.linalg.solve(R, Q.T @ b)
-print("Solution x =", x)
-print("Residual ||Ax - b|| =", np.linalg.norm(A @ x - b))
-print("Condition number of R:", np.linalg.cond(R))
-```
-
-### Example 6: Vandermonde 矩阵
-
-**Paper Source:**
-- Vandermonde, A.-T. (1771). "Memoire sur l'élimination".
-- Gautschi, W. (1978). "On Inverses of Vandermonde Matrices".
-
-```python
-import numpy as np
-
-x = np.linspace(0.1, 5.0, 10)
-n = len(x)
-V = np.vander(x, N=n, increasing=True)
-
-Q, R = np.linalg.qr(V)
-print("Diagonal of R:", np.abs(np.diag(R)))
-print("Orthogonality error ||Q^T Q - I|| =", np.linalg.norm(Q.T @ Q - np.eye(Q.shape[1])))
-
-b = np.ones(n)
-x_ls = np.linalg.solve(R, Q.T @ b)
-print("Residual ||Vx - b|| =", np.linalg.norm(V @ x_ls - b))
-```
-
-### Example 7: Cauchy 矩阵
-
-**Paper Source:**
-- Cauchy, A. L. (1841). *Exercices d'analyse et de physique mathématique*.
-- Higham, N. J. (2002). *Accuracy and Stability of Numerical Algorithms*, 2nd ed. SIAM.
-
-```python
-import numpy as np
-
-def cauchy_matrix(x: np.ndarray, y: np.ndarray) -> np.ndarray:
-    return 1.0 / (x[:, np.newaxis] + y[np.newaxis, :])
-
-x = np.arange(1, 9, dtype=float)
-y = np.arange(1, 9, dtype=float)
-A = cauchy_matrix(x, y)
-
-Q, R, P = np.linalg.qr(A, pivoting=True, mode='economic')
-print("Diagonal of R:", np.abs(np.diag(R)))
-print("Condition number:", np.linalg.cond(R))
-```
-
-### Example 8: Grcar 矩阵（非正规）
-
-**Paper Source:**
-- Grcar, J. F. (1981). "Matrix eigenspace routines". *SIAM*.
-
-```python
-import numpy as np
-
-def grcar(n: int, k: int = 3) -> np.ndarray:
-    """Return Grcar matrix of order n with subdiagonals -1 and superdiagonals 1."""
-    A = np.triu(np.ones((n, n)), 0)
-    for i in range(n - 1):
-        A[i + 1, i] = -1.0
-    for j in range(1, min(k + 1, n)):
-        for i in range(n - j):
-            A[i, i + j] = 1.0
-    return A
-
-n = 20
-A = grcar(n)
-
-Q, R = np.linalg.qr(A)
-print("Orthogonality error ||Q^T Q - I|| =", np.linalg.norm(Q.T @ Q - np.eye(Q.shape[1])))
-print("Diagonal decay of R:", np.abs(np.diag(R)))
-```
-
----
-
-## 秩亏与低秩矩阵示例
-
-### Example 9: 秩亏矩阵（列成比例）
-
-```python
-import numpy as np
-
-A = np.array([
-    [1.0, 2.0, 3.0],
-    [2.0, 4.0, 6.0],
-    [3.0, 6.0, 9.0],
-])
-
-Q, R = np.linalg.qr(A)
-print("Q =\n", Q)
-print("R =\n", R)
-print("Diagonal of R:", np.abs(np.diag(R)))
-print("Numerical rank estimate:", np.sum(np.abs(np.diag(R)) > 1e-10))
-```
-
-### Example 10: 随机秩亏矩阵
-
-```python
-import numpy as np
-
-np.random.seed(42)
-n, m, rank = 10, 8, 3
-
-U, _ = np.linalg.qr(np.random.randn(n, rank))
-V, _ = np.linalg.qr(np.random.randn(m, rank))
-A = U @ V.T
-
-Q, R = np.linalg.qr(A)
-print("True rank:", rank)
-print("Diagonal of R:", np.abs(np.diag(R)))
-print("Estimated rank:", np.sum(np.abs(np.diag(R)) > 1e-10))
-```
-
----
-
-## 长方形矩阵示例
-
-### Example 11: 过定系统（最小二乘）
-
-```python
-import numpy as np
-
-# 多于方程组
-A = np.array([
-    [1.0, 2.0],
-    [3.0, 4.0],
-    [5.0, 6.0],
-    [7.0, 8.0],
-])
-b = np.array([5.0, 11.0, 17.0, 23.0])
-
-Q, R = np.linalg.qr(A, mode='reduced')
-x = np.linalg.solve(R, Q.T @ b)
-print("Least squares solution x =", x)
-print("Residual ||Ax - b|| =", np.linalg.norm(A @ x - b))
-print("Verification: should be exact (residual near 0)")
-```
-
-### Example 12: 欠定系统（最小范数解）
-
-```python
-import numpy as np
-
-# 少于方程组
-A = np.array([
-    [1.0, 2.0, 3.0],
-    [4.0, 5.0, 6.0],
-])
-b = np.array([7.0, 8.0])
-
-# QR doesn't directly give minimum norm solution for underdetermined systems
-# Use least squares on A.T instead
-Q, R = np.linalg.qr(A.T, mode='reduced')
-y = np.linalg.solve(R, Q.T @ b)
-x = Q @ y
-print("Minimum norm solution x =", x)
-print("||x|| =", np.linalg.norm(x))
-print("Residual ||Ax - b|| =", np.linalg.norm(A @ x - b))
-```
-
----
-
-## Gram-Schmidt 示例
-
-### Example 13: 经典 Gram-Schmidt（不推荐）
-
-```python
-import numpy as np
-
-A = np.array([
-    [1.0, 1.0, 0.0],
-    [1.0, 0.0, 1.0],
-    [0.0, 1.0, 1.0],
-], dtype=float)
-
-m, n = A.shape
-Q = np.zeros_like(A)
-R = np.zeros((n, n))
-
-for j in range(n):
-    v = A[:, j].copy()
-    for i in range(j):
-        R[i, j] = np.dot(Q[:, i], A[:, j])
-        v = v - R[i, j] * Q[:, i]
-    R[j, j] = np.linalg.norm(v)
-    Q[:, j] = v / R[j, j]
-
-print("Q (classical GS) =\n", Q)
-print("R (classical GS) =\n", R)
-print("Orthogonality error ||Q^T Q - I|| =", np.linalg.norm(Q.T @ Q - np.eye(n)))
-```
-
-### Example 14: 修正 Gram-Schmidt（推荐）
-
-```python
-import numpy as np
-
-A = np.array([
-    [1.0, 1.0, 0.0],
-    [1.0, 0.0, 1.0],
-    [0.0, 1.0, 1.0],
-], dtype=float)
-
-m, n = A.shape
-Q = np.zeros_like(A)
-R = np.zeros((n, n))
-
-for j in range(n):
-    v = A[:, j].copy()
-    for i in range(j):
-        R[i, j] = np.dot(Q[:, i], v)
-        v = v - R[i, j] * Q[:, i]
-    R[j, j] = np.linalg.norm(v)
-    Q[:, j] = v / R[j, j]
-
-print("Q (modified GS) =\n", Q)
-print("R (modified GS) =\n", R)
-print("Orthogonality error ||Q^T Q - I|| =", np.linalg.norm(Q.T @ Q - np.eye(n)))
-```
-
----
-
-## 输出模板
-
-```markdown
-### 问题重述
-矩阵 A = [...], 目标: QR分解/最小二乘/正交化
-
-### 矩阵检查
-- shape: ...
-- 是否方阵: ...
-- 是否列满秩: ...
-
-### 分解结果
-- Q: ...
-- R: ...
-
-### 验证
-- reconstruction error ||A - QR||: ...
-- orthogonality ||Q^T Q - I||: ...
-
-### 求解结果（如适用）
-- x: ...
-- residual ||Ax - b||: ...
-
-### 结果解释
-...
-```
-
----
-
-## 病态 QR 求解建议
-
-```python
-import numpy as np
-from scipy.linalg import qr
-
-def robust_qr_solve(A, b, pivoting=True):
-    """Robust QR-based solver with rank detection."""
-    if pivoting:
-        Q, R, P = qr(A, pivoting=True, mode='economic')
-        diag_r = np.abs(np.diag(R))
-        tol = max(A.shape) * np.finfo(R.dtype).eps * diag_r[0]
-        rank = int(np.sum(diag_r > tol))
-        method = "qr_pivoting"
-    else:
-        Q, R = np.linalg.qr(A, mode='reduced')
-        diag_r = np.abs(np.diag(R))
-        tol = max(A.shape) * np.finfo(R.dtype).eps * diag_r[0]
-        rank = int(np.sum(diag_r > tol))
-        method = "qr"
-
-    if rank < min(A.shape):
-        # Rank deficient: truncated least squares
-        k = rank
-        Qk = Q[:, :k]
-        Rk = R[:k, :]
-        x = np.linalg.solve(Rk, Qk.T @ b)
-    else:
-        x = np.linalg.solve(R, Q.T @ b)
-
-    report = {
-        "method": method,
-        "rank_estimate": rank,
-        "residual_norm": float(np.linalg.norm(A @ x - b)),
-        "orthogonality_error": float(np.linalg.norm(Q.T @ Q - np.eye(Q.shape[1]))),
-    }
-    return x, report
-```
-
----
-
-## Householder 反射示例
-
-### Example 15: 手动实现单个 Householder 变换
-
-```python
-import numpy as np
-
-def householder(v: np.ndarray) -> np.ndarray:
-    """Return Householder vector for reflection."""
-    v = v.astype(float)
-    norm_v = np.linalg.norm(v)
-    if norm_v == 0:
-        return v
-    e1 = np.zeros_like(v)
-    e1[0] = 1.0
-    u = v + np.sign(v[0]) * norm_v * e1
-    u = u / np.linalg.norm(u)
-    return u
-
-A = np.array([[3.0, 4.0], [0.0, 0.0]], dtype=float)
-
-# Zero out first column below diagonal
-u = householder(A[:, 0])
-H = np.eye(2) - 2.0 * np.outer(u, u)
-print("Householder vector u =", u)
-print("H =\n", H)
-print("H @ A =\n", H @ A)
-```
+## 方法选择指南
+
+| 矩阵类型 | 推荐方法 | 理由 |
+|---------|---------|------|
+| 一般长方形 | QR | 自然适合最小二乘 |
+| 列满秩 | QR | 高效稳定 |
+| 秩亏/病态 | SVD | 更可靠 |
+| SPD | Cholesky | 更快更稳定 |
+| 正交基计算 | QR | 直接得到 Q |
+
+使用 `/choose_decomposition` skill 可自动选择合适的方法。

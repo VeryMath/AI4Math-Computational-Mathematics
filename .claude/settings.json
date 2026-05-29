@@ -1,0 +1,40 @@
+{
+  "skills": [
+    {
+      "name": "cholesky-decomposition",
+      "path": "matrix-computation/cholesky-decomposition/SKILL.md"
+    },
+    {
+      "name": "conjugate-gradient",
+      "path": "matrix-computation/conjugate-gradient/SKILL.md"
+    },
+    {
+      "name": "eigenvalue-computation",
+      "path": "matrix-computation/eigenvalue-computation/SKILL.md"
+    },
+    {
+      "name": "generalized-minimal-residual",
+      "path": "matrix-computation/generalized-minimal-residual/SKILL.md"
+    },
+    {
+      "name": "kronecker-product",
+      "path": "matrix-computation/kronecker-product/SKILL.md"
+    },
+    {
+      "name": "lu-decomposition",
+      "path": "matrix-computation/lu-decomposition/SKILL.md"
+    },
+    {
+      "name": "matrix-norm",
+      "path": "matrix-computation/matrix-norm/SKILL.md"
+    },
+    {
+      "name": "qr-decomposition",
+      "path": "matrix-computation/qr-decomposition/SKILL.md"
+    },
+    {
+      "name": "svd-decomposition",
+      "path": "matrix-computation/svd-decomposition/SKILL.md"
+    }
+  ]
+}

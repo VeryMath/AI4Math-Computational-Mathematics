@@ -31,7 +31,7 @@ def qr_decompose(a: ArrayLike, mode: str = "reduced") -> tuple[np.ndarray, np.nd
         Tuple (Q, R) where Q is orthogonal/semi-orthogonal and R is upper triangular.
     """
     matrix = _as_matrix(a)
-    return np.linalg.qr(matrix, mode=mode)
+    return np.linalg.qr(matrix, mode=mode)  # type: ignore[reportCallIssue]
 
 
 def qr_decompose_pivoting(a: ArrayLike) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -41,8 +41,8 @@ def qr_decompose_pivoting(a: ArrayLike) -> tuple[np.ndarray, np.ndarray, np.ndar
     """
     from scipy import linalg
     matrix = _as_matrix(a)
-    Q, R, P = linalg.qr(matrix, pivoting=True, mode="economic")
-    return Q, R, P
+    Q, R, P = linalg.qr(matrix, pivoting=True, mode="economic")  # type: ignore[reportAssignmentType]
+    return Q, R, P  # type: ignore[reportReturnType]
 
 
 def solve_least_squares_qr(a: ArrayLike, b: ArrayLike) -> np.ndarray:
@@ -58,7 +58,7 @@ def estimate_rank_qr(a: ArrayLike, tol: float | None = None) -> int:
     Q, R, P = qr_decompose_pivoting(a)
     diag_r = np.abs(np.diag(R))
     if tol is None:
-        tol = max(a.shape) * np.finfo(R.dtype).eps * diag_r[0]
+        tol = max(R.shape[0], R.shape[1]) * np.finfo(R.dtype).eps * diag_r[0]
     return int(np.sum(diag_r > tol))
 
 

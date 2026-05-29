@@ -23,7 +23,7 @@ def _as_square_matrix(a: ArrayLike) -> np.ndarray:
 def factorize_lu(a: ArrayLike) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Return P, L, U such that A = P @ L @ U (SciPy convention)."""
     matrix = _as_square_matrix(a)
-    return lu(matrix)
+    return lu(matrix)  # type: ignore[reportAssignmentType, reportReturnType]
 
 
 def solve_lu(a: ArrayLike, b: ArrayLike) -> np.ndarray:

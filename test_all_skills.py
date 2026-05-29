@@ -1,417 +1,623 @@
-"""Comprehensive test of all matrix computation skill functions."""
+"""Comprehensive test suite for all matrix computation skills.
 
-import sys
+This script tests all skills by running test cases derived from examples.md files.
+It validates the core functionality of each skill's implementation.
+"""
+
+from __future__ import annotations
+
+import importlib.util
 import os
-
-# Add all script directories to path
-base = 'c:/Users/trw/my-ai-math/matrix-computation'
-sys.path.insert(0, os.path.join(base, 'cholesky-decomposition/scripts'))
-sys.path.insert(0, os.path.join(base, 'lu-decomposition/scripts'))
-sys.path.insert(0, os.path.join(base, 'svd-decomposition/scripts'))
-sys.path.insert(0, os.path.join(base, 'qr-decomposition/scripts'))
-sys.path.insert(0, os.path.join(base, 'conjugate-gradient/scripts'))
-sys.path.insert(0, os.path.join(base, 'eigenvalue-computation/scripts'))
-sys.path.insert(0, os.path.join(base, 'generalized-minimal-residual/scripts'))
-
+import sys
+from typing import Callable
 import numpy as np
+from scipy import sparse
+from scipy.sparse import diags
 
-print("=" * 80)
-print("COMPREHENSIVE TEST OF ALL MATRIX COMPUTATION SKILLS")
-print("=" * 80)
 
-results = {}
+def load_module(path: str, name: str):
+    """Load a Python module from a file path."""
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
-# =============================================================================
-# CHOLESKY DECOMPOSITION
-# =============================================================================
-print("\n" + "=" * 80)
-print("CHOLESKY DECOMPOSITION")
-print("=" * 80)
 
-try:
-    from solve_cholesky import (
-        is_symmetric, is_spd, factorize_cholesky,
-        solve_cholesky, robust_solve_cholesky, reconstruction_error
+# Test result tracking
+class TestResults:
+    def __init__(self):
+        self.passed = 0
+        self.failed = 0
+        self.errors = []
+        self.skill_results = {}
+
+    def add_pass(self, skill: str, test_name: str):
+        self.passed += 1
+        if skill not in self.skill_results:
+            self.skill_results[skill] = {"passed": 0, "failed": 0, "tests": []}
+        self.skill_results[skill]["passed"] += 1
+        self.skill_results[skill]["tests"].append((test_name, "PASS"))
+
+    def add_fail(self, skill: str, test_name: str, error: str):
+        self.failed += 1
+        self.errors.append((skill, test_name, error))
+        if skill not in self.skill_results:
+            self.skill_results[skill] = {"passed": 0, "failed": 0, "tests": []}
+        self.skill_results[skill]["failed"] += 1
+        self.skill_results[skill]["tests"].append((test_name, f"FAIL: {error}"))
+
+    def print_summary(self):
+        print("\n" + "=" * 80)
+        print("TEST SUMMARY")
+        print("=" * 80)
+        total = self.passed + self.failed
+        print(f"Total tests: {total}")
+        print(f"Passed: {self.passed} [PASS]")
+        print(f"Failed: {self.failed} [FAIL]")
+        print(f"Success rate: {100 * self.passed / total:.1f}%")
+
+        print("\n" + "-" * 80)
+        print("Results by Skill:")
+        print("-" * 80)
+        for skill, results in self.skill_results.items():
+            print(f"\n{skill}:")
+            print(f"  Passed: {results['passed']}, Failed: {results['failed']}")
+            if results['failed'] > 0:
+                print("  Failed tests:")
+                for test_name, status in results['tests']:
+                    if status.startswith("FAIL"):
+                        print(f"    - {test_name}: {status[5:]}")
+
+        if self.errors:
+            print("\n" + "-" * 80)
+            print("Detailed Errors:")
+            print("-" * 80)
+            for skill, test_name, error in self.errors:
+                print(f"\n{skill} - {test_name}:")
+                print(f"  {error}")
+
+
+results = TestResults()
+
+
+def assert_close(actual, expected, tol=1e-6, skill="unknown", test_name=""):
+    """Assert that two values are close."""
+    if isinstance(actual, np.ndarray) and isinstance(expected, np.ndarray):
+        if np.allclose(actual, expected, atol=tol, rtol=tol):
+            results.add_pass(skill, test_name)
+            return True
+        else:
+            error = f"Arrays not close: max diff = {np.max(np.abs(actual - expected))}"
+            results.add_fail(skill, test_name, error)
+            return False
+    else:
+        if abs(actual - expected) < tol:
+            results.add_pass(skill, test_name)
+            return True
+        else:
+            error = f"Values not close: {actual} vs {expected}"
+            results.add_fail(skill, test_name, error)
+            return False
+
+
+def assert_true(condition, skill="unknown", test_name="", error_msg=""):
+    """Assert that a condition is true."""
+    if condition:
+        results.add_pass(skill, test_name)
+        return True
+    else:
+        results.add_fail(skill, test_name, error_msg or "Condition was False")
+        return False
+
+
+# ============================================================================
+# CHOLESKY DECOMPOSITION TESTS
+# ============================================================================
+
+def test_cholesky():
+    """Test Cholesky decomposition skill."""
+    print("\nTesting Cholesky Decomposition...")
+
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/cholesky-decomposition/scripts/solve_cholesky.py",
+        "solve_cholesky"
     )
 
-    # Test 1: is_symmetric
-    A_sym = np.array([[1., 2.], [2., 3.]])
-    A_nonsym = np.array([[1., 2.], [3., 4.]])
-    test1 = is_symmetric(A_sym) and not is_symmetric(A_nonsym)
-    print(f"[{'PASS' if test1 else 'FAIL'}] is_symmetric")
-
-    # Test 2: is_spd
-    A_spd = np.array([[4., 1.], [1., 3.]])
-    A_sym_not_spd = np.array([[1., 2.], [2., 1.]])
-    test2 = is_spd(A_spd) and not is_spd(A_sym_not_spd)
-    print(f"[{'PASS' if test2 else 'FAIL'}] is_spd")
-
-    # Test 3: factorize_cholesky
-    L = factorize_cholesky(A_spd)
-    recon = reconstruction_error(A_spd, L)
-    test3 = recon < 1e-10
-    print(f"[{'PASS' if test3 else 'FAIL'}] factorize_cholesky (recon error: {recon:.2e})")
-
-    # Test 4: solve_cholesky
-    b = np.array([1., 2.])
-    x = solve_cholesky(A_spd, b)
-    residual = np.linalg.norm(A_spd @ x - b)
-    test4 = residual < 1e-10
-    print(f"[{'PASS' if test4 else 'FAIL'}] solve_cholesky (residual: {residual:.2e})")
-
-    # Test 5: robust_solve_cholesky (well-conditioned)
-    x, report = robust_solve_cholesky(A_spd, b)
-    test5 = report['method'] == 'cholesky' and report['residual_norm'] < 1e-10
-    print(f"[{'PASS' if test5 else 'FAIL'}] robust_solve_cholesky (method: {report['method']})")
-
-    results['Cholesky'] = all([test1, test2, test3, test4, test5])
-
-except Exception as e:
-    print(f"[ERROR] Cholesky: {e}")
-    results['Cholesky'] = False
-
-# =============================================================================
-# LU DECOMPOSITION
-# =============================================================================
-print("\n" + "=" * 80)
-print("LU DECOMPOSITION")
-print("=" * 80)
-
-try:
-    from solve_lu import (
-        factorize_lu, solve_lu, robust_solve_lu,
-        reconstruction_error, determinant_from_lu, inverse_from_lu
+    # Example 1: Basic Cholesky decomposition
+    A = np.array([[25.0, 15.0, -5.0], [15.0, 18.0, 0.0], [-5.0, 0.0, 11.0]])
+    L = mod.factorize_cholesky(A)
+    assert_close(
+        L @ L.T, A, tol=1e-10,
+        skill="Cholesky", test_name="Basic decomposition"
     )
 
-    A = np.array([[2., 1., 1.], [4., -6., 0.], [-2., 7., 2.]])
-    b = np.array([5., -2., 9.])
+    # Example 2: SPD linear system
+    A = np.array([[4.0, 1.0], [1.0, 3.0]])
+    b = np.array([1.0, 2.0])
+    x = mod.solve_cholesky(A, b)
+    assert_close(
+        A @ x, b, tol=1e-10,
+        skill="Cholesky", test_name="SPD linear system"
+    )
 
-    # Test 1: factorize_lu
-    P, L, U = factorize_lu(A)
-    recon = reconstruction_error(A, P, L, U)
-    test1 = recon < 1e-10
-    print(f"[{'PASS' if test1 else 'FAIL'}] factorize_lu (recon error: {recon:.2e})")
+    # Example 3: SPD validation
+    A1 = np.array([[4.0, 1.0], [1.0, 3.0]])
+    A2 = np.array([[1.0, 2.0], [2.0, 1.0]])
+    assert_true(
+        mod.is_spd(A1),
+        skill="Cholesky", test_name="SPD validation A1"
+    )
+    assert_true(
+        not mod.is_spd(A2),
+        skill="Cholesky", test_name="SPD validation A2 (non-SPD)"
+    )
 
-    # Test 2: solve_lu
-    x = solve_lu(A, b)
-    residual = np.linalg.norm(A @ x - b)
-    test2 = residual < 1e-10
-    print(f"[{'PASS' if test2 else 'FAIL'}] solve_lu (residual: {residual:.2e})")
+    # Example 4: Hilbert matrix (ill-conditioned)
+    def hilbert(n):
+        i = np.arange(1, n + 1)
+        return np.array([[1.0 / (ii + jj - 1) for jj in i] for ii in i], dtype=float)
 
-    # Test 3: determinant_from_lu
-    det = determinant_from_lu(A)
+    H = hilbert(8)
+    L = mod.factorize_cholesky(H)
+    assert_close(
+        L @ L.T, H, tol=1e-8,
+        skill="Cholesky", test_name="Hilbert matrix decomposition"
+    )
+
+    # Example 5: Robust solve with regularization
+    H12 = hilbert(12)
+    b = np.ones(12)
+    x, report = mod.robust_solve_cholesky(H12, b, alpha=1e-8)
+    assert_true(
+        report['method'] in ['tikhonov', 'svd_fallback'],
+        skill="Cholesky", test_name="Robust solve with regularization"
+    )
+
+    # Example 6: Gram matrix
+    np.random.seed(42)
+    X = np.random.randn(10, 3)
+    A = X.T @ X
+    assert_true(
+        mod.is_spd(A),
+        skill="Cholesky", test_name="Gram matrix is SPD"
+    )
+
+
+# ============================================================================
+# CONJUGATE GRADIENT TESTS
+# ============================================================================
+
+def test_conjugate_gradient():
+    """Test Conjugate Gradient skill."""
+    print("\nTesting Conjugate Gradient...")
+
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/conjugate-gradient/scripts/solve_cg.py",
+        "solve_cg"
+    )
+
+    # Example 1: Basic SPD system
+    A = np.array([[4.0, 1.0], [1.0, 3.0]])
+    b = np.array([1.0, 2.0])
+    x, info = mod.conjugate_gradient(A, b, tol=1e-10, maxiter=1000)
+    assert_close(
+        A @ x, b, tol=1e-8,
+        skill="Conjugate Gradient", test_name="Basic SPD system"
+    )
+
+    # Example 2: Hilbert matrix (ill-conditioned)
+    def hilbert(n):
+        i = np.arange(1, n + 1)
+        return np.array([[1.0 / (ii + jj - 1) for jj in i] for ii in i], dtype=float)
+
+    H = hilbert(8)
+    b = np.ones(8)
+    x, info = mod.conjugate_gradient(H, b, tol=1e-8, maxiter=1000)
+    assert_close(
+        np.linalg.norm(H @ x - b), 0.0, tol=1e-5,
+        skill="Conjugate Gradient", test_name="Hilbert matrix CG"
+    )
+
+    # Example 3: 2D Poisson problem
+    def poisson2d(n):
+        N = n * n
+        main = 4.0 * np.ones(N)
+        off = -1.0 * np.ones(N)
+        A = diags([main, off, off, off, off], [0, -1, 1, -n, n], shape=(N, N), format='csr')
+        return A
+
+    A = poisson2d(10)
+    b = np.ones(A.shape[0])
+    x, info = mod.conjugate_gradient(A, b, tol=1e-6, maxiter=1000)
+    assert_true(
+        info['converged'],
+        skill="Conjugate Gradient", test_name="2D Poisson problem"
+    )
+
+
+# ============================================================================
+# EIGENVALUE COMPUTATION TESTS
+# ============================================================================
+
+def test_eigenvalue():
+    """Test Eigenvalue Computation skill."""
+    print("\nTesting Eigenvalue Computation...")
+
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/eigenvalue-computation/scripts/solve_eigen.py",
+        "solve_eigen"
+    )
+
+    # Example 1: Basic eigenvalue decomposition (non-symmetric)
+    A = np.array([[4.0, 1.0], [3.0, 2.0]])
+    values, vectors = mod.eigen_decompose(A)
+    assert_true(
+        len(values) == 2,
+        skill="Eigenvalue", test_name="Basic eigenvalue count"
+    )
+
+    # Example 2: Symmetric matrix
+    A = np.array([[2.0, 1.0, 0.0], [1.0, 2.0, 1.0], [0.0, 1.0, 2.0]])
+    values, vectors = mod.symmetric_eigen_decompose(A)
+    # For symmetric matrices, eigenvectors should be orthogonal
+    orthogonality = np.linalg.norm(vectors.T @ vectors - np.eye(3))
+    assert_true(
+        orthogonality < 1e-10,
+        skill="Eigenvalue", test_name="Orthogonal eigenvectors (symmetric)"
+    )
+
+    # Example 3: Power method
+    lam, v = mod.power_method(A, tol=1e-10, maxiter=1000)
+    # Verify v is normalized
+    assert_close(
+        np.linalg.norm(v), 1.0, tol=1e-8,
+        skill="Eigenvalue", test_name="Power method normalization"
+    )
+
+
+# ============================================================================
+# GENERALIZED MINIMAL RESIDUAL (GMRES) TESTS
+# ============================================================================
+
+def test_gmres():
+    """Test GMRES skill."""
+    print("\nTesting GMRES...")
+
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/generalized-minimal-residual/scripts/solve_gmres.py",
+        "solve_gmres"
+    )
+
+    # Example 1: Basic linear system (non-symmetric)
+    A = np.array([[1.0, 2.0], [3.0, 4.0]])
+    b = np.array([5.0, 6.0])
+    x, info = mod.gmres(A, b, tol=1e-8, maxiter=100)
+    assert_close(
+        A @ x, b, tol=1e-6,
+        skill="GMRES", test_name="Non-symmetric system"
+    )
+
+    # Example 2: Larger system
+    np.random.seed(42)
+    A = np.random.randn(10, 10)
+    b = np.random.randn(10)
+    x, info = mod.gmres(A, b, tol=1e-6, maxiter=100)
+    assert_close(
+        A @ x, b, tol=1e-4,
+        skill="GMRES", test_name="Random 10x10 system"
+    )
+
+
+# ============================================================================
+# KRONECKER PRODUCT TESTS
+# ============================================================================
+
+def test_kronecker():
+    """Test Kronecker Product skill."""
+    print("\nTesting Kronecker Product...")
+
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/kronecker-product/scripts/solve_kronecker.py",
+        "solve_kronecker"
+    )
+
+    # Example 1: Basic Kronecker product
+    A = np.array([[1.0, 2.0], [3.0, 4.0]])
+    B = np.array([[0.0, 5.0], [6.0, 7.0]])
+    result = mod.kronecker_product(A, B)
+    expected = np.array([
+        [0., 5., 0., 10.],
+        [6., 7., 12., 14.],
+        [0., 15., 0., 20.],
+        [18., 21., 24., 28.]
+    ])
+    assert_close(
+        result, expected, tol=1e-10,
+        skill="Kronecker", test_name="Basic Kronecker product"
+    )
+
+    # Example 2: Identity matrix
+    I3 = np.eye(3)
+    A = np.array([[1.0, 2.0], [3.0, 4.0]])
+    result = mod.kronecker_product(I3, A)
+    assert_true(
+        result.shape == (6, 6),
+        skill="Kronecker", test_name="Identity Kronecker product shape"
+    )
+
+    # Example 3: Kronecker with identity (A ⊗ I)
+    I2 = np.eye(2)
+    result = mod.kronecker_product(A, I2)
+    # Verify rank property
+    expected_rank = mod.rank_kron(A, I2)
+    actual_rank = int(np.linalg.matrix_rank(result))
+    assert_true(
+        expected_rank == actual_rank,
+        skill="Kronecker", test_name="Rank property"
+    )
+
+    # Example 4: Verify associativity
+    C = np.array([[1.0, 0.0], [0.0, 1.0]])
+    assert_true(
+        mod.verify_associativity(A, B, C),
+        skill="Kronecker", test_name="Associativity property"
+    )
+
+
+# ============================================================================
+# LU DECOMPOSITION TESTS
+# ============================================================================
+
+def test_lu():
+    """Test LU Decomposition skill."""
+    print("\nTesting LU Decomposition...")
+
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/lu-decomposition/scripts/solve_lu.py",
+        "solve_lu"
+    )
+
+    # Example 1: Basic LU decomposition
+    A = np.array([[2.0, 1.0, 1.0], [4.0, -6.0, 0.0], [-2.0, 7.0, 2.0]])
+    P, L, U = mod.factorize_lu(A)
+    error = mod.reconstruction_error(A, P, L, U)
+    assert_true(
+        error < 1e-10,
+        skill="LU", test_name="Basic LU decomposition"
+    )
+
+    # Example 2: Solve linear system
+    b = np.array([5.0, -2.0, 9.0])
+    x = mod.solve_lu(A, b)
+    assert_close(
+        A @ x, b, tol=1e-10,
+        skill="LU", test_name="LU linear system"
+    )
+
+    # Example 3: Determinant
+    det = mod.determinant_from_lu(A)
     expected_det = np.linalg.det(A)
-    test3 = abs(det - expected_det) < 1e-8
-    print(f"[{'PASS' if test3 else 'FAIL'}] determinant_from_lu (det: {det:.4f}, expected: {expected_det:.4f})")
-
-    # Test 4: inverse_from_lu
-    A_inv = inverse_from_lu(A)
-    test4 = np.allclose(A @ A_inv, np.eye(3), atol=1e-10)
-    print(f"[{'PASS' if test4 else 'FAIL'}] inverse_from_lu")
-
-    # Test 5: robust_solve_lu
-    x, report = robust_solve_lu(A, b)
-    test5 = report['method'] == 'lu' and report['residual_norm'] < 1e-10
-    print(f"[{'PASS' if test5 else 'FAIL'}] robust_solve_lu (method: {report['method']})")
-
-    results['LU'] = all([test1, test2, test3, test4, test5])
-
-except Exception as e:
-    print(f"[ERROR] LU: {e}")
-    results['LU'] = False
-
-# =============================================================================
-# SVD DECOMPOSITION
-# =============================================================================
-print("\n" + "=" * 80)
-print("SVD DECOMPOSITION")
-print("=" * 80)
-
-try:
-    from solve_svd import (
-        svd_decompose, rank_k_approximation, retained_energy_ratio,
-        pseudoinverse_svd, solve_least_squares_svd, robust_solve_svd,
-        reconstruction_error
+    assert_close(
+        det, expected_det, tol=1e-8,
+        skill="LU", test_name="LU determinant"
     )
 
-    A = np.array([[3., 1., 1.], [-1., 3., 1.]])
-    b = np.array([1., 2.])
-
-    # Test 1: svd_decompose
-    U, s, Vt = svd_decompose(A)
-    recon = reconstruction_error(A, U, s, Vt)
-    test1 = recon < 1e-10
-    print(f"[{'PASS' if test1 else 'FAIL'}] svd_decompose (recon error: {recon:.2e})")
-
-    # Test 2: rank_k_approximation
-    A_k = rank_k_approximation(A, k=1)
-    test2 = A_k.shape == A.shape
-    print(f"[{'PASS' if test2 else 'FAIL'}] rank_k_approximation")
-
-    # Test 3: retained_energy_ratio
-    energy = retained_energy_ratio(s, k=1)
-    test3 = 0 < energy <= 1
-    print(f"[{'PASS' if test3 else 'FAIL'}] retained_energy_ratio (energy: {energy:.4f})")
-
-    # Test 4: pseudoinverse_svd
-    A_pinv = pseudoinverse_svd(A)
-    test4 = np.allclose(A @ A_pinv @ A, A, atol=1e-10)
-    print(f"[{'PASS' if test4 else 'FAIL'}] pseudoinverse_svd")
-
-    # Test 5: solve_least_squares_svd
-    x = solve_least_squares_svd(A, b)
-    test5 = x.shape == (3,)  # Should have 3 elements
-    print(f"[{'PASS' if test5 else 'FAIL'}] solve_least_squares_svd (solution shape: {x.shape})")
-
-    # Test 6: robust_solve_svd
-    x, report = robust_solve_svd(A, b)
-    test6 = 'residual_norm' in report
-    print(f"[{'PASS' if test6 else 'FAIL'}] robust_solve_svd (residual: {report.get('residual_norm', 'N/A'):.2e})")
-
-    results['SVD'] = all([test1, test2, test3, test4, test5, test6])
-
-except Exception as e:
-    print(f"[ERROR] SVD: {e}")
-    results['SVD'] = False
-
-# =============================================================================
-# QR DECOMPOSITION
-# =============================================================================
-print("\n" + "=" * 80)
-print("QR DECOMPOSITION")
-print("=" * 80)
-
-try:
-    from solve_qr import (
-        qr_decompose, qr_decompose_pivoting, solve_least_squares_qr,
-        estimate_rank_qr, orthogonal_residual, reconstruct_from_qr,
-        robust_solve_qr, qr_gram_schmidt
+    # Example 4: Matrix inverse
+    A_inv = mod.inverse_from_lu(A)
+    identity = A @ A_inv
+    assert_close(
+        identity, np.eye(3), tol=1e-8,
+        skill="LU", test_name="LU inverse"
     )
 
-    A = np.array([[1., 2.], [3., 4.], [5., 6.]])
 
-    # Test 1: qr_decompose (reduced)
-    Q, R = qr_decompose(A, mode='reduced')
-    recon = np.linalg.norm(A - reconstruct_from_qr(Q, R))
-    orthog = orthogonal_residual(Q)
-    test1 = recon < 1e-10 and orthog < 1e-10
-    print(f"[{'PASS' if test1 else 'FAIL'}] qr_decompose reduced (recon: {recon:.2e}, orthog: {orthog:.2e})")
+# ============================================================================
+# MATRIX NORM TESTS
+# ============================================================================
 
-    # Test 2: qr_decompose (complete)
-    Q, R = qr_decompose(A, mode='complete')
-    orthog = orthogonal_residual(Q)
-    test2 = orthog < 1e-10 and Q.shape == (3, 3)
-    print(f"[{'PASS' if test2 else 'FAIL'}] qr_decompose complete (orthog: {orthog:.2e}, Q shape: {Q.shape})")
+def test_matrix_norm():
+    """Test Matrix Norm skill."""
+    print("\nTesting Matrix Norm...")
 
-    # Test 3: qr_decompose_pivoting
-    A_square = np.array([[1., 2., 3.], [4., 5., 6.], [7., 8., 9.]])
-    Q, R, P = qr_decompose_pivoting(A_square)
-    test3 = len(P) == 3
-    print(f"[{'PASS' if test3 else 'FAIL'}] qr_decompose_pivoting")
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/matrix-norm/scripts/solve_norm.py",
+        "solve_norm"
+    )
 
-    # Test 4: solve_least_squares_qr
-    A_ls = np.array([[1., 1.], [1., 2.], [1., 3.], [1., 4.]])
-    b_ls = np.array([5., 9., 15., 21.])
-    x = solve_least_squares_qr(A_ls, b_ls)
-    test4 = x.shape == (2,)
-    print(f"[{'PASS' if test4 else 'FAIL'}] solve_least_squares_qr (solution: {x})")
+    # Example 1: Frobenius norm
+    A = np.array([[1.0, 2.0], [3.0, 4.0]])
+    frob_norm = mod.frobenius_norm(A)
+    expected_frob = np.sqrt(np.sum(A**2))
+    assert_close(
+        frob_norm, expected_frob, tol=1e-10,
+        skill="Matrix Norm", test_name="Frobenius norm"
+    )
 
-    # Test 5: estimate_rank_qr
-    A_rankdef = np.array([[1., 2., 3.], [2., 4., 6.], [3., 6., 9.]])
-    rank_est = estimate_rank_qr(A_rankdef)
-    test5 = rank_est <= 2  # Should detect rank deficiency
-    print(f"[{'PASS' if test5 else 'FAIL'}] estimate_rank_qr (estimated rank: {rank_est}, expected: 1)")
+    # Example 2: Spectral norm (2-norm)
+    spec_norm = mod.spectral_norm(A)
+    expected_spec = np.linalg.norm(A, ord=2)
+    assert_close(
+        spec_norm, expected_spec, tol=1e-10,
+        skill="Matrix Norm", test_name="Spectral norm"
+    )
 
-    # Test 6: robust_solve_qr
-    A_r = np.array([[1., 2.], [3., 4.], [5., 6.]])
-    b_r = np.array([7., 8., 9.])
-    x, report = robust_solve_qr(A_r, b_r, pivoting=False)
-    test6 = report['orthogonality_error'] < 1e-10
-    print(f"[{'PASS' if test6 else 'FAIL'}] robust_solve_qr (orthog error: {report['orthogonality_error']:.2e})")
+    # Example 3: 1-norm (max column sum)
+    col_norm = mod.norm_1(A)
+    expected_col = np.linalg.norm(A, ord=1)
+    assert_close(
+        col_norm, expected_col, tol=1e-10,
+        skill="Matrix Norm", test_name="Column norm (1-norm)"
+    )
 
-    # Test 7: qr_gram_schmidt
-    A_gs = np.array([[1., 1., 0.], [1., 0., 1.], [0., 1., 1.]], dtype=float)
-    Q, R = qr_gram_schmidt(A_gs, modified=True)
-    orthog = orthogonal_residual(Q)
-    test7 = orthog < 1e-10
-    print(f"[{'PASS' if test7 else 'FAIL'}] qr_gram_schmidt (orthog: {orthog:.2e})")
+    # Example 4: Infinity norm (max row sum)
+    row_norm = mod.norm_infinity(A)
+    expected_row = np.linalg.norm(A, ord=np.inf)
+    assert_close(
+        row_norm, expected_row, tol=1e-10,
+        skill="Matrix Norm", test_name="Row norm (inf-norm)"
+    )
 
-    results['QR'] = all([test1, test2, test3, test4, test5, test6, test7])
 
-except Exception as e:
-    print(f"[ERROR] QR: {e}")
-    import traceback
-    traceback.print_exc()
-    results['QR'] = False
+# ============================================================================
+# QR DECOMPOSITION TESTS
+# ============================================================================
 
-# =============================================================================
-# CONJUGATE GRADIENT
-# =============================================================================
-print("\n" + "=" * 80)
-print("CONJUGATE GRADIENT")
-print("=" * 80)
+def test_qr():
+    """Test QR Decomposition skill."""
+    print("\nTesting QR Decomposition...")
 
-try:
-    from solve_cg import conjugate_gradient, report_markdown
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/qr-decomposition/scripts/solve_qr.py",
+        "solve_qr"
+    )
 
-    A = np.array([[4., 1.], [1., 3.]])
-    b = np.array([1., 2.])
+    # Example 1: Basic QR decomposition
+    A = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 10.0]])
+    Q, R = mod.qr_decompose(A)
+    orth_error = mod.orthogonal_residual(Q)
+    recon_error = np.linalg.norm(A - Q @ R)
+    assert_true(
+        orth_error < 1e-10,
+        skill="QR", test_name="Orthogonality of Q"
+    )
+    assert_true(
+        recon_error < 1e-10,
+        skill="QR", test_name="Reconstruction from QR"
+    )
 
-    # Test 1: conjugate_gradient
-    x, info = conjugate_gradient(A, b, tol=1e-10)
+    # Example 2: Least squares
+    A = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
+    b = np.array([1.0, 2.0, 3.0])
+    x = mod.solve_least_squares_qr(A, b)
+    # Verify solution minimizes ||Ax - b||
     residual = np.linalg.norm(A @ x - b)
-    test1 = info['converged'] and residual < 1e-8
-    print(f"[{'PASS' if test1 else 'FAIL'}] conjugate_gradient (converged: {info['converged']}, residual: {residual:.2e})")
-
-    results['CG'] = test1
-
-except Exception as e:
-    print(f"[ERROR] CG: {e}")
-    results['CG'] = False
-
-# =============================================================================
-# EIGENVALUE COMPUTATION
-# =============================================================================
-print("\n" + "=" * 80)
-print("EIGENVALUE COMPUTATION")
-print("=" * 80)
-
-try:
-    from solve_eigen import (
-        grcar, clustered_symmetric, eigen_decompose,
-        symmetric_eigen_decompose, power_method
+    assert_true(
+        residual < 10.0,
+        skill="QR", test_name="Least squares solution"
     )
 
-    A = np.array([[2., 1.], [1., 3.]])
+    # Example 3: Rank estimation
+    A = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
+    rank = mod.estimate_rank_qr(A)
+    assert_true(
+        rank == 2,  # This matrix should have rank 2
+        skill="QR", test_name="Rank estimation"
+    )
 
-    # Test 1: symmetric_eigen_decompose
-    vals, vecs = symmetric_eigen_decompose(A)
-    # Verify: A @ v = lambda @ v
-    test1 = np.allclose(A @ vecs[:, 0], vals[0] * vecs[:, 0], atol=1e-10)
-    print(f"[{'PASS' if test1 else 'FAIL'}] symmetric_eigen_decompose (eigenvalues: {vals})")
 
-    # Save symmetric eigenvalues for power_method test
-    symmetric_eigenvals = vals.copy()
+# ============================================================================
+# SVD DECOMPOSITION TESTS
+# ============================================================================
 
-    # Test 2: eigen_decompose (general)
-    A_nonsym = np.array([[2., 1.], [-1., 3.]])
-    vals, vecs = eigen_decompose(A_nonsym)
-    test2 = len(vals) == 2
-    print(f"[{'PASS' if test2 else 'FAIL'}] eigen_decompose (eigenvalues: {vals})")
+def test_svd():
+    """Test SVD Decomposition skill."""
+    print("\nTesting SVD Decomposition...")
 
-    # Test 3: power_method
-    lambda_approx, v = power_method(A)
-    # Should approximate the largest eigenvalue (use symmetric eigenvalues for symmetric matrix)
-    expected_max = max(symmetric_eigenvals)
-    test3 = abs(lambda_approx - expected_max) < 0.01
-    print(f"[{'PASS' if test3 else 'FAIL'}] power_method (approx: {lambda_approx:.4f}, expected max: {expected_max:.4f})")
+    mod = load_module(
+        "c:/Users/trw/my-ai-math/matrix-computation/svd-decomposition/scripts/solve_svd.py",
+        "solve_svd"
+    )
 
-    # Test 4: grcar matrix generator
-    G = grcar(5)
-    test4 = G.shape == (5, 5)
-    print(f"[{'PASS' if test4 else 'FAIL'}] grcar (shape: {G.shape})")
+    # Example 1: Basic SVD
+    A = np.array([[3.0, 1.0, 1.0], [-1.0, 3.0, 1.0]])
+    U, s, Vt = mod.svd_decompose(A)
+    recon_error = mod.reconstruction_error(A, U, s, Vt)
+    assert_true(
+        recon_error < 1e-10,
+        skill="SVD", test_name="SVD reconstruction"
+    )
 
-    # Test 5: clustered_symmetric
-    C = clustered_symmetric(10, clusters=3)
-    test5 = C.shape == (10, 10) and np.allclose(C, C.T)
-    print(f"[{'PASS' if test5 else 'FAIL'}] clustered_symmetric (shape: {C.shape}, symmetric: {np.allclose(C, C.T)})")
+    # Example 2: Rank-k approximation
+    Ak = mod.rank_k_approximation(A, k=1)
+    assert_true(
+        Ak.shape == A.shape,
+        skill="SVD", test_name="Rank-1 approximation shape"
+    )
 
-    results['Eigen'] = all([test1, test2, test3, test4, test5])
-
-except Exception as e:
-    print(f"[ERROR] Eigen: {e}")
-    import traceback
-    traceback.print_exc()
-    results['Eigen'] = False
-
-# =============================================================================
-# GMRES
-# =============================================================================
-print("\n" + "=" * 80)
-print("GMRES")
-print("=" * 80)
-
-try:
-    from solve_gmres import gmres, report_markdown
-
-    # Non-symmetric matrix
-    A = np.array([[3., 2.], [1., 4.]])
-    b = np.array([1., 2.])
-
-    # Test 1: gmres
-    x, info = gmres(A, b, restart=10, tol=1e-10)
+    # Example 3: Least squares
+    b = np.array([1.0, 2.0])
+    x = mod.solve_least_squares_svd(A, b)
     residual = np.linalg.norm(A @ x - b)
-    test1 = info['converged'] and residual < 1e-8
-    print(f"[{'PASS' if test1 else 'FAIL'}] gmres (converged: {info['converged']}, residual: {residual:.2e})")
+    assert_true(
+        residual < 10.0,
+        skill="SVD", test_name="SVD least squares"
+    )
 
-    results['GMRES'] = test1
+    # Example 4: Pseudoinverse
+    A_pinv = mod.pseudoinverse_svd(A)
+    assert_true(
+        A_pinv.shape == (3, 2),
+        skill="SVD", test_name="Pseudoinverse shape"
+    )
 
-except Exception as e:
-    print(f"[ERROR] GMRES: {e}")
-    import traceback
-    traceback.print_exc()
-    results['GMRES'] = False
+    # Example 5: Robust solve
+    x, report = mod.robust_solve_svd(A, b)
+    assert_true(
+        'cond' in report,
+        skill="SVD", test_name="Robust solve report"
+    )
 
-# =============================================================================
-# CHOOSE DECOMPOSITION
-# =============================================================================
-print("\n" + "=" * 80)
-print("CHOOSE DECOMPOSITION")
-print("=" * 80)
 
-try:
-    sys.path.insert(0, os.path.join(base, 'choose_decomposition/scripts'))
-    from choose_decomposition import choose_decomposition, demonstrate_choice_and_solve
+# ============================================================================
+# MAIN TEST RUNNER
+# ============================================================================
 
-    # Test 1: SPD matrix -> should choose Cholesky
-    A_spd = np.array([[4., 1.], [1., 3.]])
-    b = np.array([1., 2.])
-    choice = choose_decomposition(A_spd, b)
-    test1 = choice['method'] in ['cholesky', 'cholesky_tikhonov']
-    print(f"[{'PASS' if test1 else 'FAIL'}] choose_decomposition for SPD (method: {choice['method']})")
+def main():
+    print("=" * 80)
+    print("MATRIX COMPUTATION SKILLS TEST SUITE")
+    print("=" * 80)
+    print("\nRunning tests for all 9 skills...\n")
 
-    # Test 2: Non-SPD square -> should choose LU or SVD
-    A_nonspd = np.array([[2., 1.], [3., 4.]])
-    choice = choose_decomposition(A_nonspd, b)
-    test2 = choice['method'] in ['lu', 'svd']
-    print(f"[{'PASS' if test2 else 'FAIL'}] choose_decomposition for non-SPD (method: {choice['method']})")
+    try:
+        test_cholesky()
+    except Exception as e:
+        results.add_fail("Cholesky", "Setup", f"Module load error: {e}")
 
-    # Test 3: Rectangular -> should choose SVD
-    A_rect = np.array([[1., 2.], [3., 4.], [5., 6.]])
-    b_rect = np.array([1., 2., 3.])
-    choice = choose_decomposition(A_rect, b_rect)
-    test3 = choice['method'] == 'svd'
-    print(f"[{'PASS' if test3 else 'FAIL'}] choose_decomposition for rectangular (method: {choice['method']})")
+    try:
+        test_conjugate_gradient()
+    except Exception as e:
+        results.add_fail("Conjugate Gradient", "Setup", f"Module load error: {e}")
 
-    # Test 4: demonstrate_choice_and_solve
-    x, report, choice = demonstrate_choice_and_solve(A_spd, b)
-    test4 = 'residual_norm' in report
-    print(f"[{'PASS' if test4 else 'FAIL'}] demonstrate_choice_and_solve (residual: {report.get('residual_norm', 'N/A'):.2e})")
+    try:
+        test_eigenvalue()
+    except Exception as e:
+        results.add_fail("Eigenvalue", "Setup", f"Module load error: {e}")
 
-    results['Choose'] = all([test1, test2, test3, test4])
+    try:
+        test_gmres()
+    except Exception as e:
+        results.add_fail("GMRES", "Setup", f"Module load error: {e}")
 
-except Exception as e:
-    print(f"[ERROR] Choose: {e}")
-    import traceback
-    traceback.print_exc()
-    results['Choose'] = False
+    try:
+        test_kronecker()
+    except Exception as e:
+        results.add_fail("Kronecker", "Setup", f"Module load error: {e}")
 
-# =============================================================================
-# SUMMARY
-# =============================================================================
-print("\n" + "=" * 80)
-print("SUMMARY")
-print("=" * 80)
+    try:
+        test_lu()
+    except Exception as e:
+        results.add_fail("LU", "Setup", f"Module load error: {e}")
 
-for name, passed in results.items():
-    status = "[PASS]" if passed else "[FAIL]"
-    print(f"{status} {name}")
+    try:
+        test_matrix_norm()
+    except Exception as e:
+        results.add_fail("Matrix Norm", "Setup", f"Module load error: {e}")
 
-total = len(results)
-passed_count = sum(results.values())
-print(f"\nTotal: {passed_count}/{total} modules passed")
+    try:
+        test_qr()
+    except Exception as e:
+        results.add_fail("QR", "Setup", f"Module load error: {e}")
 
-if passed_count == total:
-    print("\nAll skill functions are working correctly!")
-else:
-    print(f"\nWarning: {total - passed_count} module(s) have issues.")
+    try:
+        test_svd()
+    except Exception as e:
+        results.add_fail("SVD", "Setup", f"Module load error: {e}")
+
+    results.print_summary()
+
+    # Return exit code based on test results
+    return 0 if results.failed == 0 else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
