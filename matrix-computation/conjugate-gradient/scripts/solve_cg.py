@@ -84,9 +84,11 @@ def conjugate_gradient(
 
 
 def report_markdown(info: dict) -> str:
+    residual = info.get('residual_norm')
+    residual_str = f"{residual:.2e}" if residual is not None else "N/A"
     return "\n".join([
         f"Iterations: {info.get('iterations')}",
-        f"Residual norm: {info.get('residual_norm'):.2e}",
+        f"Residual norm: {residual_str}",
         f"Converged: {info.get('converged')}",
     ])
 
