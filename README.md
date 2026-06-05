@@ -39,31 +39,31 @@ modular skills + canonical interfaces + implementation references = research wor
 
 | 技能 | 描述 | 适用场景 |
 |------|------|----------|
-| [`cholesky-decomposition`](./cholesky-decomposition/) | 对称正定矩阵的 Cholesky 分解 $A = LL^T$ | SPD 系统、协方差矩阵、核矩阵 |
-| [`lu-decomposition`](./lu-decomposition/) | LU 分解 $A = PLU$ | 一般方阵求解、行列式估计 |
-| [`qr-decomposition`](./qr-decomposition/) | QR 分解 $A = QR$ | 最小二乘、正交化、过定系统 |
-| [`svd-decomposition`](./svd-decomposition/) | 奇异值分解 $A = U\Sigma V^T$ | 任意矩阵、低秩近似、伪逆、PCA |
+| [`cholesky-decomposition`](matrix-computation/cholesky-decomposition/) | 对称正定矩阵的 Cholesky 分解 $A = LL^T$ | SPD 系统、协方差矩阵、核矩阵 |
+| [`lu-decomposition`](matrix-computation/lu-decomposition/) | LU 分解 $A = PLU$ | 一般方阵求解、行列式估计 |
+| [`qr-decomposition`](matrix-computation/qr-decomposition/) | QR 分解 $A = QR$ | 最小二乘、正交化、过定系统 |
+| [`svd-decomposition`](matrix-computation/svd-decomposition/) | 奇异值分解 $A = U\Sigma V^T$ | 任意矩阵、低秩近似、伪逆、PCA |
 
 ### 线性求解器
 
 | 技能 | 描述 | 适用场景 |
 |------|------|----------|
-| [`conjugate-gradient`](./conjugate-gradient/) | 共轭梯度法 (CG) | 对称正定系统的迭代求解 |
-| [`generalized-minimal-residual`](./generalized-minimal-residual/) | GMRES 方法 | 一般非对称系统的迭代求解 |
+| [`conjugate-gradient`](matrix-computation/conjugate-gradient/) | 共轭梯度法 (CG) | 对称正定系统的迭代求解 |
+| [`generalized-minimal-residual`](matrix-computation/generalized-minimal-residual/) | GMRES 方法 | 一般非对称系统的迭代求解 |
 
 ### 特殊运算
 
 | 技能 | 描述 | 适用场景 |
 |------|------|----------|
-| [`eigenvalue-computation`](./eigenvalue-computation/) | 特征值计算 | 谱分析、稳定性分析、主成分 |
-| [`kronecker-product`](./kronecker-product/) | Kronecker 积计算 | 张量积、系统建模、量子态 |
-| [`matrix-norm`](./matrix-norm/) | 矩阵范数计算 | 条件数分析、数值稳定性、误差度量 |
+| [`eigenvalue-computation`](matrix-computation/eigenvalue-computation/) | 特征值计算 | 谱分析、稳定性分析、主成分 |
+| [`kronecker-product`](matrix-computation/kronecker-product/) | Kronecker 积计算 | 张量积、系统建模、量子态 |
+| [`matrix-norm`](matrix-computation/matrix-norm/) | 矩阵范数计算 | 条件数分析、数值稳定性、误差度量 |
 
 ### 辅助工具
 
 | 技能 | 描述 |
 |------|------|
-| [`choose_decomposition`](./choose_decomposition/) | 自动选择合适的分解方法 |
+| [`choose_decomposition`](matrix-computation/choose_decomposition/) | 自动选择合适的分解方法 |
 
 ## Quick Start
 
@@ -378,7 +378,7 @@ b 是全1向量
 python matrix-computation/benchmark/run_benchmarks.py
 ```
 
-测试环境和结果数据详见 [benchmark/benchmark_results.json](./benchmark/benchmark_results.json)。
+测试环境和结果数据详见 [benchmark/benchmark_results.json](matrix-computation/benchmark/benchmark_results.json)。
 
 ## 数值稳定性与病态处理
 
@@ -399,8 +399,8 @@ python matrix-computation/benchmark/run_benchmarks.py
 
 ```
 matrix-computation/
-├── ../matrix-computation.md       # 项目文档 (本文件)
-├── ../matrix-computation_EN.md    # 英文版文档
+├── .matrix-computation/matrix-computation.md       # 项目文档 (本文件)
+├── .matrix-computation/matrix-computation_EN.md    # 英文版文档
 ├── cholesky-decomposition/        # Cholesky 分解技能
 │   ├── SKILL.md
 │   ├── scripts/solve_cholesky.py
