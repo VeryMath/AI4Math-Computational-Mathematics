@@ -34,6 +34,7 @@ def _load_module(name: str, rel_path: str):
 _MODULE_PATHS = {
     'cholesky': os.path.join('matrix-computation', 'cholesky-decomposition', 'scripts', 'solve_cholesky.py'),
     'lu': os.path.join('matrix-computation', 'lu-decomposition', 'scripts', 'solve_lu.py'),
+    'qr': os.path.join('matrix-computation', 'qr-decomposition', 'scripts', 'solve_qr.py'),
     'svd': os.path.join('matrix-computation', 'svd-decomposition', 'scripts', 'solve_svd.py'),
 }
 
@@ -76,7 +77,7 @@ def _analyze(A: np.ndarray) -> dict:
 def choose_decomposition(A: Any, b: Any = None) -> dict:
     """Recommend decomposition and reasoning.
 
-    Returns dict with keys: method ('cholesky'|'lu'|'svd'), reason, info
+    Returns dict with keys: method ('cholesky'|'lu'|'qr'|'svd'), reason, info
     """
     A = np.asarray(A, dtype=float)
     info = _analyze(A)
@@ -86,6 +87,11 @@ def choose_decomposition(A: Any, b: Any = None) -> dict:
 
     # Heuristic decision rules
     if m != n:
+        if m > n:  # overdetermined
+            if cond < 1e12:
+                reason = f'超定系统（m>n），条件数适中（{cond:.2e}），优先 QR（快速且稳定）'
+                return {'method': 'qr', 'reason': reason, 'info': info}
+            # underdetermined or very ill-conditioned
         reason = '非方阵，使用 SVD（最稳健的长方形与最小二乘方法）'
         return {'method': 'svd', 'reason': reason, 'info': info}
 
@@ -104,6 +110,9 @@ def choose_decomposition(A: Any, b: Any = None) -> dict:
     if cond < 1e12:
         reason = f'方阵但非 SPD，condition 数合理（{cond:.2e}），使用 LU'
         return {'method': 'lu', 'reason': reason, 'info': info}
+    if cond < 1e15:
+        reason = f'方阵但非 SPD，较病态（{cond:.2e}），使用 QR 更稳定'
+        return {'method': 'qr', 'reason': reason, 'info': info}
     reason = f'方阵但病态（{cond:.2e}），使用 SVD 截断/伪逆'
     return {'method': 'svd', 'reason': reason, 'info': info}
 
@@ -156,6 +165,24 @@ def demonstrate_choice_and_solve(A: Any, b: Any):
         try:
             x = np.linalg.solve(A, b)
             report = {'chosen': 'lu_numpy_solve', 'residual_norm': float(np.linalg.norm(A @ x - b)), 'cond': float(np.linalg.cond(A))}
+            return x, report, choice
+        except Exception:
+            x = np.linalg.pinv(A) @ b
+            report = {'chosen': 'pinv_fallback', 'residual_norm': float(np.linalg.norm(A @ x - b)), 'cond': float(np.linalg.cond(A))}
+            return x, report, choice
+
+    if method == 'qr':
+        mod = _try_load_skill('qr')
+        if mod is not None:
+            # Use QR with pivoting for rank-deficient or ill-conditioned cases
+            pivoting = cond > 1e12 or info['rank'] < min(m, n)
+            x, report = mod.robust_solve_qr(A, b, pivoting=pivoting)
+            report = {'chosen': 'qr', **report}
+            return x, report, choice
+        # numpy fallback: use lstsq or pinv
+        try:
+            x, residuals, rank, s = np.linalg.lstsq(A, b, rcond=None)
+            report = {'chosen': 'qr_numpy_lstsq', 'residual_norm': float(np.linalg.norm(A @ x - b)), 'cond': float(np.linalg.cond(A)), 'rank': int(rank)}
             return x, report, choice
         except Exception:
             x = np.linalg.pinv(A) @ b

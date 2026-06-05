@@ -1,0 +1,156 @@
+{
+  "decomposition_accuracy": [
+    {
+      "method": "Cholesky",
+      "matrix": "well_conditioned_spd",
+      "reconstruction_error": 5.593680372150419e-15,
+      "residual_norm": 9.28879225241625e-16
+    },
+    {
+      "method": "LU",
+      "matrix": "general_square",
+      "reconstruction_error": 1.4149017637791353e-15,
+      "residual_norm": 9.28879225241625e-16
+    },
+    {
+      "method": "QR",
+      "matrix": "rectangular_over",
+      "reconstruction_error": 2.53720017498184e-15,
+      "residual_norm": 2.161112659237063
+    },
+    {
+      "method": "SVD",
+      "matrix": "well_conditioned_spd",
+      "reconstruction_error": 3.9287927459431736e-14,
+      "residual_norm": 0.0
+    },
+    {
+      "method": "SVD",
+      "matrix": "rectangular_over",
+      "reconstruction_error": 7.908010716496307e-15,
+      "residual_norm": 0.0
+    },
+    {
+      "method": "SVD",
+      "matrix": "general_square",
+      "reconstruction_error": 8.979518426215552e-15,
+      "residual_norm": 0.0
+    }
+  ],
+  "computation_time": [
+    {
+      "size": 50,
+      "cholesky_time_ms": 0.4591100849211216,
+      "lu_time_ms": 0.48208003863692284,
+      "svd_time_ms": 3.398690093308687
+    },
+    {
+      "size": 100,
+      "cholesky_time_ms": 3.3324001356959343,
+      "lu_time_ms": 3.124809917062521,
+      "svd_time_ms": 10.083839949220419
+    },
+    {
+      "size": 200,
+      "cholesky_time_ms": 7.488020230084658,
+      "lu_time_ms": 7.872389815747737,
+      "svd_time_ms": 23.815220035612583
+    },
+    {
+      "size": 500,
+      "cholesky_time_ms": 71.00002001971006,
+      "lu_time_ms": 312.9414601251483,
+      "svd_time_ms": 290.9113899804652
+    }
+  ],
+  "ill_conditioned_handling": [
+    {
+      "matrix": "hilbert_8",
+      "condition_number": 15257575538.072489,
+      "cholesky_success": true,
+      "cholesky_method": "cholesky",
+      "cholesky_error": null,
+      "svd_success": true,
+      "svd_method": "svd",
+      "svd_error": null
+    },
+    {
+      "matrix": "hilbert_10",
+      "condition_number": 16024413500363.82,
+      "cholesky_success": true,
+      "cholesky_method": "tikhonov",
+      "cholesky_error": null,
+      "svd_success": true,
+      "svd_method": "svd",
+      "svd_error": null
+    },
+    {
+      "matrix": "hilbert_12",
+      "condition_number": 1.760619121841585e+16,
+      "cholesky_success": true,
+      "cholesky_method": "tikhonov",
+      "cholesky_error": null,
+      "svd_success": true,
+      "svd_method": "svd_truncated",
+      "svd_error": null
+    },
+    {
+      "matrix": "hilbert_15",
+      "condition_number": 3.67568286586649e+17,
+      "cholesky_success": true,
+      "cholesky_method": "tikhonov",
+      "cholesky_error": null,
+      "svd_success": true,
+      "svd_method": "svd_truncated",
+      "svd_error": null
+    }
+  ],
+  "method_selection": [
+    {
+      "description": "SPD matrix",
+      "matrix_key": "well_conditioned_spd",
+      "expected_method": "cholesky",
+      "selected_method": "cholesky",
+      "correct": true,
+      "reason": "SPD \u4e14 condition number \u8f83\u5c0f\uff086.30e+00\uff09\uff0c\u4f18\u5148 Cholesky"
+    },
+    {
+      "description": "General square",
+      "matrix_key": "general_square",
+      "expected_method": "lu",
+      "selected_method": "lu",
+      "correct": true,
+      "reason": "\u65b9\u9635\u4f46\u975e SPD\uff0ccondition \u6570\u5408\u7406\uff081.63e+01\uff09\uff0c\u4f7f\u7528 LU"
+    },
+    {
+      "description": "Rectangular (over)",
+      "matrix_key": "rectangular_over",
+      "expected_method": "qr",
+      "selected_method": "qr",
+      "correct": true,
+      "reason": "\u8d85\u5b9a\u7cfb\u7edf\uff08m>n\uff09\uff0c\u6761\u4ef6\u6570\u9002\u4e2d\uff085.71e+00\uff09\uff0c\u4f18\u5148 QR\uff08\u5feb\u901f\u4e14\u7a33\u5b9a\uff09"
+    },
+    {
+      "description": "Rectangular (under)",
+      "matrix_key": "rectangular_under",
+      "expected_method": "svd",
+      "selected_method": "svd",
+      "correct": true,
+      "reason": "\u975e\u65b9\u9635\uff0c\u4f7f\u7528 SVD\uff08\u6700\u7a33\u5065\u7684\u957f\u65b9\u5f62\u4e0e\u6700\u5c0f\u4e8c\u4e58\u65b9\u6cd5\uff09"
+    }
+  ],
+  "consistency": [
+    {
+      "method": "Cholesky",
+      "runs": 5,
+      "max_difference": 0.0,
+      "consistent": true
+    },
+    {
+      "method": "SVD",
+      "runs": 5,
+      "max_difference": 0.0,
+      "consistent": true
+    }
+  ]
+}
