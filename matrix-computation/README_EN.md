@@ -1,6 +1,6 @@
 # Matrix Computation
 
-> [English](matrix-computation_EN.md) | **[中文版](matrix-computation.md)**
+> [English](README_EN.md) | **[中文版](README.md)**
 
 Matrix Computation is a modular, coding-agent-driven collection of matrix computation skills.
 
@@ -39,31 +39,31 @@ Each skill is an independent, reusable module focused on a specific matrix compu
 
 | Skill | Description | Use Cases |
 |------|-------------|-----------|
-| [`cholesky-decomposition`](./matrix-computation/cholesky-decomposition/) | Cholesky decomposition $A = LL^T$ for SPD matrices | SPD systems, covariance matrices, kernel matrices |
-| [`lu-decomposition`](./matrix-computation/lu-decomposition/) | LU decomposition $A = PLU$ | General square matrix solving, determinant estimation |
-| [`qr-decomposition`](./matrix-computation/qr-decomposition/) | QR decomposition $A = QR$ | Least squares, orthogonalization, overdetermined systems |
-| [`svd-decomposition`](./matrix-computation/svd-decomposition/) | Singular value decomposition $A = U\Sigma V^T$ | Arbitrary matrices, low-rank approximation, pseudoinverse, PCA |
+| [`cholesky-decomposition`](./cholesky-decomposition/) | Cholesky decomposition $A = LL^T$ for SPD matrices | SPD systems, covariance matrices, kernel matrices |
+| [`lu-decomposition`](./lu-decomposition/) | LU decomposition $A = PLU$ | General square matrix solving, determinant estimation |
+| [`qr-decomposition`](./qr-decomposition/) | QR decomposition $A = QR$ | Least squares, orthogonalization, overdetermined systems |
+| [`svd-decomposition`](./svd-decomposition/) | Singular value decomposition $A = U\Sigma V^T$ | Arbitrary matrices, low-rank approximation, pseudoinverse, PCA |
 
 ### Linear Solvers
 
 | Skill | Description | Use Cases |
 |------|-------------|-----------|
-| [`conjugate-gradient`](./matrix-computation/conjugate-gradient/) | Conjugate Gradient method (CG) | Iterative solving for symmetric positive definite systems |
-| [`generalized-minimal-residual`](./matrix-computation/generalized-minimal-residual/) | GMRES method | Iterative solving for general non-symmetric systems |
+| [`conjugate-gradient`](./conjugate-gradient/) | Conjugate Gradient method (CG) | Iterative solving for symmetric positive definite systems |
+| [`generalized-minimal-residual`](./generalized-minimal-residual/) | GMRES method | Iterative solving for general non-symmetric systems |
 
 ### Special Operations
 
 | Skill | Description | Use Cases |
 |------|-------------|-----------|
-| [`eigenvalue-computation`](./matrix-computation/eigenvalue-computation/) | Eigenvalue computation | Spectral analysis, stability analysis, principal components |
-| [`kronecker-product`](./matrix-computation/kronecker-product/) | Kronecker product computation | Tensor products, system modeling, quantum states |
-| [`matrix-norm`](./matrix-computation/matrix-norm/) | Matrix norm computation | Condition number analysis, numerical stability, error metrics |
+| [`eigenvalue-computation`](./eigenvalue-computation/) | Eigenvalue computation | Spectral analysis, stability analysis, principal components |
+| [`kronecker-product`](./kronecker-product/) | Kronecker product computation | Tensor products, system modeling, quantum states |
+| [`matrix-norm`](./matrix-norm/) | Matrix norm computation | Condition number analysis, numerical stability, error metrics |
 
 ### Utility Tools
 
 | Skill | Description |
 |------|-------------|
-| [`choose_decomposition`](./matrix-computation/choose_decomposition/) | Automatic selection of appropriate decomposition method |
+| [`choose_decomposition`](./choose_decomposition/) | Automatic selection of appropriate decomposition method |
 
 ## Quick Start
 
@@ -379,7 +379,7 @@ All test results can be reproduced by running:
 python matrix-computation/benchmark/run_benchmarks.py
 ```
 
-Test environment and detailed results available in [benchmark/benchmark_results.json](./matrix-computation/benchmark/benchmark_results.json).
+Test environment and detailed results available in [benchmark/benchmark_results.json](./benchmark/benchmark_results.json).
 
 ## Numerical Stability & Ill-conditioned Handling
 
