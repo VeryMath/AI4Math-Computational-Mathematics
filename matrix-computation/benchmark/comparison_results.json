@@ -1,0 +1,624 @@
+{
+  "execution_time": [
+    {
+      "case": "well_conditioned_spd_11",
+      "direct_ai_time_ms": 0.2171006053686142,
+      "skill_time_ms": 0.880199484527111,
+      "speedup": 0.2466493211879713,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "well_conditioned_spd_11",
+      "direct_ai_time_ms": 0.05050003528594971,
+      "skill_time_ms": 0.1943996176123619,
+      "speedup": 0.2597743550434762,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "well_conditioned_spd_9",
+      "direct_ai_time_ms": 0.029900111258029938,
+      "skill_time_ms": 0.16249995678663254,
+      "speedup": 0.18400073359582308,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "well_conditioned_spd_10",
+      "direct_ai_time_ms": 0.02650078386068344,
+      "skill_time_ms": 0.11610053479671478,
+      "speedup": 0.2282572074890504,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "well_conditioned_spd_14",
+      "direct_ai_time_ms": 0.031099654734134674,
+      "skill_time_ms": 0.1309998333454132,
+      "speedup": 0.2374022465519693,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "hilbert_8",
+      "direct_ai_time_ms": 0.024899840354919434,
+      "skill_time_ms": 0.21980050951242447,
+      "speedup": 0.11328381544771597,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "hilbert_10",
+      "direct_ai_time_ms": 0.025099143385887146,
+      "skill_time_ms": 0.2834005281329155,
+      "speedup": 0.08856420822940594,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "hilbert_12",
+      "direct_ai_time_ms": 0.036300159990787506,
+      "skill_time_ms": 0.11510029435157776,
+      "speedup": 0.3153785157134997,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "general_square_8",
+      "direct_ai_time_ms": 0.020499341189861298,
+      "skill_time_ms": 0.31740032136440277,
+      "speedup": 0.06458513054347635,
+      "direct_success": true,
+      "skill_success": true
+    },
+    {
+      "case": "general_square_11",
+      "direct_ai_time_ms": 0.039200298488140106,
+      "skill_time_ms": 0.15079975128173828,
+      "speedup": 0.2599493577075099,
+      "direct_success": true,
+      "skill_success": true
+    }
+  ],
+  "accuracy": [
+    {
+      "case": "well_conditioned_spd_11",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 8.796809942557537e-16,
+      "skill_residual": 1.08796899947581e-15,
+      "solution_diff": 2.353093408709757e-17,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "well_conditioned_spd_11",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 8.653332088726038e-16,
+      "skill_residual": 1.0503202712244532e-15,
+      "solution_diff": 5.732467154385379e-17,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "well_conditioned_spd_9",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 3.608224830031759e-16,
+      "skill_residual": 9.058911354591131e-16,
+      "solution_diff": 4.513615811405666e-17,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "well_conditioned_spd_10",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 4.165648664845488e-16,
+      "skill_residual": 8.484766427026431e-16,
+      "solution_diff": 3.6880726988814706e-17,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "well_conditioned_spd_14",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 1.0221687883574942e-15,
+      "skill_residual": 1.4330495932668422e-15,
+      "solution_diff": 6.747919632834438e-17,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "hilbert_8",
+      "category": "ill_conditioned",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 1.0913936421275139e-11,
+      "skill_residual": 7.293124923626087e-07,
+      "solution_diff": 0.01540182960234842,
+      "solutions_match": false,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "hilbert_10",
+      "category": "ill_conditioned",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 2.4350011562174057e-10,
+      "skill_residual": 0.0001060595510138894,
+      "solution_diff": 1181.3648004179192,
+      "solutions_match": false,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "hilbert_12",
+      "category": "ill_conditioned",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 9.125060374972142e-09,
+      "skill_residual": 0.0007388439082952975,
+      "solution_diff": 412621787.71680933,
+      "solutions_match": false,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": true
+    },
+    {
+      "case": "general_square_8",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 1.5513355725007694e-15,
+      "skill_residual": 1.5513355725007694e-15,
+      "solution_diff": 0.0,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": false
+    },
+    {
+      "case": "general_square_11",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 1.5010025652584927e-14,
+      "skill_residual": 1.5010025652584927e-14,
+      "solution_diff": 0.0,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": false
+    },
+    {
+      "case": "general_square_5",
+      "category": "normal",
+      "direct_success": true,
+      "skill_success": true,
+      "direct_residual": 8.851374477315529e-16,
+      "skill_residual": 8.851374477315529e-16,
+      "solution_diff": 0.0,
+      "solutions_match": true,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": false
+    },
+    {
+      "case": "rectangular_over_19x5",
+      "category": "normal",
+      "direct_success": false,
+      "skill_success": true,
+      "direct_residual": Infinity,
+      "skill_residual": 3.2856899409408817,
+      "solution_diff": Infinity,
+      "solutions_match": false,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": false
+    },
+    {
+      "case": "rectangular_over_19x7",
+      "category": "normal",
+      "direct_success": false,
+      "skill_success": true,
+      "direct_residual": Infinity,
+      "skill_residual": 2.662718554677606,
+      "solution_diff": Infinity,
+      "solutions_match": false,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": false
+    },
+    {
+      "case": "rectangular_over_10x9",
+      "category": "normal",
+      "direct_success": false,
+      "skill_success": true,
+      "direct_residual": Infinity,
+      "skill_residual": 0.35492738235491017,
+      "solution_diff": Infinity,
+      "solutions_match": false,
+      "direct_checked_condition": false,
+      "skill_checked_condition": true,
+      "direct_used_regularization": false,
+      "skill_used_regularization": false
+    }
+  ],
+  "token_estimation": [
+    {
+      "case": "well_conditioned_spd_11",
+      "direct_tokens": 505,
+      "skill_tokens": 183,
+      "savings": 322,
+      "savings_percentage": 63.76237623762376
+    },
+    {
+      "case": "well_conditioned_spd_11",
+      "direct_tokens": 505,
+      "skill_tokens": 183,
+      "savings": 322,
+      "savings_percentage": 63.76237623762376
+    },
+    {
+      "case": "well_conditioned_spd_9",
+      "direct_tokens": 495,
+      "skill_tokens": 177,
+      "savings": 318,
+      "savings_percentage": 64.24242424242425
+    },
+    {
+      "case": "well_conditioned_spd_10",
+      "direct_tokens": 500,
+      "skill_tokens": 180,
+      "savings": 320,
+      "savings_percentage": 64.0
+    },
+    {
+      "case": "well_conditioned_spd_14",
+      "direct_tokens": 520,
+      "skill_tokens": 192,
+      "savings": 328,
+      "savings_percentage": 63.07692307692307
+    },
+    {
+      "case": "hilbert_8",
+      "direct_tokens": 490,
+      "skill_tokens": 174,
+      "savings": 316,
+      "savings_percentage": 64.48979591836735
+    },
+    {
+      "case": "hilbert_10",
+      "direct_tokens": 500,
+      "skill_tokens": 180,
+      "savings": 320,
+      "savings_percentage": 64.0
+    },
+    {
+      "case": "hilbert_12",
+      "direct_tokens": 510,
+      "skill_tokens": 186,
+      "savings": 324,
+      "savings_percentage": 63.52941176470588
+    },
+    {
+      "case": "general_square_8",
+      "direct_tokens": 490,
+      "skill_tokens": 174,
+      "savings": 316,
+      "savings_percentage": 64.48979591836735
+    },
+    {
+      "case": "general_square_11",
+      "direct_tokens": 505,
+      "skill_tokens": 183,
+      "savings": 322,
+      "savings_percentage": 63.76237623762376
+    },
+    {
+      "case": "general_square_5",
+      "direct_tokens": 475,
+      "skill_tokens": 165,
+      "savings": 310,
+      "savings_percentage": 65.26315789473685
+    },
+    {
+      "case": "rectangular_over_19x5",
+      "direct_tokens": 545,
+      "skill_tokens": 207,
+      "savings": 338,
+      "savings_percentage": 62.018348623853214
+    },
+    {
+      "case": "rectangular_over_19x7",
+      "direct_tokens": 545,
+      "skill_tokens": 207,
+      "savings": 338,
+      "savings_percentage": 62.018348623853214
+    },
+    {
+      "case": "rectangular_over_10x9",
+      "direct_tokens": 500,
+      "skill_tokens": 180,
+      "savings": 320,
+      "savings_percentage": 64.0
+    }
+  ],
+  "error_rate": {
+    "stats": {
+      "direct_ai": {
+        "total_cases": 14,
+        "lin_alg_errors": 3,
+        "large_residuals": 0,
+        "unchecked_ill_conditioned": 3
+      },
+      "skill": {
+        "total_cases": 14,
+        "lin_alg_errors": 0,
+        "large_residuals": 0,
+        "unchecked_ill_conditioned": 0
+      }
+    },
+    "detailed": [
+      {
+        "case": "well_conditioned_spd_11",
+        "condition_number": 3.5793714145956828,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "well_conditioned_spd_11",
+        "condition_number": 4.398993538503225,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "well_conditioned_spd_9",
+        "condition_number": 4.582018341368044,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "well_conditioned_spd_10",
+        "condition_number": 3.6419889529729605,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "well_conditioned_spd_14",
+        "condition_number": 4.480543097964404,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "hilbert_8",
+        "condition_number": 15257575538.072489,
+        "is_ill_conditioned": true,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": true
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "hilbert_10",
+        "condition_number": 16024413500363.82,
+        "is_ill_conditioned": true,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": true
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": true
+        }
+      },
+      {
+        "case": "hilbert_12",
+        "condition_number": 1.760619121841585e+16,
+        "is_ill_conditioned": true,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": true
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": true
+        }
+      },
+      {
+        "case": "general_square_8",
+        "condition_number": 24.842776704711365,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "general_square_11",
+        "condition_number": 169.21950209841728,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "general_square_5",
+        "condition_number": 8.863980312191961,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "rectangular_over_19x5",
+        "condition_number": 2.333280063269603,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": true,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "rectangular_over_19x7",
+        "condition_number": 2.5332663480743953,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": true,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      },
+      {
+        "case": "rectangular_over_10x9",
+        "condition_number": 161.10282559063327,
+        "is_ill_conditioned": false,
+        "direct_errors": {
+          "lin_alg_error": true,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false
+        },
+        "skill_errors": {
+          "lin_alg_error": false,
+          "large_residual": false,
+          "unchecked_ill_conditioned": false,
+          "large_residual_but_reg": false
+        }
+      }
+    ]
+  }
+}

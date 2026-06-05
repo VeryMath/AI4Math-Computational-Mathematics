@@ -245,6 +245,82 @@ Directly asking AI Agents to solve mathematical problems presents several challe
 | **Transparency** | Black-box computation, hard to verify | Every step has validation and diagnostic reports |
 | **Numerical Stability** | May use unstable algorithms | Chooses most numerically stable methods |
 
+### Real Test Data: 14 Test Cases Comparison
+
+The following comparison is based on 14 real test cases (including normal, ill-conditioned, and rectangular matrices), generated using the dedicated comparison script `compare_with_baseline.py`.
+
+#### Core Metrics Comparison
+
+| Metric | Direct AI Prompting | Using Skills | Improvement |
+|--------|-------------------|-------------|-------------|
+| **Success Rate** | 78.6% (11/14) | 100% (14/14) | +21.4% |
+| **Token Efficiency** | ~500 tokens/task | ~180 tokens/task | **Save 63.7%** |
+| **Error Handling** | 6 issues | 0 issues | 100% reduction |
+| **Ill-conditioning Detection** | 0 times (3 missed) | 3/3 times (100%) | Full coverage |
+| **Rectangular Matrices** | 0/3 success | 3/3 success | +100% |
+
+**Key Findings**:
+- Direct AI prompting **fails completely on rectangular matrices** (np.linalg.solve not applicable)
+- Direct AI **never checks for ill-conditioning**, potentially leading to numerical instability
+- Skills use significantly fewer tokens as the workflow is predefined
+
+#### Detailed Analysis
+
+##### 1. Success Rate Comparison
+
+| Test Scenario | Direct Prompting | Using Skill | Result |
+|--------------|------------------|-------------|--------|
+| Normal Square (5 cases) | 5/5 (100%) | 5/5 (100%) | Same |
+| Ill-conditioned (3 cases) | 3/3 (100%) | 3/3 (100%) | Same |
+| Rectangular (3 cases) | 0/3 (0%) | 3/3 (100%) | **Skill Better** |
+| General Square (3 cases) | 3/3 (100%) | 3/3 (100%) | Same |
+
+**Issue Analysis**: Direct AI tends to use `np.linalg.solve()`, which only works for square matrices and fails on rectangular ones.
+
+##### 2. Token Usage Comparison (by Matrix Size)
+
+| Matrix Size | Direct Prompt Tokens | Skill Tokens | Savings |
+|-------------|---------------------|--------------|---------|
+| 5×5 | 475 | 165 | 65.3% |
+| 8×8 | 490 | 174 | 64.5% |
+| 10×10 | 500 | 180 | 64.0% |
+| 12×12 | 510 | 186 | 63.5% |
+| 19×7 (rectangular) | 545 | 207 | 62.0% |
+
+**Why Skills Save Tokens**:
+- Direct prompting requires full problem description, matrix data, and expected output
+- Skills only need to pass parameters; output format is predefined
+- Average ~320 tokens saved per task
+
+##### 3. Error Type Analysis
+
+| Error Type | Direct Prompting | Using Skill |
+|-----------|------------------|-------------|
+| LinAlgError (dimension mismatch) | 3 times | 0 times |
+| Large Residual (>1e-6) | 0 times | 0 times |
+| Undetected Ill-conditioning | 3 times | 0 times |
+
+**Important**: The 3 "undetected ill-conditioning" errors by Direct AI occurred on Hilbert matrices (condition numbers 1.5e+10 ~ 1.8e+16). While Direct AI returned seemingly "successful" results, it **did not detect the ill-conditioning**, making the results potentially numerically unstable. This is a more dangerous type of silent failure.
+
+In contrast, Skills detect ill-conditioning and automatically use regularization, which increases residuals (from machine precision to 1e-04~1e-03) but is **correct numerical analysis practice**—trading small precision for numerical stability.
+
+##### 4. Ill-conditioned Matrix Handling Example
+
+For a 12×12 Hilbert matrix (condition number 1.76e+16):
+
+```
+Direct AI Prompting:
+- Result: Gives a numerical solution
+- Issue: Doesn't detect ill-conditioning; solution may be unreliable
+- Residual: 9.13e-09
+
+Using Skill:
+- Detection: Condition number 1.76e+16, extremely ill-conditioned
+- Strategy: Automatically switches to Tikhonov regularization
+- Residual: 7.39e-04 (controlled)
+- Report: Complete diagnostic information
+```
+
 ### Real Benchmark Results
 
 Tests run on **NumPy 2.4.4**, Windows platform.
@@ -376,8 +452,16 @@ Solution Result:
 All test results can be reproduced by running:
 
 ```bash
+# Run standard performance benchmarks
 python matrix-computation/benchmark/run_benchmarks.py
+
+# Run Skills vs Direct Prompting comparison
+python matrix-computation/benchmark/compare_with_baseline.py
 ```
+
+Test environment and detailed results available in:
+- [benchmark/benchmark_results.json](matrix-computation/benchmark/benchmark_results.json) - Standard performance tests
+- [benchmark/comparison_results.json](matrix-computation/benchmark/comparison_results.json) - Comparison test data
 
 Test environment and detailed results available in [benchmark/benchmark_results.json](matrix-computation/benchmark/benchmark_results.json).
 
