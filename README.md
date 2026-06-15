@@ -1,31 +1,160 @@
-# AI4Math Reproduction Skills
+# AI4Math Computational Math Skills
 
 [中文 README](README.zh-CN.md)
 
-A **Skill-first workflow package** for computational math code reproduction, runtime deployment, auto-tuning, visualization, and reporting with coding agents.
+AI4Math Computational Math Skills is a **Skill layer for coding agents** and a
+computational math workflow package. It helps an agent reproduce computational
+math research code, plan safe execution, deploy runtimes, diagnose failures,
+tune parameters, create figures, and write evidence-backed summaries.
 
-## What This Is
+The package is Skill-first, agent-native, and conversation-first. You do not drive it through a bundled CLI pipeline. You install or load the Skills into a coding agent, then interact with the agent in natural language while it reads the Skills, inspects the target repository, writes compact review artifacts, and waits for approval before consequential actions.
 
-AI4Math Reproduction Skills gives coding agents a reusable workflow layer for computational math research code. The agent reads Skills, inspects a target repository or local path, classifies the computational math domain, writes a compact run plan, waits for human approval, executes only approved steps, diagnoses failures, proposes tuning, generates figures when useful, and writes concise evidence-backed summaries.
+It is not a CLI-first package and not a fully automatic pipeline; scripts are
+optional helpers behind the shared Skill layer.
 
-This repository is not a CLI-first package, not a fully automatic pipeline, not a benchmark platform, and not a reproduction case library. The normal interface is conversation with a coding agent. Scripts are optional helpers, **not the workflow driver**.
+## What You Install
 
-## Who It Is For
+The product of this repository is the shared Skill layer under `skills/`.
 
-The package is designed for agentic coding environments such as Codex, Claude Code, Gemini, and OpenCode. It remains Codex-native in its reference operator profile, but the shared product is the Skill layer under `skills/`, not any one platform wrapper.
+A Skill is a readable workflow instruction for a coding agent. Each `SKILL.md` tells the agent when to use that workflow, what evidence to inspect, which artifacts to write, what risks require approval, and which optional helper scripts may be called.
 
-Human users remain the decision makers at checkpoints. The agent can inspect, reason, plan, and run approved commands, but consequential execution, source edits, dependency changes, long runs, tuning, and final conclusions require human review.
+The default entrypoint is:
 
-## Quick Start
+```text
+skills/computational_math_reproduction_workflow_skill/SKILL.md
+```
 
-Choose the entrypoint for your coding agent:
+The registry is:
 
-- Codex: read `.codex/INSTALL.md`.
-- Claude Code: read `CLAUDE.md`.
-- Gemini: read `GEMINI.md`.
-- OpenCode: read `.opencode/INSTALL.md`.
+```text
+skills/registry.yaml
+```
 
-Then start an end-to-end task with the default Skill:
+The registry routes the default workflow to specialist Skills for domain classification, repository reproduction, environment deployment, MATLAB setup, MATLAB runtime planning, failure diagnosis, tuning, visualization, human review, and report generation.
+
+What users provide:
+
+- a natural-language goal;
+- an optional local path, remote repository, archive, or paper-code target;
+- checkpoint decisions such as `approve`, `revise`, `reject`, or `skip`.
+
+What the agent produces when useful:
+
+- compact review artifacts under `outputs/{run_id}/`;
+- command logs for approved runs;
+- figures and tuning summaries when evidence exists;
+- concise conversational explanations of what was found and what remains uncertain.
+
+## Installation / Loading
+
+Use the repository checkout first. Ask your coding agent to read:
+
+```text
+AGENTS.md
+SKILL.md
+skills/registry.yaml
+skills/computational_math_reproduction_workflow_skill/SKILL.md
+```
+
+If your agent supports local Skill discovery, install or link the shared
+`skills/` directory or the concrete workflow Skill into that agent's Skill path
+and reload the agent if needed. Platform notes live in `CLAUDE.md`, `GEMINI.md`,
+`.codex/INSTALL.md`, and `.opencode/INSTALL.md`.
+
+## How It Works
+
+```mermaid
+flowchart LR
+    U["Human goal and target repo"] --> A["Coding agent"]
+    A --> R["skills/registry.yaml"]
+    R --> E["workflow entrypoint Skill"]
+    E --> S["specialist Skills"]
+    S --> T["target code and runtime"]
+    S --> O["outputs/{run_id}/"]
+    O --> U
+    A --> Q["approval checkpoint"]
+    Q --> U
+```
+
+The normal loop is:
+
+1. The human asks the coding agent to use the default workflow Skill.
+2. The agent reads the Skill and registry.
+3. The agent inspects the target code with its native file, search, reasoning, and editing tools.
+4. The agent writes `outputs/{run_id}/plan.md` before execution.
+5. The human replies `approve`, `revise`, `reject`, or `skip`.
+6. The agent executes only approved steps, with bounded commands and saved logs.
+7. The agent writes `RUN_SUMMARY.md`, and only proposes repair or tuning when evidence supports it.
+
+Scripts under `skills/*/scripts/` are optional tools. They can make logging, approval checks, plotting, or structured inspection easier, but they are not the user interface and they do not define the workflow.
+
+## Install Or Load In A Coding Agent
+
+Start by cloning or opening this repository in the coding-agent environment you want to use.
+
+### Codex
+
+Codex is the reference operator profile for this repository.
+
+For local Skill discovery, link the shared Skill directory into Codex's local Skill path:
+
+```bash
+mkdir -p ~/.agents/skills
+ln -s "$PWD/skills" ~/.agents/skills/ai4math
+```
+
+Restart Codex after creating or updating the link. If your Codex build discovers local Skills from `~/.codex/skills`, create the same link there and keep the directory name `ai4math`.
+
+The Codex plugin manifest is also available at:
+
+```text
+.codex-plugin/plugin.json
+```
+
+See `.codex/INSTALL.md` for Codex-specific notes.
+
+### Claude Code
+
+Claude Code can use the same Skill layer through the repository files and plugin manifest:
+
+```text
+.claude-plugin/plugin.json
+CLAUDE.md
+```
+
+Keep Claude-specific setup thin. The workflow remains the shared `skills/` layer.
+
+### Cursor
+
+Cursor plugin metadata is available at:
+
+```text
+.cursor-plugin/plugin.json
+```
+
+It points back to `skills/` and the same lightweight hooks.
+
+### Gemini
+
+Gemini loads the default entrypoint through:
+
+```text
+GEMINI.md
+```
+
+That file includes the workflow Skill and `skills/registry.yaml`.
+
+### OpenCode
+
+OpenCode can use the repository locally or through a plugin-style wrapper. See:
+
+```text
+.opencode/INSTALL.md
+```
+
+## First Interaction
+
+After the coding agent can see the Skills, start with a prompt like this:
 
 ```text
 Use computational_math_reproduction_workflow_skill.
@@ -34,49 +163,85 @@ Goal:
 Inspect this computational math repository, classify the domain,
 write plan.md, and wait for approval before executing anything.
 
+Target:
+<local path, repository URL, archive path, or paper-code pointer>
+
 Output policy:
 - route through skills/registry.yaml;
 - keep durable artifacts under outputs/{run_id}/;
 - use scripts only as optional helpers, not the workflow driver;
-- ask before execution, source edits, dependency changes, or tuning.
+- ask before execution, source edits, dependency changes, long runs, tuning, or final conclusions.
 ```
 
-## Default Workflow
+For MATLAB access setup, ask the agent to use `matlab_environment_setup_skill` first. Use `matlab_runtime_skill` only after MATLAB, Octave, or MATLAB MCP capability is verified.
 
-The default entrypoint is `skills/computational_math_reproduction_workflow_skill/SKILL.md`.
+## Quick Start
 
-At a high level, the agent:
+```text
+Use this repository's computational math reproduction workflow.
 
-1. Interprets the user goal and target source.
-2. Uses `skills/registry.yaml` to route to domain, runtime, environment, diagnosis, tuning, visualization, review, and reporting Skills.
-3. Writes a compact `plan.md` under `outputs/{run_id}/`.
-4. Asks the human to approve, revise, reject, or skip the next consequential step.
-5. Executes only approved steps with bounded commands and saved logs.
-6. Writes `repair_plan.md`, `RUN_SUMMARY.md`, tuning artifacts, or figures only when they are useful evidence.
+Read:
+- AGENTS.md
+- SKILL.md
+- skills/registry.yaml
+- skills/computational_math_reproduction_workflow_skill/SKILL.md
 
-## Skill Architecture
+Goal:
+<describe the reproduction, deployment, tuning, visualization, or reporting task>
 
-Each Skill is still driven by its `SKILL.md`. The companion `manifest.yaml` files and `skills/registry.yaml` make the Skill layer easier for agents and maintainers to inspect: they declare phase, dependencies, expected artifacts, risk level, and approval boundaries.
+Target:
+<local path, repository URL, archive path, or paper-code pointer>
 
-- `computational_math_reproduction_workflow_skill`: default workflow entrypoint.
+Constraints:
+- inspect first;
+- write or summarize a plan before execution;
+- ask before source edits, dependency changes, long runs, tuning, or final claims.
+```
+
+## How To Interact
+
+Use a checkpoint loop:
+
+```text
+research-code target -> inspection -> plan -> approve / revise / reject / skip
+                     -> approved run, repair, tuning, or report
+                     -> evidence summary -> next checkpoint
+```
+
+Use `approve` to run a proposed step, `revise` to update the plan, `reject` to
+stop the path, and `skip` to move past a phase. The agent should ask before
+execution, source edits, dependency changes, long runs, tuning, or final
+conclusions.
+
+## Skill Map
+
+- `computational_math_reproduction_workflow_skill`: default end-to-end workflow entrypoint.
 - `computational_math_domain_skill`: broad computational math domain router.
-- `continuous_optimization_skill`: mature specialist Skill for ADMM, PPA, proximal, primal-dual, and augmented Lagrangian methods.
-- `matlab_environment_setup_skill`: agent-neutral MATLAB, Octave, and MATLAB MCP setup and verification before runtime use.
+- `continuous_optimization_skill`: mature specialist Skill for ADMM, PPA, proximal gradient, primal-dual methods, and augmented Lagrangian methods.
+- `matlab_environment_setup_skill`: agent-neutral MATLAB, Octave, and MATLAB MCP setup and verification.
 - `matlab_runtime_skill`: optional MATLAB/Octave runtime backend inspection, planning, toolbox hints, and approved execution boundary.
-- `repo_reproduction_skill`: repository analysis, run planning, execution, and evidence collection.
+- `repo_reproduction_skill`: repository analysis, run planning, approved execution, and evidence collection.
 - `environment_deployment_skill`: dependency and runtime setup planning.
 - `failure_diagnosis_skill`: failure classification and repair planning.
-- `algorithm_discovery_skill`: external algorithm and implementation search.
-- `auto_tuning_skill`: tuning plans and bounded search.
+- `algorithm_discovery_skill`: external algorithm and implementation discovery.
+- `auto_tuning_skill`: approved tuning plans and bounded search.
 - `visualization_skill`: convergence and tuning figures.
-- `human_review_skill`: approval checkpoints and optional logs.
+- `human_review_skill`: approval checkpoints and optional approval logs.
 - `report_generation_skill`: compact plans, summaries, and reports.
 
 ## Supported Scope
 
-Continuous optimization is the first mature domain module, especially ADMM, proximal methods, primal-dual methods, PPA, and augmented Lagrangian workflows.
+Phase 1 focuses on continuous optimization research code, especially:
 
-Other computational math areas are routed through `computational_math_domain_skill` reference cards until they need their own specialist Skills:
+- ADMM;
+- PPA;
+- proximal gradient methods;
+- primal-dual methods;
+- augmented Lagrangian methods.
+
+Python projects are the primary automatic execution target. MATLAB repositories can be inspected and planned through the MATLAB Skills, then run only after approval when MATLAB, Octave, or MATLAB MCP access is available. Julia, C++, and R are detected and reported in the MVP, but are not automatically run by default.
+
+Other computational math areas are routed through reference cards until they need specialist Skills:
 
 - numerical linear algebra;
 - differential equations;
@@ -84,60 +249,30 @@ Other computational math areas are routed through `computational_math_domain_ski
 - stochastic simulation;
 - inverse problems.
 
-Python is the primary automatic execution target. MATLAB setup is handled by `matlab_environment_setup_skill` in an agent-neutral way for Codex, Claude Code, Gemini, OpenCode, and generic coding agents. MATLAB runtime use is handled by `matlab_runtime_skill`: the agent can inspect `.m`/`.mlx`/`.mat` artifacts, infer entrypoints and toolbox hints, detect local `matlab` or `octave` executables, and generate approved `matlab -batch` or `octave --eval` run plans. MATLAB is not the workflow controller. Julia, C++, and R can be detected and reported, with deeper runtime support added as separate runtime Skills when needed.
+## Output Contract
 
-## Platform Adapters
+The default workflow writes only compact durable artifacts:
 
-Thin platform adapters help other coding agents load the same workflow without copying it:
+- `outputs/{run_id}/plan.md` before execution;
+- `outputs/{run_id}/repair_plan.md` only when source, dependency, adapter, entrypoint, or data changes are needed;
+- `outputs/{run_id}/RUN_SUMMARY.md` after reproduction work;
+- `outputs/{run_id}/tuning/tuning_plan.md` only when tuning is proposed;
+- tuning results, tuning logs, tuning figures, and `tuning/TUNING_SUMMARY.md` only after tuning is approved.
 
-- `SKILL.md`: top-level Agent Skill compatibility entrypoint.
-- `.codex-plugin/plugin.json`: Codex plugin metadata for Skill discovery.
-- `.codex/INSTALL.md`: Codex local Skill installation notes.
-- `.claude-plugin/plugin.json`: Claude Code plugin metadata and session-start pointer.
-- `.cursor-plugin/plugin.json`: Cursor plugin metadata and session-start pointer.
-- `.opencode/INSTALL.md`: OpenCode loading and plugin-wrapper notes.
-- `CLAUDE.md`: Claude Code repository orientation.
-- `GEMINI.md`: Gemini entrypoint that includes the default workflow Skill and registry.
-- `hooks/`: lightweight platform hooks that inject only an entrypoint reminder.
+Legacy checkpoint files and approval logs remain available as optional durable review mechanisms, but they are not the default workflow driver.
 
-All adapters point back to `skills/registry.yaml` and `computational_math_reproduction_workflow_skill`. Platform files should stay small and should not become separate workflow definitions.
+## Examples And Maintainer Material
 
-## Examples
+The repository is not a reproduction case library. The `example/` directory contains compact reference artifacts that help maintainers and readers see what a completed Skill-first workflow looks like.
 
-The repository is not a reproduction case library, but `example/` contains compact reference artifacts that show what a completed Skill-first workflow looks like.
+Tests, fixtures, and helper-script development are maintainer concerns. They are not required for a user to use the Skill layer with a coding agent.
 
-- `example/boyd_admm_lasso_20260513/`: Stanford Boyd ADMM Lasso reproduction in MATLAB, including plan approval, repair for unsaved `grabcode` buffers, convergence figures, and approved `rho` / `alpha` tuning. The baseline run matches the published 15-iteration example, and the tuned setting `rho = 1.0`, `alpha = 1.2` reduces the iteration count to 13 while preserving objective closeness.
-- `example/admm_bhushan23_20260511/`: minimal ADMM Lasso objective reproduction for `bhushan23/ADMM` using the current `ai4math` Python environment.
-
-## Outputs
-
-The compact default workflow writes artifacts under `outputs/{run_id}/`:
-
-- `plan.md` before execution;
-- `repair_plan.md` only when source or dependency changes are needed;
-- `RUN_SUMMARY.md` at the end;
-- `tuning/tuning_plan.md` only when tuning is proposed;
-- `tuning/tuning_results.csv`, `tuning/best_parameters.json`, `tuning/tuning.log`, `tuning/tuning_figures/`, and `tuning/TUNING_SUMMARY.md` only after tuning is approved.
-
-Checkpoint files under `outputs/{run_id}/checkpoints/` and approval logs under `outputs/{run_id}/approvals/` remain available as optional durable review mechanisms.
-
-## Environment
-
-Use the shared Conda environment `ai4math`.
-
-```bash
-conda create -y -n ai4math python=3.13 pip
-conda run -n ai4math python -m pip install -e ".[dev]"
-```
-
-See `docs/environment.md`.
-
-## Maintainer Notes
-
-Run tests with:
+For maintainer work, use the shared Conda environment:
 
 ```bash
 conda run -n ai4math pytest
 ```
 
-When adding a Skill, update its `manifest.yaml`, `skills/registry.yaml`, and any routing reference cards. Keep platform adapters thin; improve the shared Skill layer first.
+See `docs/environment.md`, `docs/interaction_protocol.md`, and `docs/testing.md` for maintainer details.
+
+When adding or changing a Skill, update its `manifest.yaml`, `skills/registry.yaml`, and any routing reference cards. Keep platform adapters thin; improve the shared Skill layer first.

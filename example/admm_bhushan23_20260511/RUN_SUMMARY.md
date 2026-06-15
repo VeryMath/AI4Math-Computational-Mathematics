@@ -9,13 +9,13 @@ The run reproduced a small synthetic Lasso objective experiment using the `bhush
 ## Source
 
 - Repository: https://github.com/bhushan23/ADMM
-- Local source: `/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511/source/ADMM`
-- Run directory: `/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511`
+- Local source: `example/admm_bhushan23_20260511/source/ADMM`
+- Run directory: `example/admm_bhushan23_20260511`
 
 ## Executed Command
 
 ```bash
-conda run -n ai4math python /Users/conanxu/Scientific\ Computing\ Reproduction\ \&\ Auto-Tuning\ /outputs/admm_bhushan23_20260511/scripts/minimal_reproduction.py
+conda run -n ai4math python example/admm_bhushan23_20260511/scripts/minimal_reproduction.py
 ```
 
 The script uses:

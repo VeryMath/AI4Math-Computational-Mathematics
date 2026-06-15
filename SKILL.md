@@ -5,7 +5,7 @@ description: Use when reproducing, deploying, diagnosing, tuning, visualizing, o
 
 # AI4Math Computational Math Skills
 
-This repository is a Skill-first computational math reproduction and tuning skill pack for coding agents.
+This repository is a Skill-first computational math reproduction and tuning skill pack for coding agents. This file is a compatibility entrypoint for the shared Skill layer.
 
 ## Entry Point
 
@@ -31,7 +31,7 @@ This root `SKILL.md` is not the workflow driver. It is a compatibility entrypoin
 | Gemini CLI | `GEMINI.md` |
 | Agent contract | `AGENTS.md` |
 
-All adapters point back to the same `skills/` layer. Do not fork workflow behavior into platform-specific files.
+All adapters point back to the shared Skill layer under `skills/`. Do not fork workflow behavior into platform-specific files.
 
 ## Operating Boundary
 

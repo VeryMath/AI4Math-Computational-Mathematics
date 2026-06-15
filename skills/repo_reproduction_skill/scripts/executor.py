@@ -2,12 +2,20 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
+import sys
 import time
 from pathlib import Path
 
 from skills.failure_diagnosis_skill.scripts.failure_classifier import write_repair_plan
 from skills.human_review_skill.scripts.approval_gate import check_approval_gate
+
+
+def _resolve_command(command: list[str]) -> list[str]:
+    if command and command[0] == "python" and shutil.which("python") is None:
+        return [sys.executable, *command[1:]]
+    return command
 
 
 def execute_plans(
@@ -26,7 +34,7 @@ def execute_plans(
     with log_path.open("a") as log_file, jsonl_path.open("a") as jsonl:
         for index, plan in enumerate(plans, start=1):
             started = time.perf_counter()
-            command = plan["command"]
+            command = _resolve_command(plan["command"])
             gate = None
             if require_approval:
                 gate = check_approval_gate(

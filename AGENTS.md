@@ -4,7 +4,7 @@ This repository develops a Skill-driven Computational Math Reproduction, Deploym
 
 A coding agent is the operator. Codex is the primary reference operator and implementation profile for this repository, but the workflow artifacts are intended to be usable by other coding agents. Skills are the workflow control layer. Scripts are optional tools that an agent can call during the conversation. The human is the decision maker at checkpoints.
 
-The whole repository is Skill-first and Codex-native. Prefer the active coding agent's native abilities to read files, search, reason, edit, inspect outputs, and explain evidence in conversation. Use scripts only as optional tools when they make a local action safer, more reproducible, or easier to log. Do not use or present a CLI pipeline as the workflow driver.
+The whole repository is Skill-first and agent-native. Prefer the active coding agent's native abilities to read files, search, reason, edit, inspect outputs, and explain evidence in conversation. Use scripts only as optional tools when they make a local action safer, more reproducible, or easier to log. Do not use or present a CLI pipeline as the workflow driver.
 
 For open-source end-to-end use, start with `skills/computational_math_reproduction_workflow_skill/SKILL.md`. It is the default entrypoint for computational math research-code reproduction workflows.
 
@@ -14,7 +14,7 @@ What you **ship to users** is the **Skill layer** under `skills/` (plus this con
 
 ## Design Boundary
 
-This repository is Skill-first and Codex-native.
+This repository is Skill-first and agent-native.
 
 It is not:
 
@@ -29,7 +29,9 @@ This repository does not provide a user-facing CLI pipeline.
 
 ## Runtime Environment
 
-Use the shared Conda environment `ai4math`, matching `/Users/conanxu/paper-to-skill`.
+Use a project-local or user-provided Python environment for tests and helper
+scripts. If a shared Conda environment named `ai4math` exists, it is a
+convenient default, but it is not part of the public contract.
 
 Preferred command form:
 
@@ -71,7 +73,7 @@ Do not present this system as a fully automatic harness. The normal interface is
 
 ## Review Artifacts
 
-The default Codex-native workflow keeps review artifacts compact:
+The default agent-native workflow keeps review artifacts compact:
 
 - `plan.md`: task interpretation, candidate command, risk, timeout, and expected evidence before execution.
 - `repair_plan.md`: only when source edits, dependency changes, adapters, or other repairs are needed.

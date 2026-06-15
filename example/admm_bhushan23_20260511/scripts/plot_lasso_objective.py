@@ -9,7 +9,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-RUN_DIR = Path("/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511")
+RUN_DIR = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:

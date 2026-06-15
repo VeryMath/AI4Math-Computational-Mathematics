@@ -1,5 +1,5 @@
 Boyd ADMM Lasso rho/alpha tuning
-Run directory: /Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/boyd_admm_lasso_20260513
+Run directory: example/boyd_admm_lasso_20260513
 MATLAB version: 25.1.0.2943329 (R2025a)
 Timestamp: 2026-05-13 12:49:49
 Baseline objective: 17.2693553575

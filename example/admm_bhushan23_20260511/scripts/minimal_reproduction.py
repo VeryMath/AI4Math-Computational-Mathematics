@@ -7,7 +7,7 @@ import sys
 import numpy as np
 
 
-RUN_DIR = Path("/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511")
+RUN_DIR = Path(__file__).resolve().parents[1]
 SOURCE_DIR = RUN_DIR / "source" / "ADMM"
 sys.path.insert(0, str(SOURCE_DIR))
 

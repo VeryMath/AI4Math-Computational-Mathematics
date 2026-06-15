@@ -1,5 +1,5 @@
 Boyd ADMM Lasso reproduction run
-Run directory: /Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/boyd_admm_lasso_20260513
+Run directory: example/boyd_admm_lasso_20260513
 MATLAB version: 25.1.0.2943329 (R2025a)
 Timestamp: 2026-05-13 12:37:01
 Source files: lasso.m, lasso_example.m

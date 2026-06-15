@@ -7,8 +7,8 @@ Reproduce a minimal ADMM experiment from `bhushan23/ADMM`, focused on the reposi
 Selected source:
 
 - Repository: https://github.com/bhushan23/ADMM
-- Local source: `/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511/source/ADMM`
-- Run directory: `/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511`
+- Local source: `example/admm_bhushan23_20260511/source/ADMM`
+- Run directory: `example/admm_bhushan23_20260511`
 
 ## Source Inspection Evidence
 
@@ -49,7 +49,7 @@ for _ in range(num_iterations):
     admm.step()
     objectives.append(float(admm.LassoObjective()))
 
-out = Path("/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511/results/lasso_objective.csv")
+out = Path("../..") / "results" / "lasso_objective.csv"
 out.parent.mkdir(parents=True, exist_ok=True)
 with out.open("w", newline="") as f:
     writer = csv.writer(f)
@@ -67,13 +67,13 @@ PY
 Working directory:
 
 ```text
-/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511/source/ADMM
+example/admm_bhushan23_20260511/source/ADMM
 ```
 
 Execution wrapper will enforce a 120 second timeout and save stdout/stderr to:
 
 ```text
-/Users/conanxu/Scientific Computing Reproduction & Auto-Tuning /outputs/admm_bhushan23_20260511/logs/run.log
+example/admm_bhushan23_20260511/logs/run.log
 ```
 
 ## Why This Command
