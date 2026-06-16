@@ -7,10 +7,11 @@ computational math workflow package. It helps an agent reproduce computational
 math research code, plan safe execution, deploy runtimes, diagnose failures,
 tune parameters, create figures, and write evidence-backed summaries.
 
-The package is Skill-first, agent-native, and conversation-first. You do not drive it through a bundled CLI pipeline. You install or load the Skills into a coding agent, then interact with the agent in natural language while it reads the Skills, inspects the target repository, writes compact review artifacts, and waits for approval before consequential actions.
-
-It is not a CLI-first package and not a fully automatic pipeline; scripts are
-optional helpers behind the shared Skill layer.
+The package is Skill-first, agent-native, and conversation-first. It is not a CLI-first package and not a fully automatic pipeline: you install or load the Skills
+into a coding agent, then interact in natural language while the agent reads the
+Skills, inspects the target repository, writes compact review artifacts, and
+waits for approval before consequential actions. Scripts are optional helpers
+behind the shared Skill layer.
 
 ## What You Install
 
@@ -152,7 +153,7 @@ OpenCode can use the repository locally or through a plugin-style wrapper. See:
 .opencode/INSTALL.md
 ```
 
-## First Interaction
+## Quick Start
 
 After the coding agent can see the Skills, start with a prompt like this:
 
@@ -174,29 +175,6 @@ Output policy:
 ```
 
 For MATLAB access setup, ask the agent to use `matlab_environment_setup_skill` first. Use `matlab_runtime_skill` only after MATLAB, Octave, or MATLAB MCP capability is verified.
-
-## Quick Start
-
-```text
-Use this repository's computational math reproduction workflow.
-
-Read:
-- AGENTS.md
-- SKILL.md
-- skills/registry.yaml
-- skills/computational_math_reproduction_workflow_skill/SKILL.md
-
-Goal:
-<describe the reproduction, deployment, tuning, visualization, or reporting task>
-
-Target:
-<local path, repository URL, archive path, or paper-code pointer>
-
-Constraints:
-- inspect first;
-- write or summarize a plan before execution;
-- ask before source edits, dependency changes, long runs, tuning, or final claims.
-```
 
 ## How To Interact
 
