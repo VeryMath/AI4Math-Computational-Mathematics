@@ -1,0 +1,5 @@
+interface:
+  display_name: "Invariant Computation"
+  short_description: "Route and verify invariant computations"
+  default_prompt: "Use $invariant-computation-skill to classify the mathematical object, choose a safe invariant-computation route, build a checkpoint, and run only after approval."
+
