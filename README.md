@@ -1,6 +1,6 @@
 # AI4Math Computational Math Skills
 
-[中文 README](README.zh-CN.md)
+Chinese guide: [README.zh-CN.md](README.zh-CN.md)
 
 AI4Math Computational Math Skills is a **Skill layer for coding agents** and a
 computational math workflow package. It helps an agent reproduce computational
