@@ -1,7 +1,6 @@
 ---
 name: matlab-environment-setup-skill
 description: Use when MATLAB, Octave, MATLAB MCP, toolboxes, licenses, or coding-agent configuration must be checked or configured before MATLAB code can run.
-version: 0.1.0
 ---
 
 # MATLAB Environment Setup Skill

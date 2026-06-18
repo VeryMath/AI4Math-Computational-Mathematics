@@ -1,7 +1,6 @@
 ---
 name: environment-deployment-skill
 description: This skill should be used when the user asks to set up an environment, check dependencies, prepare deployment, or analyze how to run code in a specific computational environment.
-version: 0.1.0
 ---
 
 # Environment Deployment Skill

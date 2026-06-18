@@ -1,7 +1,6 @@
 ---
 name: computational-math-reproduction-workflow-skill
 description: Use when a user starts an end-to-end computational math research-code reproduction, deployment, tuning, visualization, or reporting workflow with a coding agent.
-version: 0.1.0
 ---
 
 # Computational Math Reproduction Workflow Skill
@@ -110,6 +109,10 @@ Pause for human confirmation before you:
 - start tuning
 - expand tuning budget
 - accept a final conclusion
+
+Logs, metrics, figures, tuning summaries, and best programs are evidence, not
+proof. If a reproduction or tuning result creates a theorem claim or proof
+obligation, route it to `agentic-rethlas-proving` or `AI4Math-Lean-Agents`.
 
 ## Specialist Routing
 

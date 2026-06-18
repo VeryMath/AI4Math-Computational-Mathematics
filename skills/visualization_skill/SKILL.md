@@ -1,7 +1,6 @@
 ---
 name: visualization-skill
 description: This skill should be used when the user asks to plot results, visualize convergence, generate charts, or create figures for optimization algorithms and tuning experiments.
-version: 0.1.0
 ---
 
 # Visualization Skill

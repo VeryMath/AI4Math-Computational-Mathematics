@@ -1,7 +1,6 @@
 ---
 name: auto-tuning-skill
 description: This skill should be used when the user asks to tune parameters, run hyperparameter search, optimize algorithm settings, or find the best configuration for a computational math method.
-version: 0.1.0
 ---
 
 # Auto Tuning Skill

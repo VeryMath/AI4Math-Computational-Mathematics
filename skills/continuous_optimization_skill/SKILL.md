@@ -1,7 +1,6 @@
 ---
 name: continuous-optimization-skill
 description: This skill should be used when the user asks to detect what algorithm family a piece of code uses, identify optimization methods, or classify computational math approaches such as ADMM, PPA, proximal gradient, or primal-dual methods.
-version: 0.1.0
 ---
 
 # Continuous Optimization Skill

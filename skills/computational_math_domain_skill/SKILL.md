@@ -1,7 +1,6 @@
 ---
 name: computational-math-domain-skill
 description: Use when classifying a computational math repository or task into a broad domain before choosing specialist Skills, references, runtimes, and validation evidence.
-version: 0.1.0
 ---
 
 # Computational Math Domain Skill
@@ -55,4 +54,3 @@ In conversation or in `plan.md`, summarize:
 - whether a mature specialist Skill exists.
 
 If evidence is ambiguous, ask for human review before treating the classification as settled.
-

@@ -1,7 +1,6 @@
 ---
 name: matlab-runtime-skill
 description: Use when a computational math repository or task uses MATLAB files, MATLAB README commands, MATLAB toolboxes, or MATLAB MCP execution tools.
-version: 0.1.0
 ---
 
 # MATLAB Runtime Skill

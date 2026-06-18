@@ -1,7 +1,6 @@
 ---
 name: failure-diagnosis-skill
 description: This skill should be used when an execution fails, an error occurs, a command times out, or the user asks to diagnose what went wrong with a computational math experiment.
-version: 0.1.0
 ---
 
 # Failure Diagnosis Skill

@@ -1,7 +1,6 @@
 ---
 name: report-generation-skill
 description: This skill should be used when the user asks to generate a report, summarize results, write up findings, or create documentation for a computational math reproduction or tuning experiment.
-version: 0.1.0
 ---
 
 # Report Generation Skill

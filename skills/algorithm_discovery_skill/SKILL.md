@@ -1,7 +1,6 @@
 ---
 name: algorithm-discovery-skill
 description: This skill should be used when the user asks to search for external algorithms, find related implementations, discover alternative approaches, or look up papers and code for computational math optimization methods.
-version: 0.1.0
 ---
 
 # Algorithm Discovery Skill

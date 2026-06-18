@@ -1,7 +1,6 @@
 ---
 name: repo-reproduction-skill
 description: This skill should be used when the user asks to analyze, reproduce, or run a computational math repository. Use when inspecting source code, detecting algorithms, planning runs, executing experiments, or collecting results from optimization code.
-version: 0.1.0
 ---
 
 # Repo Reproduction Skill

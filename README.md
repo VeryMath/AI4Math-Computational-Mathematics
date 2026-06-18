@@ -13,6 +13,25 @@ Skills, inspects the target repository, writes compact review artifacts, and
 waits for approval before consequential actions. Scripts are optional helpers
 behind the shared Skill layer.
 
+## AI4Math Role
+
+This skill is the computational experiment and reproduction layer in the
+AI4Math stack. Use it when a mathematical idea, paper, algorithm, or solver
+claim needs to be checked through source inspection, controlled execution,
+failure diagnosis, tuning, visualization, and evidence-backed reporting.
+
+## Handoff
+
+Upstream inputs may come from `paper-to-skill`, optimization Skills,
+`discover-math-problems`, or a user-provided repository. Downstream handoff goes
+to `AI4Math-Optimization` or `AI4Math-Optimization-cdopt-skill` when the core
+artifact is an optimization model, to `AI4Math-Evolving-Skill` when a runnable
+evaluator should be improved by search, or back to paper/discovery workflows
+when reproduction evidence changes the research direction.
+Logs, metrics, figures, and best programs are evidence, not proof. Route theorem
+claims or proof obligations to `agentic-rethlas-proving` or
+`AI4Math-Lean-Agents`.
+
 ## What You Install
 
 The product of this repository is the shared Skill layer under `skills/`.

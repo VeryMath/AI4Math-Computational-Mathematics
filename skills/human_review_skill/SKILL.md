@@ -1,7 +1,6 @@
 ---
 name: human-review-skill
 description: This skill should be used when the user wants to set up checkpoints, record approval decisions, gate execution pending human confirmation, or manage human-in-the-loop review points in a computational math workflow.
-version: 0.1.0
 ---
 
 # Human Review Skill
