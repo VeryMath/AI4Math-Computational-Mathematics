@@ -13,24 +13,16 @@ Skills, inspects the target repository, writes compact review artifacts, and
 waits for approval before consequential actions. Scripts are optional helpers
 behind the shared Skill layer.
 
-## AI4Math Role
+## What This Skill Does
 
-This skill is the computational experiment and reproduction layer in the
-AI4Math stack. Use it when a mathematical idea, paper, algorithm, or solver
-claim needs to be checked through source inspection, controlled execution,
-failure diagnosis, tuning, visualization, and evidence-backed reporting.
+This standalone skill helps a coding agent reproduce and inspect computational
+mathematics research code. Use it when you have a repository, archive, paper-code
+pointer, or algorithm implementation and want the agent to inspect the source,
+plan a bounded run, deploy or diagnose the environment, execute only approved
+steps, tune parameters when justified, create figures, and write an evidence-backed summary.
 
-## Handoff
-
-Upstream inputs may come from `paper-to-skill`, optimization Skills,
-`discover-math-problems`, or a user-provided repository. Downstream handoff goes
-to `optimization-modeling` or `cdopt-optimization` when the core
-artifact is an optimization model, to `openevolve-experiment-workflow` when a runnable
-evaluator should be improved by search, or back to paper/discovery workflows
-when reproduction evidence changes the research direction.
-Logs, metrics, figures, and best programs are evidence, not proof. Route theorem
-claims or proof obligations to `rethlas-proving` or
-`lean-formalization`.
+Logs, metrics, figures, and best programs are treated as computational evidence;
+the README is for installing and using this skill by itself.
 
 ## What You Install
 
@@ -67,7 +59,8 @@ What the agent produces when useful:
 
 ## Installation / Loading
 
-Use the repository checkout first. Ask your coding agent to read:
+Clone or open this skill repository in your coding-agent environment. Then ask
+your coding agent to read:
 
 ```text
 AGENTS.md
