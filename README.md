@@ -42,35 +42,17 @@ The product is the shared Skill layer, not a CLI-first package.
 
 ## Installation / Loading
 
-### Open Or Clone This Skill Repository
+### One-line Agent Install
 
-Clone or open this skill repository in your coding-agent environment. Then ask
-the coding agent to read:
+Copy this to your coding agent:
 
 ```text
-AGENTS.md
-SKILL.md
-skills/invariant-computation/SKILL.md
+Please install the `invariant-computation` skill from https://github.com/VeryMath/AI4Math-Computational-Mathematics.git (branch: codex/ai4math-invariant-computing-skill). Read `.agent.md`, install the declared Skill entrypoint, verify that `$invariant-computation` is discoverable, and tell me whether I need to restart the agent.
 ```
 
-### Install As A Local Skill
-
-Link the concrete Skill directory into the local Skill path used by your agent:
-
-```bash
-ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
-```
-
-Restart or reload the coding agent if local Skill discovery requires it.
-
-### Platform Notes
-
-| Agent | How to load |
-| --- | --- |
-| Codex | read `.codex/INSTALL.md` |
-| Claude Code | read `CLAUDE.md` |
-| Gemini | read `GEMINI.md` |
-| OpenCode | read `.opencode/INSTALL.md` |
+If you already have this skill repository locally, replace the repository URL
+with the local folder path. The coding agent should handle cloning, linking,
+configuration, reload/restart checks, and verification.
 
 ## Quick Start
 

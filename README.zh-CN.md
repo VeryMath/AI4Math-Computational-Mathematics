@@ -24,30 +24,15 @@ English guide: [README.md](README.md)
 
 ## 安装 / 加载
 
-在你的 coding-agent 环境里 clone 或打开这个 skill 仓库，然后让 coding agent 读取：
+### 一句话安装
+
+把下面这句话发给你的 coding agent：
 
 ```text
-AGENTS.md
-SKILL.md
-skills/invariant-computation/SKILL.md
+请帮我安装 `invariant-computation` skill，链接是：https://github.com/VeryMath/AI4Math-Computational-Mathematics.git，分支：codex/ai4math-invariant-computing-skill。请读取 `.agent.md`，安装其中声明的 Skill entrypoint，验证 `$invariant-computation` 可用，并告诉我是否需要重启 agent。
 ```
 
-如果 agent 支持本地 Skill discovery，可以链接 concrete Skill 目录：
-
-```bash
-ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
-```
-
-如果目标 agent 需要重启或 reload，链接后再执行对应操作。
-
-平台说明：
-
-| Agent | 加载方式 |
-| --- | --- |
-| Codex | 读取 `.codex/INSTALL.md` |
-| Claude Code | 读取 `CLAUDE.md` |
-| Gemini | 读取 `GEMINI.md` |
-| OpenCode | 读取 `.opencode/INSTALL.md` |
+如果你已经有这个 skill 仓库的本地文件夹，把链接换成本地路径即可。clone、link、配置、reload/restart 检查和验证都交给 coding agent 处理。
 
 ## 快速开始
 
