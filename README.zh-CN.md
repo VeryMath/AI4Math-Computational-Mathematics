@@ -2,29 +2,22 @@
 
 English guide: [README.md](README.md)
 
-`invariant-computation` 是面向 coding agent 的 AI4Math Skill，用来计算、路由和验证拓扑、几何、代数不变量。
+`invariant-computation` 帮助 coding agent 计算、路由和验证代数、拓扑、几何、TDA 以及可认证数值不变量。
 
-## 这个 Skill 做什么
+## 适合什么任务
 
-这个独立 Skill 帮助 coding agent 计算、路由和验证代数、拓扑、几何、TDA 以及可认证数值问题中的不变量。
-它的重点是把用户给出的数学对象整理成可审查的计算表示，选择合适的方法和后端，记录约定，
-并在声称结果前完成验证。
+当任务涉及这些对象或目标时使用：
 
-当任务包含“数学对象 + 目标不变量”，或需要 agent 先判断应该计算哪类不变量时，可以直接使用它。
+- homology、cohomology、Betti numbers、torsion、Euler characteristic 或 persistent homology；
+- Alexander、Jones、HOMFLY-PT、signature、determinant、linking number 等 knot 或 manifold invariants；
+- group homology、Hilbert series、Betti table、primary decomposition、dimension 或 degree；
+- 把自然语言、LaTeX、代码、三角剖分、复形、filtration、群表示、理想、结图或数据整理成可审查的计算表示。
 
-## 这是什么
+## 会产出什么
 
-当任务涉及下列目标时使用这个 Skill：
+Agent 应产出 representation checkpoints、method/backend routes、command drafts、logs、invariant summaries、validation reports，以及关于“该计算不能证明什么”的明确 caveats。
 
-- 计算同调、上同调、Betti 数、torsion、Euler characteristic、持久同调、结或流形不变量、Alexander polynomial、Jones polynomial、HOMFLY-PT polynomial、signature、determinant、linking number、群同调、Hilbert series、Betti table、primary decomposition、dimension、degree 等不变量；
-- 把自然语言、LaTeX、代码、三角剖分、复形、filtration、群表示、理想、结图或数据整理成可审查的计算表示；
-- 在精确组合方法、符号代数方法、TDA、低维拓扑工具和可认证数值方法之间选择路线。
-
-如果任务只是普通优化、论文筛选，或者没有不变量计算目标的形式化证明，不要使用这个 Skill。
-
-## 安装 / 加载
-
-### 一句话安装
+## 安装
 
 把下面这句话发给你的 coding agent：
 

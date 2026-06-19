@@ -2,30 +2,22 @@
 
 Chinese guide: [README.zh-CN.md](README.zh-CN.md)
 
-`invariant-computation` is an AI4Math Skill adapter for computing and validating topological, geometric, and algebraic invariant computations with coding agents.
+`invariant-computation` helps a coding agent compute, route, and validate algebraic, topological, geometric, TDA, and certified numerical invariants.
 
-## What This Skill Does
+## When To Use It
 
-This standalone skill helps a coding agent compute, route, and validate
-invariants for algebraic, topological, geometric, TDA, and certified numerical
-questions. It focuses on turning the user's mathematical object into a reviewed
-computational representation, choosing an appropriate method/backend, recording
-conventions, and validating the result before making claims.
+Use this skill when the task involves:
 
-Use it directly when the task names an object plus an invariant, or when the
-agent must first determine which invariant computation is appropriate.
+- homology, cohomology, Betti numbers, torsion, Euler characteristic, or persistent homology;
+- knot or manifold invariants such as Alexander, Jones, HOMFLY-PT, signatures, determinants, or linking numbers;
+- group homology, Hilbert series, Betti tables, primary decomposition, dimension, or degree;
+- turning prose, LaTeX, code, triangulations, complexes, filtrations, group presentations, ideals, knot diagrams, or data into a reviewed computational representation.
 
-## What This Is
+## What It Produces
 
-Use this Skill when a mathematical task asks an agent to:
+The agent should produce representation checkpoints, method/backend routes, command drafts, logs, invariant summaries, validation reports, and explicit caveats about what the computation does not prove.
 
-- compute or route computations for homology, cohomology, Betti numbers, torsion, Euler characteristic, persistent homology, knot or manifold invariants, Alexander polynomials, Jones polynomials, HOMFLY-PT polynomials, signatures, determinants, linking numbers, group homology, Hilbert series, Betti tables, primary decomposition, dimension, degree, or related invariants;
-- turn a prose, LaTeX, code, triangulation, complex, filtration, group presentation, or ideal into a reviewed computational representation;
-- choose among exact combinatorial, symbolic algebraic, TDA, low-dimensional topology, or certified numerical methods.
-
-Do not use this Skill when the task is only ordinary numerical optimization, paper triage, or proof formalization without an invariant-computation target.
-
-## What You Install Or Load
+## Skill Entry Points
 
 The product is the shared Skill layer, not a CLI-first package.
 
@@ -40,9 +32,7 @@ The product is the shared Skill layer, not a CLI-first package.
 | `.codex/INSTALL.md` | Codex loading notes |
 | `.opencode/INSTALL.md` | OpenCode loading notes |
 
-## Installation / Loading
-
-### One-line Agent Install
+## Installation
 
 Copy this to your coding agent:
 
