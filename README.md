@@ -59,111 +59,17 @@ What the agent produces when useful:
 
 ## Installation / Loading
 
-Clone or open this skill repository in your coding-agent environment. Then ask
-your coding agent to read:
+### One-line Agent Install
+
+Copy this to your coding agent:
 
 ```text
-AGENTS.md
-SKILL.md
-skills/registry.yaml
-skills/computational_math_reproduction_workflow_skill/SKILL.md
+Please install the `scientific-computing-reproduction` skill from https://github.com/VeryMath/AI4Math-Computational-Mathematics.git (branch: kn). Read `.agent.md`, install the declared Skill entrypoint, verify that `$scientific-computing-reproduction` is discoverable, and tell me whether I need to restart the agent.
 ```
 
-If your agent supports local Skill discovery, install or link the shared
-`skills/` directory or the concrete workflow Skill into that agent's Skill path
-and reload the agent if needed. Platform notes live in `CLAUDE.md`, `GEMINI.md`,
-`.codex/INSTALL.md`, and `.opencode/INSTALL.md`.
-
-## How It Works
-
-```mermaid
-flowchart LR
-    U["Human goal and target repo"] --> A["Coding agent"]
-    A --> R["skills/registry.yaml"]
-    R --> E["workflow entrypoint Skill"]
-    E --> S["specialist Skills"]
-    S --> T["target code and runtime"]
-    S --> O["outputs/{run_id}/"]
-    O --> U
-    A --> Q["approval checkpoint"]
-    Q --> U
-```
-
-The normal loop is:
-
-1. The human asks the coding agent to use the default workflow Skill.
-2. The agent reads the Skill and registry.
-3. The agent inspects the target code with its native file, search, reasoning, and editing tools.
-4. The agent writes `outputs/{run_id}/plan.md` before execution.
-5. The human replies `approve`, `revise`, `reject`, or `skip`.
-6. The agent executes only approved steps, with bounded commands and saved logs.
-7. The agent writes `RUN_SUMMARY.md`, and only proposes repair or tuning when evidence supports it.
-
-Scripts under `skills/*/scripts/` are optional tools. They can make logging, approval checks, plotting, or structured inspection easier, but they are not the user interface and they do not define the workflow.
-
-## Install Or Load In A Coding Agent
-
-Start by cloning or opening this repository in the coding-agent environment you want to use.
-
-### Codex
-
-Codex is the reference operator profile for this repository.
-
-For local Skill discovery, link the shared Skill directory into Codex's local Skill path:
-
-```bash
-mkdir -p ~/.agents/skills
-ln -s "$PWD/skills" ~/.agents/skills/ai4math
-```
-
-Restart Codex after creating or updating the link. If your Codex build discovers local Skills from `~/.codex/skills`, create the same link there and keep the directory name `ai4math`.
-
-The Codex plugin manifest is also available at:
-
-```text
-.codex-plugin/plugin.json
-```
-
-See `.codex/INSTALL.md` for Codex-specific notes.
-
-### Claude Code
-
-Claude Code can use the same Skill layer through the repository files and plugin manifest:
-
-```text
-.claude-plugin/plugin.json
-CLAUDE.md
-```
-
-Keep Claude-specific setup thin. The workflow remains the shared `skills/` layer.
-
-### Cursor
-
-Cursor plugin metadata is available at:
-
-```text
-.cursor-plugin/plugin.json
-```
-
-It points back to `skills/` and the same lightweight hooks.
-
-### Gemini
-
-Gemini loads the default entrypoint through:
-
-```text
-GEMINI.md
-```
-
-That file includes the workflow Skill and `skills/registry.yaml`.
-
-### OpenCode
-
-OpenCode can use the repository locally or through a plugin-style wrapper. See:
-
-```text
-.opencode/INSTALL.md
-```
+If you already have this skill repository locally, replace the repository URL
+with the local folder path. The coding agent should handle cloning, linking,
+configuration, reload/restart checks, and verification.
 
 ## Quick Start
 

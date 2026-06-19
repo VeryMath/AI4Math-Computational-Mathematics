@@ -51,110 +51,15 @@ Agent 在有价值时产出：
 
 ## 安装 / 加载
 
-在你的 coding-agent 环境里 clone 或打开这个 skill 仓库，然后让 coding agent 读取：
+### 一句话安装
+
+把下面这句话发给你的 coding agent：
 
 ```text
-AGENTS.md
-SKILL.md
-skills/registry.yaml
-skills/computational_math_reproduction_workflow_skill/SKILL.md
+请帮我安装 `scientific-computing-reproduction` skill，链接是：https://github.com/VeryMath/AI4Math-Computational-Mathematics.git，分支：kn。请读取 `.agent.md`，安装其中声明的 Skill entrypoint，验证 `$scientific-computing-reproduction` 可用，并告诉我是否需要重启 agent。
 ```
 
-如果目标 agent 支持本地 Skill discovery，可以把共享 `skills/` 目录或具体 workflow
-Skill 安装或软链接到它的 Skill 路径，然后按需 reload 或 restart。Codex、Claude、
-Gemini 和 OpenCode 的薄 adapter 分别见 `.codex/INSTALL.md`、`CLAUDE.md`、
-`GEMINI.md` 和 `.opencode/INSTALL.md`。
-
-## 它如何和 coding agent 配合
-
-```mermaid
-flowchart LR
-    U["人类目标和目标仓库"] --> A["Coding agent"]
-    A --> R["skills/registry.yaml"]
-    R --> E["默认 workflow Skill"]
-    E --> S["specialist Skills"]
-    S --> T["目标代码和运行时"]
-    S --> O["outputs/{run_id}/"]
-    O --> U
-    A --> Q["审批 checkpoint"]
-    Q --> U
-```
-
-正常循环是：
-
-1. 人类要求 coding agent 使用默认 workflow Skill。
-2. Agent 读取 Skill 和 registry。
-3. Agent 用自身的文件、搜索、推理和编辑能力检查目标代码。
-4. Agent 在执行前写 `outputs/{run_id}/plan.md`。
-5. 人类回复 `approve`、`revise`、`reject` 或 `skip`。
-6. Agent 只执行获批步骤，并使用有边界的命令和保存的日志。
-7. Agent 写 `RUN_SUMMARY.md`，只有证据支持时才提出 repair 或 tuning。
-
-`skills/*/scripts/` 下的脚本只是可选工具。它们可以让日志、审批检查、画图或结构化检查更容易验证，但它们不是用户界面，也不定义工作流。
-
-## 在 coding agent 里安装或加载
-
-先把这个仓库 clone 或打开到你要使用的 coding-agent 环境里。
-
-### Codex
-
-Codex 是本仓库的参考 operator profile。
-
-本地 Skill 发现可以把共享 Skill 目录链接到 Codex 的本地 Skill 路径：
-
-```bash
-mkdir -p ~/.agents/skills
-ln -s "$PWD/skills" ~/.agents/skills/ai4math
-```
-
-创建或更新链接后重启 Codex。如果你的 Codex build 从 `~/.codex/skills` 发现本地 Skills，也在那个目录下创建同样的链接，并保持目录名为 `ai4math`。
-
-Codex plugin manifest 位于：
-
-```text
-.codex-plugin/plugin.json
-```
-
-Codex 细节见 `.codex/INSTALL.md`。
-
-### Claude Code
-
-Claude Code 可以通过仓库文件和 plugin manifest 使用同一套 Skill 层：
-
-```text
-.claude-plugin/plugin.json
-CLAUDE.md
-```
-
-Claude 专属配置应保持薄壳；工作流仍然以共享的 `skills/` 层为准。
-
-### Cursor
-
-Cursor plugin 元数据位于：
-
-```text
-.cursor-plugin/plugin.json
-```
-
-它指回 `skills/` 和同一套轻量 hooks。
-
-### Gemini
-
-Gemini 通过这个入口加载默认 workflow：
-
-```text
-GEMINI.md
-```
-
-该文件包含 workflow Skill 和 `skills/registry.yaml`。
-
-### OpenCode
-
-OpenCode 可以本地使用本仓库，也可以通过 plugin-style wrapper 加载。见：
-
-```text
-.opencode/INSTALL.md
-```
+如果你已经有这个 skill 仓库的本地文件夹，把链接换成本地路径即可。clone、link、配置、reload/restart 检查和验证都交给 coding agent 处理。
 
 ## 快速开始
 
