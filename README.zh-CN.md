@@ -1,8 +1,8 @@
-# AI4Math 不变量计算 Skill
+# 不变量计算 Skill
 
 English guide: [README.md](README.md)
 
-`invariant-computation-skill` 是面向 coding agent 的 AI4Math Skill，用来计算、路由和验证拓扑、几何、代数不变量。
+`invariant-computation` 是面向 coding agent 的 AI4Math Skill，用来计算、路由和验证拓扑、几何、代数不变量。
 
 ## AI4Math 角色
 
@@ -32,13 +32,13 @@ validated summaries 作为证据交回猜想生成、定理证明或形式化 wo
 ```text
 AGENTS.md
 SKILL.md
-skills/invariant-computation-skill/SKILL.md
+skills/invariant-computation/SKILL.md
 ```
 
 如果 agent 支持本地 Skill discovery，可以链接 concrete Skill 目录：
 
 ```bash
-ln -s "$PWD/skills/invariant-computation-skill" ~/.codex/skills/invariant-computation-skill
+ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
 ```
 
 如果目标 agent 需要重启或 reload，链接后再执行对应操作。
@@ -60,7 +60,7 @@ Use this repository's invariant-computation workflow.
 Read:
 - AGENTS.md
 - SKILL.md
-- skills/invariant-computation-skill/SKILL.md
+- skills/invariant-computation/SKILL.md
 
 Goal:
 <你要计算的数学对象和不变量>
@@ -140,7 +140,7 @@ outputs/<run_id>/
 AGENTS.md
 SKILL.md
 skills/
-  invariant-computation-skill/
+  invariant-computation/
     SKILL.md
     agents/openai.yaml
     manifest.yaml
@@ -153,7 +153,7 @@ tests/
 运行：
 
 ```bash
-python <path-to-skill-creator>/scripts/quick_validate.py skills/invariant-computation-skill
+python <path-to-skill-creator>/scripts/quick_validate.py skills/invariant-computation
 python3 -m unittest discover -s tests -v
 ```
 

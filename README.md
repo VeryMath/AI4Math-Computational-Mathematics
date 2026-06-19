@@ -1,8 +1,8 @@
-# AI4Math Invariant Computing Skill
+# Invariant Computation
 
 Chinese guide: [README.zh-CN.md](README.zh-CN.md)
 
-`invariant-computation-skill` is an AI4Math Skill adapter for computing and validating topological, geometric, and algebraic invariant computations with coding agents.
+`invariant-computation` is an AI4Math Skill adapter for computing and validating topological, geometric, and algebraic invariant computations with coding agents.
 
 ## AI4Math Role
 
@@ -38,8 +38,8 @@ The product is the shared Skill layer, not a CLI-first package.
 | --- | --- |
 | `AGENTS.md` | universal coding-agent contract |
 | `SKILL.md` | top-level compatibility entrypoint |
-| `skills/invariant-computation-skill/SKILL.md` | concrete workflow Skill |
-| `skills/invariant-computation-skill/references/` | method routes, tool catalog, checks, sources |
+| `skills/invariant-computation/SKILL.md` | concrete workflow Skill |
+| `skills/invariant-computation/references/` | method routes, tool catalog, checks, sources |
 | `CLAUDE.md` | Claude Code adapter |
 | `GEMINI.md` | Gemini adapter |
 | `.codex/INSTALL.md` | Codex loading notes |
@@ -54,7 +54,7 @@ Open this repository in your coding agent and ask it to read:
 ```text
 AGENTS.md
 SKILL.md
-skills/invariant-computation-skill/SKILL.md
+skills/invariant-computation/SKILL.md
 ```
 
 ### Install As A Local Skill
@@ -62,7 +62,7 @@ skills/invariant-computation-skill/SKILL.md
 Link the concrete Skill directory into the local Skill path used by your agent:
 
 ```bash
-ln -s "$PWD/skills/invariant-computation-skill" ~/.codex/skills/invariant-computation-skill
+ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
 ```
 
 Restart or reload the coding agent if local Skill discovery requires it.
@@ -84,7 +84,7 @@ Use this repository's invariant-computation workflow.
 Read:
 - AGENTS.md
 - SKILL.md
-- skills/invariant-computation-skill/SKILL.md
+- skills/invariant-computation/SKILL.md
 
 Goal:
 <describe the mathematical object and invariant you want>
@@ -164,7 +164,7 @@ Only create the files that the task needs.
 AGENTS.md
 SKILL.md
 skills/
-  invariant-computation-skill/
+  invariant-computation/
     SKILL.md
     agents/openai.yaml
     manifest.yaml
@@ -177,7 +177,7 @@ tests/
 Run:
 
 ```bash
-python <path-to-skill-creator>/scripts/quick_validate.py skills/invariant-computation-skill
+python <path-to-skill-creator>/scripts/quick_validate.py skills/invariant-computation
 python3 -m unittest discover -s tests -v
 ```
 

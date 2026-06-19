@@ -1,5 +1,5 @@
 ---
-name: invariant-computation-skill
+name: invariant-computation
 description: Use when a coding agent must compute, route, validate, or explain topological, geometric, or algebraic invariants such as homology, cohomology, Betti numbers, torsion, Euler characteristic, persistent homology, knot or manifold invariants, group homology, Hilbert series, Hilbert polynomials, Betti tables, dimensions, degrees, primary decompositions, or related invariants from mathematical objects, code, data, or papers.
 ---
 

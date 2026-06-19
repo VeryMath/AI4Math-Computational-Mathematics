@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = ROOT / "skills" / "invariant-computation-skill"
+SKILL_ROOT = ROOT / "skills" / "invariant-computation"
 
 
 class InvariantComputationSkillShapeTests(unittest.TestCase):
@@ -18,14 +18,14 @@ class InvariantComputationSkillShapeTests(unittest.TestCase):
     def test_root_entrypoint_points_to_shared_skill_layer(self) -> None:
         text = self.read("SKILL.md")
 
-        self.assertIn("name: ai4math-invariant-computing", text)
+        self.assertIn("name: invariant-computation", text)
         self.assertIn("shared Skill layer", text)
-        self.assertIn("skills/invariant-computation-skill/SKILL.md", text)
+        self.assertIn("skills/invariant-computation/SKILL.md", text)
 
     def test_concrete_skill_frontmatter_and_core_workflow(self) -> None:
-        text = self.read("skills/invariant-computation-skill/SKILL.md")
+        text = self.read("skills/invariant-computation/SKILL.md")
 
-        self.assertIn("name: invariant-computation-skill", text)
+        self.assertIn("name: invariant-computation", text)
         self.assertIn("description: Use when a coding agent must compute", text)
         for required in (
             "homology",
@@ -56,7 +56,7 @@ class InvariantComputationSkillShapeTests(unittest.TestCase):
             with self.subTest(path=relative_path):
                 text = self.read(relative_path)
                 self.assertIn("Skill layer", text)
-                self.assertIn("skills/invariant-computation-skill/SKILL.md", text)
+                self.assertIn("skills/invariant-computation/SKILL.md", text)
 
     def test_readmes_explain_loading_and_interaction(self) -> None:
         english = self.read("README.md")
@@ -84,12 +84,12 @@ class InvariantComputationSkillShapeTests(unittest.TestCase):
             self.assertIn(required, chinese)
 
     def test_reference_files_cover_route_families_and_tools(self) -> None:
-        index = self.read("skills/invariant-computation-skill/references/INDEX.md")
-        route_map = self.read("skills/invariant-computation-skill/references/method_route_map.md")
-        catalog = self.read("skills/invariant-computation-skill/references/tool_catalog.md")
-        checks = self.read("skills/invariant-computation-skill/references/validation_checks.md")
-        failures = self.read("skills/invariant-computation-skill/references/failure_modes.md")
-        sources = self.read("skills/invariant-computation-skill/references/source_notes.md")
+        index = self.read("skills/invariant-computation/references/INDEX.md")
+        route_map = self.read("skills/invariant-computation/references/method_route_map.md")
+        catalog = self.read("skills/invariant-computation/references/tool_catalog.md")
+        checks = self.read("skills/invariant-computation/references/validation_checks.md")
+        failures = self.read("skills/invariant-computation/references/failure_modes.md")
+        sources = self.read("skills/invariant-computation/references/source_notes.md")
 
         for filename in (
             "method_route_map.md",
@@ -133,13 +133,13 @@ class InvariantComputationSkillShapeTests(unittest.TestCase):
             self.assertIn(required, failures)
 
     def test_metadata_files_are_present_and_consistent(self) -> None:
-        openai_yaml = self.read("skills/invariant-computation-skill/agents/openai.yaml")
-        manifest = self.read("skills/invariant-computation-skill/manifest.yaml")
+        openai_yaml = self.read("skills/invariant-computation/agents/openai.yaml")
+        manifest = self.read("skills/invariant-computation/manifest.yaml")
 
         self.assertIn('display_name: "Invariant Computation"', openai_yaml)
-        self.assertIn("$invariant-computation-skill", openai_yaml)
+        self.assertIn("$invariant-computation", openai_yaml)
         self.assertIn("schema_version: 1", manifest)
-        self.assertIn("invariant-computation-skill", manifest)
+        self.assertIn("invariant-computation", manifest)
         self.assertIn("approval_policy", manifest)
 
     def test_no_template_placeholders_remain(self) -> None:

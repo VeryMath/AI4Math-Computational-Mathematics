@@ -1,14 +1,14 @@
 ---
-name: ai4math-invariant-computing
+name: invariant-computation
 description: Use when a coding agent needs to compute, route, verify, or report topological, geometric, or algebraic invariants from complexes, filtrations, manifolds, knots, groups, ideals, polynomial systems, or mathematical source artifacts.
 ---
 
-# AI4Math Invariant Computing
+# Invariant Computation
 
 This root `SKILL.md` is a compatibility entrypoint for platforms that expect one top-level Skill file. The shared Skill layer lives at:
 
 ```text
-skills/invariant-computation-skill/SKILL.md
+skills/invariant-computation/SKILL.md
 ```
 
 Read that concrete Skill before computing or routing invariant computations. Keep platform adapters thin and improve the shared Skill layer first.
@@ -19,4 +19,3 @@ Read that concrete Skill before computing or routing invariant computations. Kee
 - Build a representation checkpoint before executable commands.
 - Ask before installs, source edits, long computations, API calls, or final mathematical claims.
 - Report coefficient rings, conventions, backend versions, logs, validation checks, and limits.
-

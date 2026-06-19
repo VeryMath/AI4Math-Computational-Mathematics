@@ -5,7 +5,7 @@ This repository is an AI4Math Skill adapter package for invariant computation ac
 The shared Skill layer is:
 
 ```text
-skills/invariant-computation-skill/SKILL.md
+skills/invariant-computation/SKILL.md
 ```
 
 ## Contract
