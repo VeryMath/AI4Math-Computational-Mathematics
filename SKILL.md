@@ -1,9 +1,9 @@
 ---
-name: ai4math-computational-math-skills
+name: scientific-computing-reproduction
 description: Use when reproducing, deploying, diagnosing, tuning, visualizing, or reporting computational math research code with a coding agent
 ---
 
-# AI4Math Computational Math Skills
+# Scientific Computing Reproduction
 
 This repository is a Skill-first computational math reproduction and tuning skill pack for coding agents. This file is a compatibility entrypoint for the shared Skill layer.
 

@@ -112,7 +112,7 @@ Pause for human confirmation before you:
 
 Logs, metrics, figures, tuning summaries, and best programs are evidence, not
 proof. If a reproduction or tuning result creates a theorem claim or proof
-obligation, route it to `agentic-rethlas-proving` or `AI4Math-Lean-Agents`.
+obligation, route it to `rethlas-proving` or `lean-formalization`.
 
 ## Specialist Routing
 

@@ -1,8 +1,8 @@
-# AI4Math Computational Math Skills
+# Scientific Computing Reproduction
 
 Chinese guide: [README.zh-CN.md](README.zh-CN.md)
 
-AI4Math Computational Math Skills is a **Skill layer for coding agents** and a
+`scientific-computing-reproduction` is a **Skill layer for coding agents** and a
 computational math workflow package. It helps an agent reproduce computational
 math research code, plan safe execution, deploy runtimes, diagnose failures,
 tune parameters, create figures, and write evidence-backed summaries.
@@ -24,13 +24,13 @@ failure diagnosis, tuning, visualization, and evidence-backed reporting.
 
 Upstream inputs may come from `paper-to-skill`, optimization Skills,
 `discover-math-problems`, or a user-provided repository. Downstream handoff goes
-to `AI4Math-Optimization` or `AI4Math-Optimization-cdopt-skill` when the core
-artifact is an optimization model, to `AI4Math-Evolving-Skill` when a runnable
+to `optimization-modeling` or `cdopt-optimization` when the core
+artifact is an optimization model, to `openevolve-experiment-workflow` when a runnable
 evaluator should be improved by search, or back to paper/discovery workflows
 when reproduction evidence changes the research direction.
 Logs, metrics, figures, and best programs are evidence, not proof. Route theorem
-claims or proof obligations to `agentic-rethlas-proving` or
-`AI4Math-Lean-Agents`.
+claims or proof obligations to `rethlas-proving` or
+`lean-formalization`.
 
 ## What You Install
 

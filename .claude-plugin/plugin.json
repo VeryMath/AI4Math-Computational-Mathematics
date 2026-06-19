@@ -1,5 +1,5 @@
 {
-  "name": "ai4math-computational-math-skills",
+  "name": "scientific-computing-reproduction",
   "displayName": "AI4Math Computational Math Skills",
   "description": "Skill-first computational math reproduction skill pack; Claude plugin manifest only, not the workflow driver.",
   "version": "0.1.0",

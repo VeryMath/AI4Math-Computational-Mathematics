@@ -1,8 +1,8 @@
-# AI4Math 计算数学 Skills
+# 科学计算复现 Skill
 
 [English README](README.md)
 
-AI4Math 计算数学 Skills 是一套 **给 coding agent 使用的 Skill 层**，也是一个
+`scientific-computing-reproduction` 是一套 **给 coding agent 使用的 Skill 层**，也是一个
 computational math workflow package。它帮助 agent 做计算数学科研代码复现、运行环境部署、
 失败诊断、参数调优、可视化和证据化报告。
 
@@ -16,11 +16,11 @@ source inspection、受控执行、失败诊断、调参、可视化和证据化
 ## 交接
 
 上游可能来自 `paper-to-skill`、优化 Skills、`discover-math-problems`，或用户直接给出的代码仓库。
-当核心产物是优化模型时，下游交给 `AI4Math-Optimization` 或 `AI4Math-Optimization-cdopt-skill`；
-当已有 runnable evaluator 需要搜索改进时，交给 `AI4Math-Evolving-Skill`；当复现证据改变研究方向时，
+当核心产物是优化模型时，下游交给 `optimization-modeling` 或 `cdopt-optimization`；
+当已有 runnable evaluator 需要搜索改进时，交给 `openevolve-experiment-workflow`；当复现证据改变研究方向时，
 交回论文抽取或问题发现 workflow。
 logs、metrics、figures 和 best programs 都只是 evidence，不是 proof。theorem claims 或
-proof obligations 应交给 `agentic-rethlas-proving` 或 `AI4Math-Lean-Agents`。
+proof obligations 应交给 `rethlas-proving` 或 `lean-formalization`。
 
 ## 你安装的是什么
 
