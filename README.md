@@ -2,31 +2,24 @@
 
 Chinese guide: [README.zh-CN.md](README.zh-CN.md)
 
-`scientific-computing-reproduction` is a **Skill layer for coding agents** and a
-computational math workflow package. It helps an agent reproduce computational
-math research code, plan safe execution, deploy runtimes, diagnose failures,
-tune parameters, create figures, and write evidence-backed summaries.
+`scientific-computing-reproduction` helps a coding agent reproduce and inspect computational mathematics research code.
 
-The package is Skill-first, agent-native, and conversation-first. It is not a CLI-first package and not a fully automatic pipeline: you install or load the Skills
-into a coding agent, then interact in natural language while the agent reads the
-Skills, inspects the target repository, writes compact review artifacts, and
-waits for approval before consequential actions. Scripts are optional helpers
-behind the shared Skill layer.
+## When To Use It
 
-## What This Skill Does
+Use this skill when you have:
 
-This standalone skill helps a coding agent reproduce and inspect computational
-mathematics research code. Use it when you have a repository, archive, paper-code
-pointer, or algorithm implementation and want the agent to inspect the source,
-plan a bounded run, deploy or diagnose the environment, execute only approved
-steps, tune parameters when justified, create figures, and write an evidence-backed summary.
+- a local repository, remote repository, archive, paper-code pointer, or algorithm implementation;
+- a need for source inspection before any execution;
+- environment, dependency, runtime, failure, tuning, or visualization questions;
+- computational claims that should be reported from saved evidence rather than chat memory.
 
-Logs, metrics, figures, and best programs are treated as computational evidence;
-the README is for installing and using this skill by itself.
+## What It Produces
 
-## What You Install
+The agent should produce run plans, command logs, environment notes, metrics, figures, repair or tuning summaries, and `RUN_SUMMARY.md` artifacts under `outputs/{run_id}/`.
 
-The product of this repository is the shared Skill layer under `skills/`.
+## Skill Entry Points
+
+The main Skill entrypoints live under `skills/`.
 
 A Skill is a readable workflow instruction for a coding agent. Each `SKILL.md` tells the agent when to use that workflow, what evidence to inspect, which artifacts to write, what risks require approval, and which optional helper scripts may be called.
 
@@ -57,9 +50,7 @@ What the agent produces when useful:
 - figures and tuning summaries when evidence exists;
 - concise conversational explanations of what was found and what remains uncertain.
 
-## Installation / Loading
-
-### One-line Agent Install
+## Installation
 
 Copy this to your coding agent:
 

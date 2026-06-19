@@ -2,23 +2,24 @@
 
 [English README](README.md)
 
-`scientific-computing-reproduction` 是一套 **给 coding agent 使用的 Skill 层**，也是一个
-computational math workflow package。它帮助 agent 做计算数学科研代码复现、运行环境部署、
-失败诊断、参数调优、可视化和证据化报告。
+`scientific-computing-reproduction` 帮助 coding agent 复现和检查计算数学科研代码。
 
-这个仓库是 Skill-first、agent-native、conversation-first 的。它不是 CLI-first package，也不是全自动 pipeline：用户把 Skills 安装或加载到 coding agent 里，然后用自然语言交互；agent 读取 Skills、检查目标仓库、写紧凑 review 产物，并在关键操作前等待人工批准。脚本只是共享 Skill 层背后的可选辅助工具。
+## 适合什么任务
 
-## 这个 Skill 做什么
+当你有这些输入或需求时使用：
 
-这个独立 Skill 帮助 coding agent 复现和检查计算数学科研代码。当你有本地仓库、远程仓库、压缩包、
-论文代码指针或算法实现，希望 agent 先检查源码、制定有边界的运行计划、部署或诊断环境、只执行获批步骤、
-在证据支持时调参、生成图表并写 evidence-backed summary 时，可以直接使用它。
+- 本地仓库、远程仓库、压缩包、论文代码指针或算法实现；
+- 需要先检查源码，再决定是否执行；
+- 环境、依赖、runtime、失败诊断、调参或可视化问题；
+- 需要从保存证据而不是聊天记忆中汇报 computational claims。
 
-日志、指标、图表和 best programs 都是计算证据；这个 README 的目标是让新用户能单独安装和使用本 Skill。
+## 会产出什么
 
-## 你安装的是什么
+Agent 应在 `outputs/{run_id}/` 下产出 run plans、command logs、environment notes、metrics、figures、repair/tuning summaries 和 `RUN_SUMMARY.md`。
 
-本仓库真正交付给用户的是 `skills/` 下的共享 Skill 层。
+## Skill 入口
+
+主要 Skill 入口位于 `skills/` 下。
 
 Skill 是给 coding agent 阅读的工作流说明。每个 `SKILL.md` 会告诉 agent：什么时候使用这个工作流、要检查哪些证据、要写哪些产物、哪些风险需要人工审批，以及哪些脚本可以作为可选辅助工具调用。
 
@@ -49,9 +50,7 @@ Agent 在有价值时产出：
 - 有证据时生成的图表和调参总结；
 - 对发现、限制和不确定性的简洁对话说明。
 
-## 安装 / 加载
-
-### 一句话安装
+## 安装
 
 把下面这句话发给你的 coding agent：
 
