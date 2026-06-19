@@ -4,21 +4,16 @@ Chinese guide: [README.zh-CN.md](README.zh-CN.md)
 
 `invariant-computation` is an AI4Math Skill adapter for computing and validating topological, geometric, and algebraic invariant computations with coding agents.
 
-## AI4Math Role
+## What This Skill Does
 
-This skill is the invariant-computation layer in the AI4Math stack. Use it when
-a research question needs concrete algebraic, topological, geometric, or
-certified numerical evidence before proof, conjecture refinement, optimization,
-or formalization.
+This standalone skill helps a coding agent compute, route, and validate
+invariants for algebraic, topological, geometric, TDA, and certified numerical
+questions. It focuses on turning the user's mathematical object into a reviewed
+computational representation, choosing an appropriate method/backend, recording
+conventions, and validating the result before making claims.
 
-## Handoff
-
-Upstream inputs may come from `discover-math-problems`, `paper-to-skill`, Lean
-formalization attempts, or scientific reproduction runs. Handoff artifacts
-should include the object representation, coefficient/convention choices,
-method route, validation checks, and what the invariant does not prove. Return
-validated summaries to conjecture generation, theorem proving, or formalization
-workflows as evidence rather than final proof.
+Use it directly when the task names an object plus an invariant, or when the
+agent must first determine which invariant computation is appropriate.
 
 ## What This Is
 
@@ -47,9 +42,10 @@ The product is the shared Skill layer, not a CLI-first package.
 
 ## Installation / Loading
 
-### Use From This Repository
+### Open Or Clone This Skill Repository
 
-Open this repository in your coding agent and ask it to read:
+Clone or open this skill repository in your coding-agent environment. Then ask
+the coding agent to read:
 
 ```text
 AGENTS.md

@@ -4,16 +4,13 @@ English guide: [README.md](README.md)
 
 `invariant-computation` 是面向 coding agent 的 AI4Math Skill，用来计算、路由和验证拓扑、几何、代数不变量。
 
-## AI4Math 角色
+## 这个 Skill 做什么
 
-这个 Skill 是 AI4Math 体系里的不变量计算层。当研究问题需要代数、拓扑、几何或可认证数值证据，
-再进入证明、猜想修正、优化或形式化之前，优先使用它。
+这个独立 Skill 帮助 coding agent 计算、路由和验证代数、拓扑、几何、TDA 以及可认证数值问题中的不变量。
+它的重点是把用户给出的数学对象整理成可审查的计算表示，选择合适的方法和后端，记录约定，
+并在声称结果前完成验证。
 
-## 交接
-
-上游可能来自 `discover-math-problems`、`paper-to-skill`、Lean 形式化尝试或科学计算复现运行。
-交接时应包含对象表示、系数/约定选择、方法路线、验证检查，以及该不变量不能证明什么。完成后把
-validated summaries 作为证据交回猜想生成、定理证明或形式化 workflow，而不是把计算结果当成最终证明。
+当任务包含“数学对象 + 目标不变量”，或需要 agent 先判断应该计算哪类不变量时，可以直接使用它。
 
 ## 这是什么
 
@@ -27,7 +24,7 @@ validated summaries 作为证据交回猜想生成、定理证明或形式化 wo
 
 ## 安装 / 加载
 
-从当前 checkout 使用时，让 coding agent 读取：
+在你的 coding-agent 环境里 clone 或打开这个 skill 仓库，然后让 coding agent 读取：
 
 ```text
 AGENTS.md
