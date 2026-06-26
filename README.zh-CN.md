@@ -4,7 +4,7 @@
 
 面向数值证据、符号结构、有限元推理和数学不变量计算的 AI4Math 技能集合。
 
-[English](README.md) · [技能包](#技能包) · [快速开始](#快速开始) · [安全边界](#安全边界)
+[English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [快速开始](#快速开始) · [安全边界](#安全边界)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
 ![skills](https://img.shields.io/badge/skills-3-2ea44f)
