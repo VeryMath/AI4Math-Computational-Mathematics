@@ -1,6 +1,5 @@
 ---
 name: least-squares
-author: 李爽夕
 description: >-
   Fits linear, polynomial, and nonlinear models to data using least squares
   regression. Supports ordinary least squares (OLS), weighted least squares
@@ -10,6 +9,8 @@ description: >-
   and emcee. When no local library is available, searches GitHub for
   open-source fitting code. Uses for regression, trend analysis, curve fitting,
   and parameter estimation.
+metadata:
+  author: "李爽夕"
 ---
 
 <!--
