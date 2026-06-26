@@ -11,7 +11,9 @@ Use this repository as a routing layer for computational mathematics workflows.
 
 - `skills/finite-element-analysis/`: finite element analysis prompts and
   examples. Read its `README.md` and numbered `SKILL*.md` files before use.
-- `LS-Skill/`: legacy least-squares skill material kept at the repository root.
+- `skills/least-squares/`: least-squares regression, curve fitting, and
+  parameter estimation. Read its `SKILL.md`, `README.md`, and examples before
+  use.
 
 Prefer package-local instructions over this router when running a concrete
 workflow.
