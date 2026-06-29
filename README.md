@@ -5,7 +5,7 @@
 Computational workflows for numerical evidence, symbolic structure, finite
 element reasoning, and mathematical invariant computation.
 
-[中文说明](README.zh-CN.md) · [Contributors](CONTRIBUTORS.md) · [Skill packages](#skill-packages) · [Quick start](#quick-start) · [Security model](#security-and-scope)
+[中文说明](README.zh-CN.md) · [Contributors](CONTRIBUTORS.md) · [Skill packages](#skill-packages) · [Installation](#installation) · [Quick start](#quick-start) · [Security model](#security-and-scope)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
 ![skills](https://img.shields.io/badge/skills-3-2ea44f)
@@ -29,6 +29,42 @@ task.
 | [`finite-element-analysis`](skills/finite-element-analysis/) | Work through finite element modeling prompts, weak forms, element choices, and classroom-scale examples. | [`README`](skills/finite-element-analysis/README.md) · [`SKILL1`](skills/finite-element-analysis/SKILL1.md) · [`SKILL2`](skills/finite-element-analysis/SKILL2.md) · [`SKILL3`](skills/finite-element-analysis/SKILL3.md) |
 | [`invariant-computation`](skills/invariant-computation/) | Route and validate algebraic, topological, geometric, TDA, and certified numerical invariant computations. | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
 | [`least-squares`](skills/least-squares/) | Fit linear, polynomial, nonlinear, regularized, constrained, and Bayesian least-squares models. | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
+
+## Installation
+
+The recommended path is AI-assisted installation: ask your coding agent to clone or update this repository, read the Skill instructions, install the entrypoints, and verify discovery.
+
+```text
+Please install these AI4Math Skills for me.
+
+Repository: https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+Branch: main
+Skill paths:
+- skills/finite-element-analysis
+- skills/invariant-computation
+- skills/least-squares
+
+Steps:
+1. Clone or update the repository locally.
+2. Read README.md, SKILL.md, AGENTS.md if present, and each target Skill entrypoint.
+3. If this environment supports local Skill discovery, link each directory that contains SKILL.md into the local skills directory.
+4. Keep shared sibling support directories in place when a Skill depends on them.
+5. Verify that the installed Skills are discoverable.
+6. Tell me the installed paths, whether a restart is needed, and give me one test prompt.
+```
+
+Manual fallback for Codex-style local discovery:
+
+```bash
+git clone https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+cd AI4Math-Computational-Mathematics
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/finite-element-analysis" ~/.codex/skills/finite-element-analysis
+ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
+ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
+```
+
+If your agent uses a different local Skill directory, replace `~/.codex/skills` with that configured path.
 
 ## Quick Start
 

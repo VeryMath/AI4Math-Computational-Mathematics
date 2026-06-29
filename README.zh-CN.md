@@ -4,7 +4,7 @@
 
 面向数值证据、符号结构、有限元推理和数学不变量计算的 AI4Math 技能集合。
 
-[English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [快速开始](#快速开始) · [安全边界](#安全边界)
+[English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [安装](#安装) · [快速开始](#快速开始) · [安全边界](#安全边界)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
 ![skills](https://img.shields.io/badge/skills-3-2ea44f)
@@ -25,6 +25,42 @@
 | [`finite-element-analysis`](skills/finite-element-analysis/) | 有限元建模提示、弱形式推导、单元选择和课堂规模示例。 | [`README`](skills/finite-element-analysis/README.md) · [`SKILL1`](skills/finite-element-analysis/SKILL1.md) · [`SKILL2`](skills/finite-element-analysis/SKILL2.md) · [`SKILL3`](skills/finite-element-analysis/SKILL3.md) |
 | [`invariant-computation`](skills/invariant-computation/) | 选择、执行和验证代数、拓扑、几何、TDA 与 certified numerical invariant 计算路线。 | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
 | [`least-squares`](skills/least-squares/) | 线性、多项式、非线性、正则化、约束和贝叶斯最小二乘建模。 | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
+
+## 安装
+
+推荐方式是 AI 自动安装：让你的 coding agent 自己 clone 或更新仓库、读取 Skill 说明、安装入口并验证 discovery。
+
+```text
+请帮我安装这些 AI4Math Skills。
+
+仓库：https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+分支：main
+Skill 路径：
+- skills/finite-element-analysis
+- skills/invariant-computation
+- skills/least-squares
+
+请执行：
+1. 本地 clone 或更新仓库。
+2. 读取 README.md、SKILL.md、AGENTS.md（如果存在）以及每个目标 Skill 入口。
+3. 如果当前环境支持本地 Skill discovery，把每个包含 SKILL.md 的目录链接到本地 skills 目录。
+4. 如果某个 Skill 依赖相邻的共享支持目录，请保留这些 sibling 目录。
+5. 验证安装后的 Skills 是否可被发现。
+6. 告诉我安装路径、是否需要重启 agent，并给我一个测试 prompt。
+```
+
+Codex 风格本地 discovery 的手工 fallback：
+
+```bash
+git clone https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+cd AI4Math-Computational-Mathematics
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/finite-element-analysis" ~/.codex/skills/finite-element-analysis
+ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
+ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
+```
+
+如果你的 agent 使用别的本地 Skill 目录，把 `~/.codex/skills` 替换成对应配置路径。
 
 ## 快速开始
 
