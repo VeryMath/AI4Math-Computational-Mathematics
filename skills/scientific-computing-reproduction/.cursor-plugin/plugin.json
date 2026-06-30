@@ -1,0 +1,21 @@
+{
+  "name": "scientific-computing-reproduction",
+  "displayName": "AI4Math Computational Math Skills",
+  "description": "Skill-first computational math reproduction skill pack; Cursor plugin manifest only, not the workflow driver.",
+  "version": "0.1.0",
+  "author": {
+    "name": "conanxu"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai4math",
+    "computational-math",
+    "research-code-reproduction",
+    "optimization",
+    "matlab",
+    "auto-tuning",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks-cursor.json"
+}

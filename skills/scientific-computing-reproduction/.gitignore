@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+outputs/*
+!outputs/.gitkeep
+
+tests/fixtures/**/metrics.json
+tests/fixtures/**/convergence.csv
+.venv/
+venv/
+env/
+tests/
+
+projects/

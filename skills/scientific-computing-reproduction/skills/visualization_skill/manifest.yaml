@@ -1,0 +1,23 @@
+schema_version: 1
+name: visualization_skill
+version: 0.1.0
+scope: computational-math
+description: Create convergence, residual, and tuning figures from available computational math experiment metrics.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+requires_skills:
+  - report_generation_skill
+input_artifacts:
+  - convergence_csv
+  - tuning_results_csv
+  - result_metrics
+output_artifacts:
+  - figures/
+  - tuning/tuning_figures/
+approval_required_for:
+  - none
+risk_level: low
+

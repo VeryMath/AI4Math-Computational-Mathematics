@@ -1,0 +1,36 @@
+{
+  "name": "scientific-computing-reproduction",
+  "version": "0.1.0",
+  "description": "Skill-first computational math reproduction skill pack; Codex manifest only, not the workflow driver.",
+  "author": {
+    "name": "conanxu"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai4math",
+    "computational-math",
+    "research-code-reproduction",
+    "optimization",
+    "matlab",
+    "auto-tuning",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI4Math Computational Math Skills",
+    "shortDescription": "Skill-first computational math reproduction, MATLAB runtime, tuning, visualization, and reporting.",
+    "longDescription": "A coding-agent Skill pack for computational math research-code reproduction. It routes tasks through a shared skills registry, keeps humans in the approval loop, and writes compact evidence under outputs/{run_id}/.",
+    "developerName": "conanxu",
+    "category": "Developer",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "Use computational_math_reproduction_workflow_skill.",
+      "Inspect this computational math repo and write plan.md.",
+      "Check whether this MATLAB code can be reproduced safely."
+    ]
+  }
+}

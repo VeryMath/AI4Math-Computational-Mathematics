@@ -1,0 +1,17 @@
+parameters:
+  rho:
+    type: float
+    range: [0.01, 100.0]
+    scale: log
+  alpha:
+    type: float
+    range: [1.0, 2.0]
+    scale: linear
+  tol:
+    type: float
+    range: [1.0e-8, 1.0e-3]
+    scale: log
+  max_iter:
+    type: int
+    range: [100, 5000]
+    scale: linear

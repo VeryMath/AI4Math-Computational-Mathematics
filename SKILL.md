@@ -17,6 +17,10 @@ Use this repository as a routing layer for computational mathematics workflows.
 - `skills/least-squares/`: least-squares regression, curve fitting, and
   parameter estimation. Read its `SKILL.md`, `README.md`, and examples before
   use.
+- `skills/scientific-computing-reproduction/`: computational mathematics
+  research-code reproduction, runtime planning, failure diagnosis, tuning,
+  visualization, and evidence-backed reporting. Read its `SKILL.md`, README,
+  and nested `skills/registry.yaml` before use.
 
 Prefer package-local instructions over this router when running a concrete
 workflow.

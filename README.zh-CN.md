@@ -7,7 +7,7 @@
 [English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [安装](#安装) · [快速开始](#快速开始) · [安全边界](#安全边界)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
-![skills](https://img.shields.io/badge/skills-3-2ea44f)
+![skills](https://img.shields.io/badge/skills-4-2ea44f)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 </div>
@@ -25,6 +25,7 @@
 | [`finite-element-analysis`](skills/finite-element-analysis/) | 有限元建模提示、弱形式推导、单元选择和课堂规模示例。 | [`README`](skills/finite-element-analysis/README.md) · [`SKILL1`](skills/finite-element-analysis/SKILL1.md) · [`SKILL2`](skills/finite-element-analysis/SKILL2.md) · [`SKILL3`](skills/finite-element-analysis/SKILL3.md) |
 | [`invariant-computation`](skills/invariant-computation/) | 选择、执行和验证代数、拓扑、几何、TDA 与 certified numerical invariant 计算路线。 | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
 | [`least-squares`](skills/least-squares/) | 线性、多项式、非线性、正则化、约束和贝叶斯最小二乘建模。 | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
+| [`scientific-computing-reproduction`](skills/scientific-computing-reproduction/) | 计算数学科研代码复现、失败诊断、调参、可视化和证据化报告。 | [`README`](skills/scientific-computing-reproduction/README.md) · [`SKILL`](skills/scientific-computing-reproduction/SKILL.md) |
 
 ## 安装
 
@@ -39,6 +40,7 @@ Skill 路径：
 - skills/finite-element-analysis
 - skills/invariant-computation
 - skills/least-squares
+- skills/scientific-computing-reproduction
 
 请执行：
 1. 本地 clone 或更新仓库。
@@ -58,6 +60,7 @@ mkdir -p ~/.codex/skills
 ln -s "$PWD/skills/finite-element-analysis" ~/.codex/skills/finite-element-analysis
 ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
 ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
+ln -s "$PWD/skills/scientific-computing-reproduction" ~/.codex/skills/scientific-computing-reproduction
 ```
 
 如果你的 agent 使用别的本地 Skill 目录，把 `~/.codex/skills` 替换成对应配置路径。
@@ -89,6 +92,12 @@ skills/finite-element-analysis/README.md
 skills/least-squares/SKILL.md
 ```
 
+科学计算复现和调参从这里开始：
+
+```text
+skills/scientific-computing-reproduction/SKILL.md
+```
+
 ## 仓库结构
 
 ```text
@@ -99,7 +108,8 @@ AI4Math-Computational-Mathematics/
 └── skills/
     ├── finite-element-analysis/
     ├── invariant-computation/
-    └── least-squares/
+    ├── least-squares/
+    └── scientific-computing-reproduction/
 ```
 
 包内 examples 只作为公开示例。计算输出、环境缓存和大型生成物不要提交，除非已经明确整理成公开示例。

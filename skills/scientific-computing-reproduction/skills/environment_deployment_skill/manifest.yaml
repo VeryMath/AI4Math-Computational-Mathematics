@@ -1,0 +1,26 @@
+schema_version: 1
+name: environment_deployment_skill
+version: 0.1.0
+scope: computational-math
+description: Inspect dependencies and propose a safe runtime strategy for computational math repositories.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+  - agent-native-shell
+requires_skills:
+  - human_review_skill
+input_artifacts:
+  - source_path
+  - dependency_files
+  - runtime_constraints
+output_artifacts:
+  - deployment_plan.json
+  - environment_report.md
+approval_required_for:
+  - dependency_install
+  - dependency_version_change
+  - non_python_runtime_execution
+risk_level: medium
+

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+<rect width="100%" height="100%" fill="white"/>
+<text x="360.0" y="28" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700">ADMM Tuning Final Objective by Trial</text>
+<line x1="70" y1="360" x2="690" y2="360" stroke="#111827"/>
+<line x1="70" y1="50" x2="70" y2="360" stroke="#111827"/>
+<text x="380.0" y="402" text-anchor="middle" font-family="Arial" font-size="12">iteration / trial</text>
+<text x="18" y="205.0" text-anchor="middle" font-family="Arial" font-size="12" transform="rotate(-90 18 205.0)">objective</text>
+<text x="62" y="55" text-anchor="end" font-family="Arial" font-size="10">17.5</text>
+<text x="62" y="360" text-anchor="end" font-family="Arial" font-size="10">17.2</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="2.2" points="70.00,360.00 102.63,357.47 135.26,353.55 167.89,340.34 200.53,354.08 233.16,353.24 265.79,336.28 298.42,189.41 331.05,314.24 363.68,313.93 396.32,126.79 428.95,138.30 461.58,50.00 494.21,71.08 526.84,76.63 559.47,81.71 592.11,101.78 624.74,101.79 657.37,101.29 690.00,101.19"/>
+<line x1="540" y1="70" x2="560" y2="70" stroke="#2563eb" stroke-width="2.2"/>
+<text x="566" y="74" font-family="Arial" font-size="12">final_objective</text>
+<polyline fill="none" stroke="#dc2626" stroke-width="2.2" points="70.00,205.00 102.63,205.00 135.26,205.00 167.89,205.00 200.53,205.00 233.16,205.00 265.79,205.00 298.42,205.00 331.05,205.00 363.68,205.00 396.32,205.00 428.95,205.00 461.58,205.00 494.21,205.00 526.84,205.00 559.47,205.00 592.11,205.00 624.74,205.00 657.37,205.00 690.00,205.00"/>
+<line x1="540" y1="88" x2="560" y2="88" stroke="#dc2626" stroke-width="2.2"/>
+<text x="566" y="92" font-family="Arial" font-size="12">baseline</text>
+<polyline fill="none" stroke="#16a34a" stroke-width="2.2" points="70.00,205.00 102.63,205.00 135.26,205.00 167.89,205.00 200.53,205.00 233.16,205.00 265.79,205.00 298.42,205.00 331.05,205.00 363.68,205.00 396.32,205.00 428.95,205.00 461.58,205.00 494.21,205.00 526.84,205.00 559.47,205.00 592.11,205.00 624.74,205.00 657.37,205.00 690.00,205.00"/>
+<line x1="540" y1="106" x2="560" y2="106" stroke="#16a34a" stroke-width="2.2"/>
+<text x="566" y="110" font-family="Arial" font-size="12">baseline_plus_0.1</text>
+<polyline fill="none" stroke="#9333ea" stroke-width="2.2" points="70.00,205.00 102.63,205.00 135.26,205.00 167.89,205.00 200.53,205.00 233.16,205.00 265.79,205.00 298.42,205.00 331.05,205.00 363.68,205.00 396.32,205.00 428.95,205.00 461.58,205.00 494.21,205.00 526.84,205.00 559.47,205.00 592.11,205.00 624.74,205.00 657.37,205.00 690.00,205.00"/>
+<line x1="540" y1="124" x2="560" y2="124" stroke="#9333ea" stroke-width="2.2"/>
+<text x="566" y="128" font-family="Arial" font-size="12">baseline_minus_0.1</text>
+</svg>

@@ -1,0 +1,32 @@
+schema_version: 1
+name: repo_reproduction_skill
+version: 0.1.0
+scope: computational-math
+description: Analyze a repository, plan a minimal reproduction run, execute approved commands, and collect evidence.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+  - agent-native-shell
+requires_skills:
+  - environment_deployment_skill
+  - continuous_optimization_skill
+  - failure_diagnosis_skill
+  - report_generation_skill
+input_artifacts:
+  - source_path
+  - run_id
+  - approved_plan
+output_artifacts:
+  - plan.md
+  - logs/run.log
+  - results/
+  - figures/
+approval_required_for:
+  - external_code_execution
+  - source_edit
+  - dependency_change
+  - high_risk_command
+risk_level: medium
+

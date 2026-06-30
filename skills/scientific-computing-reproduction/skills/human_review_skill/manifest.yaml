@@ -1,0 +1,25 @@
+schema_version: 1
+name: human_review_skill
+version: 0.1.0
+scope: computational-math
+description: Record and enforce human approval decisions for consequential reproduction workflow steps.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+requires_skills: []
+input_artifacts:
+  - approval_context
+  - proposed_action
+  - risk_level
+output_artifacts:
+  - approvals/approval_log.jsonl
+  - checkpoint_summary
+approval_required_for:
+  - high_risk_command
+  - source_edit
+  - dependency_change
+  - tuning_run
+risk_level: low
+

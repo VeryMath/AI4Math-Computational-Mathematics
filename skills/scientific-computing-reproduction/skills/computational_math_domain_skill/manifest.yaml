@@ -1,0 +1,23 @@
+schema_version: 1
+name: computational_math_domain_skill
+version: 0.1.0
+scope: computational-math
+description: Route computational math repositories to broad domain cards before selecting mature specialist Skills.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - agent-native-file-inspection
+requires_skills:
+  - continuous_optimization_skill
+input_artifacts:
+  - source_path
+  - readme_or_paper_notes
+  - user_goal
+output_artifacts:
+  - domain_classification
+  - domain_evidence_summary
+approval_required_for:
+  - ambiguous_domain_classification
+risk_level: low
+

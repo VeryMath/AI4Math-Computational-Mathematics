@@ -19,6 +19,7 @@ attribution ledger.
 | Computational mathematics skill packages | Repository history and imported computational mathematics work | [tanghaoru](https://github.com/tanghaoru), [ricercar77](https://github.com/ricercar77) | Computational mathematics skill contributions and package content. | Preserved through repository history and this ledger. |
 | `skills/finite-element-analysis` | Current package metadata and examples | FEA-Skills, 蒋博先 | Finite element workflow modules, examples, and teaching materials. | Recorded in package metadata and this ledger. |
 | `skills/least-squares` | Current package metadata | 李爽夕 | Least-squares workflow content, examples, benchmarks, and figures. | Recorded in package metadata and this ledger. |
+| `skills/scientific-computing-reproduction` | `kn` branch of `VeryMath/AI4Math-Computational-Mathematics` | conanxu <1845830029@qq.com> | Scientific-computing reproduction, runtime planning, MATLAB setup, failure diagnosis, auto-tuning, visualization, and reporting Skill pack. | Preserved through the `kn` branch merge history and this ledger. |
 
 ## Policy
 

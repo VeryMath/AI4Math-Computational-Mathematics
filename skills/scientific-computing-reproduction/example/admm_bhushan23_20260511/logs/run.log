@@ -1,0 +1,6 @@
+initial_objective 1441.4194957465809
+final_objective 42.34559035715633
+min_objective 42.34542712303689
+wrote example/admm_bhushan23_20260511/results/lasso_objective.csv
+
+example/admm_bhushan23_20260511/figures/lasso_objective.png

@@ -1,0 +1,17 @@
+parameters:
+  proximal_parameter:
+    type: float
+    range: [0.01, 100.0]
+    scale: log
+  inner_tol:
+    type: float
+    range: [1.0e-8, 1.0e-3]
+    scale: log
+  outer_tol:
+    type: float
+    range: [1.0e-8, 1.0e-3]
+    scale: log
+  max_iter:
+    type: int
+    range: [100, 5000]
+    scale: linear

@@ -1,0 +1,24 @@
+schema_version: 1
+name: report_generation_skill
+version: 0.1.0
+scope: computational-math
+description: Generate compact Markdown plans, run summaries, tuning summaries, and final evidence reports.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+requires_skills: []
+input_artifacts:
+  - execution_logs
+  - result_metrics
+  - figures
+  - tuning_results
+output_artifacts:
+  - plan.md
+  - RUN_SUMMARY.md
+  - tuning/TUNING_SUMMARY.md
+approval_required_for:
+  - final_conclusion
+risk_level: low
+

@@ -1,0 +1,28 @@
+schema_version: 1
+name: failure_diagnosis_skill
+version: 0.1.0
+scope: computational-math
+description: Classify failed runs, identify evidence, and propose repair options without hiding uncertainty.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+requires_skills:
+  - human_review_skill
+input_artifacts:
+  - logs/run.log
+  - stdout
+  - stderr
+  - failed_command
+output_artifacts:
+  - failure_type
+  - diagnosis_summary
+  - optional_repair_plan.md
+approval_required_for:
+  - source_edit
+  - dependency_change
+  - entrypoint_change
+  - data_change
+risk_level: low
+

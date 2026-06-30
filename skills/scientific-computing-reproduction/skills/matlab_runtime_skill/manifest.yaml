@@ -1,0 +1,35 @@
+schema_version: 1
+name: matlab_runtime_skill
+version: 0.1.0
+scope: computational-math-runtime
+description: Route MATLAB repositories through a safe optional runtime backend using MATLAB MCP tools when available.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - agent-native-file-inspection
+  - optional-matlab-or-octave-cli
+requires_skills:
+  - environment_deployment_skill
+  - human_review_skill
+input_artifacts:
+  - source_path
+  - matlab_files
+  - optional_matlab_mcp_status
+output_artifacts:
+  - matlab_runtime_plan
+  - matlab_runtime_summary.json
+  - logs/run.log
+  - matlab_toolbox_summary
+optional_capabilities:
+  - evaluate_matlab_code
+  - run_matlab_file
+  - run_matlab_test_file
+  - check_matlab_code
+  - detect_matlab_toolboxes
+approval_required_for:
+  - matlab_code_execution
+  - mcp_configuration_change
+  - toolbox_installation
+  - source_edit
+risk_level: medium

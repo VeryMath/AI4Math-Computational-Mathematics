@@ -1,0 +1,16 @@
+parameters:
+  step_size:
+    type: float
+    range: [1.0e-4, 10.0]
+    scale: log
+  line_search:
+    type: bool
+    values: [true, false]
+  tol:
+    type: float
+    range: [1.0e-8, 1.0e-3]
+    scale: log
+  max_iter:
+    type: int
+    range: [100, 5000]
+    scale: linear

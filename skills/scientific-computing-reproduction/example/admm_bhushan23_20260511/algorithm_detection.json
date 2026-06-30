@@ -1,0 +1,12 @@
+{
+  "detected_algorithm": "ADMM",
+  "confidence": 0.95,
+  "evidence": [
+    "admm.py:\\badmm\\b",
+    "admm.py:rho",
+    "test.py:\\badmm\\b",
+    "README.md:\\badmm\\b",
+    "README.md:alternating direction method",
+    "pytorch_test.py:\\badmm\\b"
+  ]
+}

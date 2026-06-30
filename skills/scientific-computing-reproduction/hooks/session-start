@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+context="AI4Math Computational Math Skills are loaded. Start computational math reproduction work from computational_math_reproduction_workflow_skill and route through skills/registry.yaml. This hook is not the workflow driver; it only points the agent back to the shared Skill layer. Keep durable artifacts under outputs/{run_id}/ and ask before consequential execution, source edits, dependency changes, long runs, tuning, or final conclusions."
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+escaped_context="$(escape_for_json "$context")"
+
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$escaped_context"
+else
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$escaped_context"
+fi

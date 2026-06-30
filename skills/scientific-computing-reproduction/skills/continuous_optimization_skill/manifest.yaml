@@ -1,0 +1,21 @@
+schema_version: 1
+name: continuous_optimization_skill
+version: 0.1.0
+scope: computational-math
+description: Mature domain specialist for continuous optimization algorithms such as ADMM, PPA, proximal gradient, and primal-dual methods.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - python
+requires_skills: []
+input_artifacts:
+  - source_path
+  - readme_or_paper_notes
+  - optional_algorithm_hint
+output_artifacts:
+  - algorithm_detection.json
+  - algorithm_evidence_summary
+approval_required_for:
+  - ambiguous_algorithm_classification
+risk_level: low

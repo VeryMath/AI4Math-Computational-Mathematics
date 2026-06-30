@@ -1,0 +1,158 @@
+schema_version: 1
+default_entrypoint: computational_math_reproduction_workflow_skill
+skills:
+  - name: computational_math_reproduction_workflow_skill
+    phase: entrypoint
+    path: computational_math_reproduction_workflow_skill
+    description: Default Skill-first workflow controller for computational math reproduction and tuning.
+    requires_skills:
+      - computational_math_domain_skill
+      - algorithm_discovery_skill
+      - repo_reproduction_skill
+      - environment_deployment_skill
+      - continuous_optimization_skill
+      - matlab_environment_setup_skill
+      - matlab_runtime_skill
+      - failure_diagnosis_skill
+      - auto_tuning_skill
+      - visualization_skill
+      - report_generation_skill
+      - human_review_skill
+    output_artifacts:
+      - plan.md
+      - logs/run.log
+      - RUN_SUMMARY.md
+      - optional_repair_plan.md
+      - optional_tuning_artifacts
+    risk_level: medium
+  - name: computational_math_domain_skill
+    phase: domain-routing
+    path: computational_math_domain_skill
+    description: Route computational math repositories to broad domain cards and mature specialist Skills.
+    requires_skills:
+      - continuous_optimization_skill
+    output_artifacts:
+      - domain_classification
+      - domain_evidence_summary
+    risk_level: low
+  - name: algorithm_discovery_skill
+    phase: discovery
+    path: algorithm_discovery_skill
+    description: Search and rank public algorithm candidates.
+    requires_skills: []
+    output_artifacts:
+      - ranked_candidates
+      - discovery_notes
+    risk_level: low
+  - name: auto_tuning_skill
+    phase: tuning
+    path: auto_tuning_skill
+    description: Design and run approved parameter searches.
+    requires_skills:
+      - repo_reproduction_skill
+      - failure_diagnosis_skill
+    output_artifacts:
+      - tuning/tuning_results.csv
+      - tuning/best_parameters.json
+      - tuning/tuning.log
+      - tuning/TUNING_SUMMARY.md
+    risk_level: medium
+  - name: continuous_optimization_skill
+    phase: domain-specialist
+    path: continuous_optimization_skill
+    description: Mature specialist for continuous optimization algorithm families.
+    requires_skills: []
+    output_artifacts:
+      - algorithm_detection.json
+      - algorithm_evidence_summary
+    risk_level: low
+  - name: matlab_runtime_skill
+    phase: runtime
+    path: matlab_runtime_skill
+    description: Optional MATLAB runtime backend for MATLAB code, tests, toolboxes, and MCP execution.
+    requires_skills:
+      - environment_deployment_skill
+      - human_review_skill
+    output_artifacts:
+      - matlab_runtime_plan
+      - logs/run.log
+      - matlab_toolbox_summary
+    risk_level: medium
+  - name: matlab_environment_setup_skill
+    phase: environment
+    path: matlab_environment_setup_skill
+    description: Agent-neutral MATLAB, Octave, and MATLAB MCP environment setup and verification.
+    requires_skills:
+      - environment_deployment_skill
+      - human_review_skill
+      - matlab_runtime_skill
+    output_artifacts:
+      - matlab_environment_report.json
+      - matlab_setup_plan
+      - matlab_capability_summary
+    risk_level: medium
+  - name: environment_deployment_skill
+    phase: environment
+    path: environment_deployment_skill
+    description: Inspect dependencies and propose a safe runtime strategy.
+    requires_skills:
+      - human_review_skill
+    output_artifacts:
+      - deployment_plan.json
+      - environment_report.md
+    risk_level: medium
+  - name: failure_diagnosis_skill
+    phase: diagnosis
+    path: failure_diagnosis_skill
+    description: Classify failures and propose repair options.
+    requires_skills:
+      - human_review_skill
+    output_artifacts:
+      - failure_type
+      - diagnosis_summary
+      - optional_repair_plan.md
+    risk_level: low
+  - name: human_review_skill
+    phase: approval
+    path: human_review_skill
+    description: Record and enforce human approval decisions.
+    requires_skills: []
+    output_artifacts:
+      - approvals/approval_log.jsonl
+      - checkpoint_summary
+    risk_level: low
+  - name: repo_reproduction_skill
+    phase: reproduction
+    path: repo_reproduction_skill
+    description: Plan and execute approved minimal reproduction runs.
+    requires_skills:
+      - environment_deployment_skill
+      - continuous_optimization_skill
+      - failure_diagnosis_skill
+      - report_generation_skill
+    output_artifacts:
+      - plan.md
+      - logs/run.log
+      - results/
+      - figures/
+    risk_level: medium
+  - name: report_generation_skill
+    phase: reporting
+    path: report_generation_skill
+    description: Generate compact Markdown evidence reports.
+    requires_skills: []
+    output_artifacts:
+      - plan.md
+      - RUN_SUMMARY.md
+      - tuning/TUNING_SUMMARY.md
+    risk_level: low
+  - name: visualization_skill
+    phase: visualization
+    path: visualization_skill
+    description: Create convergence, residual, and tuning figures.
+    requires_skills:
+      - report_generation_skill
+    output_artifacts:
+      - figures/
+      - tuning/tuning_figures/
+    risk_level: low

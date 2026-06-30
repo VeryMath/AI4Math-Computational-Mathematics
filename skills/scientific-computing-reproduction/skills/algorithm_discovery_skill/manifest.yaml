@@ -1,0 +1,23 @@
+schema_version: 1
+name: algorithm_discovery_skill
+version: 0.1.0
+scope: computational-math
+description: Search and rank external public algorithm candidates for computational math reproduction tasks.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - agent-native-search
+  - python
+requires_skills: []
+input_artifacts:
+  - user_goal
+  - algorithm_family
+  - optional_query_terms
+output_artifacts:
+  - ranked_candidates
+  - discovery_notes
+approval_required_for:
+  - candidate_selection
+risk_level: low
+

@@ -8,7 +8,7 @@ element reasoning, and mathematical invariant computation.
 [中文说明](README.zh-CN.md) · [Contributors](CONTRIBUTORS.md) · [Skill packages](#skill-packages) · [Installation](#installation) · [Quick start](#quick-start) · [Security model](#security-and-scope)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
-![skills](https://img.shields.io/badge/skills-3-2ea44f)
+![skills](https://img.shields.io/badge/skills-4-2ea44f)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 </div>
@@ -29,6 +29,7 @@ task.
 | [`finite-element-analysis`](skills/finite-element-analysis/) | Work through finite element modeling prompts, weak forms, element choices, and classroom-scale examples. | [`README`](skills/finite-element-analysis/README.md) · [`SKILL1`](skills/finite-element-analysis/SKILL1.md) · [`SKILL2`](skills/finite-element-analysis/SKILL2.md) · [`SKILL3`](skills/finite-element-analysis/SKILL3.md) |
 | [`invariant-computation`](skills/invariant-computation/) | Route and validate algebraic, topological, geometric, TDA, and certified numerical invariant computations. | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
 | [`least-squares`](skills/least-squares/) | Fit linear, polynomial, nonlinear, regularized, constrained, and Bayesian least-squares models. | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
+| [`scientific-computing-reproduction`](skills/scientific-computing-reproduction/) | Reproduce, diagnose, tune, visualize, and report computational mathematics research code with human approval checkpoints. | [`README`](skills/scientific-computing-reproduction/README.md) · [`SKILL`](skills/scientific-computing-reproduction/SKILL.md) |
 
 ## Installation
 
@@ -43,6 +44,7 @@ Skill paths:
 - skills/finite-element-analysis
 - skills/invariant-computation
 - skills/least-squares
+- skills/scientific-computing-reproduction
 
 Steps:
 1. Clone or update the repository locally.
@@ -62,6 +64,7 @@ mkdir -p ~/.codex/skills
 ln -s "$PWD/skills/finite-element-analysis" ~/.codex/skills/finite-element-analysis
 ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
 ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
+ln -s "$PWD/skills/scientific-computing-reproduction" ~/.codex/skills/scientific-computing-reproduction
 ```
 
 If your agent uses a different local Skill directory, replace `~/.codex/skills` with that configured path.
@@ -93,6 +96,12 @@ For least-squares modeling, start with:
 skills/least-squares/SKILL.md
 ```
 
+For scientific-computing reproduction and tuning, start with:
+
+```text
+skills/scientific-computing-reproduction/SKILL.md
+```
+
 ## Repository Layout
 
 ```text
@@ -103,7 +112,8 @@ AI4Math-Computational-Mathematics/
 └── skills/
     ├── finite-element-analysis/
     ├── invariant-computation/
-    └── least-squares/
+    ├── least-squares/
+    └── scientific-computing-reproduction/
 ```
 
 Package-local examples are illustrative fixtures. Computation outputs,

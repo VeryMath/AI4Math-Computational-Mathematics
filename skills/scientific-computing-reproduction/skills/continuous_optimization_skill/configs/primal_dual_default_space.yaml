@@ -1,0 +1,21 @@
+parameters:
+  primal_step_size:
+    type: float
+    range: [1.0e-4, 10.0]
+    scale: log
+  dual_step_size:
+    type: float
+    range: [1.0e-4, 10.0]
+    scale: log
+  relaxation:
+    type: float
+    range: [0.5, 2.0]
+    scale: linear
+  tol:
+    type: float
+    range: [1.0e-8, 1.0e-3]
+    scale: log
+  max_iter:
+    type: int
+    range: [100, 5000]
+    scale: linear

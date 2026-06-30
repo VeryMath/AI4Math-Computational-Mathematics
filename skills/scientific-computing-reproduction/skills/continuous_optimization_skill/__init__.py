@@ -1,0 +1,1 @@
+"""Continuous optimization skill."""

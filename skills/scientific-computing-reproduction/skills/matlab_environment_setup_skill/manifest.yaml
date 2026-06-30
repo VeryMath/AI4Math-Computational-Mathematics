@@ -1,0 +1,32 @@
+schema_version: 1
+name: matlab_environment_setup_skill
+version: 0.1.0
+scope: computational-math-environment
+description: Check and prepare agent-neutral MATLAB, Octave, and MATLAB MCP availability before runtime execution.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - agent-native-file-inspection
+  - agent-native-shell
+requires_skills:
+  - environment_deployment_skill
+  - human_review_skill
+  - matlab_runtime_skill
+input_artifacts:
+  - user_goal
+  - optional_platform_name
+  - optional_matlab_root
+  - optional_mcp_status
+output_artifacts:
+  - matlab_environment_report.json
+  - matlab_setup_plan
+  - matlab_capability_summary
+approval_required_for:
+  - global_agent_configuration_change
+  - mcp_configuration_change
+  - shell_path_change
+  - dependency_installation
+  - toolbox_installation
+  - matlab_code_execution
+risk_level: medium
