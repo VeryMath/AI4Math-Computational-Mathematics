@@ -2,12 +2,12 @@
 
 # AI4Math · 计算数学
 
-面向数值证据、符号结构、有限元推理和数学不变量计算的 AI4Math 技能集合。
+面向数值证据、符号结构和数学不变量计算的 AI4Math 技能集合。
 
 [English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [安装](#安装) · [快速开始](#快速开始) · [安全边界](#安全边界)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
-![skills](https://img.shields.io/badge/skills-4-2ea44f)
+![skills](https://img.shields.io/badge/skills-3-2ea44f)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 </div>
@@ -27,7 +27,6 @@
 
 | 包 | 适用任务 | 入口 |
 | --- | --- | --- |
-| [`finite-element-analysis`](skills/finite-element-analysis/) | 有限元建模提示、弱形式推导、单元选择和课堂规模示例。 | [`README`](skills/finite-element-analysis/README.md) · [`SKILL1`](skills/finite-element-analysis/SKILL1.md) · [`SKILL2`](skills/finite-element-analysis/SKILL2.md) · [`SKILL3`](skills/finite-element-analysis/SKILL3.md) |
 | [`invariant-computation`](skills/invariant-computation/) | 选择、执行和验证代数、拓扑、几何、TDA 与 certified numerical invariant 计算路线。 | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
 | [`least-squares`](skills/least-squares/) | 线性、多项式、非线性、正则化、约束和贝叶斯最小二乘建模。 | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
 | [`scientific-computing-reproduction`](skills/scientific-computing-reproduction/) | 计算数学科研代码复现、失败诊断、调参、可视化和证据化报告。 | [`README`](skills/scientific-computing-reproduction/README.md) · [`SKILL`](skills/scientific-computing-reproduction/SKILL.md) |
@@ -42,7 +41,6 @@
 仓库：https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
 分支：main
 Skill 路径：
-- skills/finite-element-analysis
 - skills/invariant-computation
 - skills/least-squares
 - skills/scientific-computing-reproduction
@@ -62,7 +60,6 @@ Codex 风格本地 discovery 的手工 fallback：
 git clone https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
 cd AI4Math-Computational-Mathematics
 mkdir -p ~/.codex/skills
-ln -s "$PWD/skills/finite-element-analysis" ~/.codex/skills/finite-element-analysis
 ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
 ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
 ln -s "$PWD/skills/scientific-computing-reproduction" ~/.codex/skills/scientific-computing-reproduction
@@ -85,12 +82,6 @@ cd AI4Math-Computational-Mathematics
 skills/invariant-computation/SKILL.md
 ```
 
-有限元分析从这里开始：
-
-```text
-skills/finite-element-analysis/README.md
-```
-
 最小二乘建模从这里开始：
 
 ```text
@@ -111,7 +102,6 @@ AI4Math-Computational-Mathematics/
 ├── README.zh-CN.md
 ├── SKILL.md
 └── skills/
-    ├── finite-element-analysis/
     ├── invariant-computation/
     ├── least-squares/
     └── scientific-computing-reproduction/
@@ -121,7 +111,7 @@ AI4Math-Computational-Mathematics/
 
 ## 验证
 
-这个仓库没有根级构建步骤。标准 `SKILL.md` 技能包请使用本地 skill validator 验证；`finite-element-analysis` 是旧式 numbered skill 包，请直接检查 `README.md` 和 `SKILL*.md`。
+这个仓库没有根级构建步骤。标准 `SKILL.md` 技能包请使用本地 skill validator 验证。
 
 ## 安全边界
 

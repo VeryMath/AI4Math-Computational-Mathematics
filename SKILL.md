@@ -9,8 +9,6 @@ Use this repository as a routing layer for computational mathematics workflows.
 
 ## Packages
 
-- `skills/finite-element-analysis/`: finite element analysis prompts and
-  examples. Read its `README.md` and numbered `SKILL*.md` files before use.
 - `skills/invariant-computation/`: route, compute, and validate algebraic,
   topological, geometric, TDA, and certified numerical invariants. Read its
   `SKILL.md`, README, and references before use.

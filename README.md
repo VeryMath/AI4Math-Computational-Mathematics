@@ -2,13 +2,13 @@
 
 # AI4Math · Computational Mathematics
 
-Computational workflows for numerical evidence, symbolic structure, finite
-element reasoning, and mathematical invariant computation.
+Computational workflows for numerical evidence, symbolic structure, and
+mathematical invariant computation.
 
 [中文说明](README.zh-CN.md) · [Contributors](CONTRIBUTORS.md) · [Skill packages](#skill-packages) · [Installation](#installation) · [Quick start](#quick-start) · [Security model](#security-and-scope)
 
 ![version](https://img.shields.io/badge/version-0.1.0-blue)
-![skills](https://img.shields.io/badge/skills-4-2ea44f)
+![skills](https://img.shields.io/badge/skills-3-2ea44f)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 </div>
@@ -31,7 +31,6 @@ task.
 
 | Package | Use it for | Start here |
 | --- | --- | --- |
-| [`finite-element-analysis`](skills/finite-element-analysis/) | Work through finite element modeling prompts, weak forms, element choices, and classroom-scale examples. | [`README`](skills/finite-element-analysis/README.md) · [`SKILL1`](skills/finite-element-analysis/SKILL1.md) · [`SKILL2`](skills/finite-element-analysis/SKILL2.md) · [`SKILL3`](skills/finite-element-analysis/SKILL3.md) |
 | [`invariant-computation`](skills/invariant-computation/) | Route and validate algebraic, topological, geometric, TDA, and certified numerical invariant computations. | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
 | [`least-squares`](skills/least-squares/) | Fit linear, polynomial, nonlinear, regularized, constrained, and Bayesian least-squares models. | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
 | [`scientific-computing-reproduction`](skills/scientific-computing-reproduction/) | Reproduce, diagnose, tune, visualize, and report computational mathematics research code with human approval checkpoints. | [`README`](skills/scientific-computing-reproduction/README.md) · [`SKILL`](skills/scientific-computing-reproduction/SKILL.md) |
@@ -46,7 +45,6 @@ Please install these AI4Math Skills for me.
 Repository: https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
 Branch: main
 Skill paths:
-- skills/finite-element-analysis
 - skills/invariant-computation
 - skills/least-squares
 - skills/scientific-computing-reproduction
@@ -66,7 +64,6 @@ Manual fallback for Codex-style local discovery:
 git clone https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
 cd AI4Math-Computational-Mathematics
 mkdir -p ~/.codex/skills
-ln -s "$PWD/skills/finite-element-analysis" ~/.codex/skills/finite-element-analysis
 ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
 ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
 ln -s "$PWD/skills/scientific-computing-reproduction" ~/.codex/skills/scientific-computing-reproduction
@@ -89,12 +86,6 @@ For invariant workflows, start with:
 skills/invariant-computation/SKILL.md
 ```
 
-For finite element analysis, start with:
-
-```text
-skills/finite-element-analysis/README.md
-```
-
 For least-squares modeling, start with:
 
 ```text
@@ -115,7 +106,6 @@ AI4Math-Computational-Mathematics/
 ├── README.zh-CN.md
 ├── SKILL.md
 └── skills/
-    ├── finite-element-analysis/
     ├── invariant-computation/
     ├── least-squares/
     └── scientific-computing-reproduction/
@@ -128,9 +118,7 @@ they are intentionally curated examples.
 ## Validation
 
 There is no root build step. Validate changed standard skill packages with the
-local skill validator. For the finite-element package, review `README.md` and
-the numbered `SKILL*.md` files directly because it predates the standard
-single-`SKILL.md` layout.
+local skill validator.
 
 ## Security and Scope
 
