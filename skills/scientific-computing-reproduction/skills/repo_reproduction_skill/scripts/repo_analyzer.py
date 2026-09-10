@@ -98,7 +98,7 @@ def analyze_repo(source: Path | str) -> dict:
             if entrypoint not in candidate_entrypoints
         )
     if language == "MATLAB":
-        warnings.append("MATLAB execution requires matlab_runtime_skill, run-plan approval, and MATLAB/Octave or MATLAB MCP availability.")
+        warnings.append("Use matlab_runtime_skill to hand off MATLAB work to the shared matlab-runner and its MATLAB MCP execution route.")
     elif language != "Python":
         warnings.append(f"{language} is detect-only in the MVP.")
     if not candidate_entrypoints:

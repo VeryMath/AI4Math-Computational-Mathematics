@@ -83,7 +83,12 @@ Output policy:
 - ask before execution, source edits, dependency changes, long runs, tuning, or final conclusions.
 ```
 
-For MATLAB access setup, ask the agent to use `matlab_environment_setup_skill` first. Use `matlab_runtime_skill` only after MATLAB, Octave, or MATLAB MCP capability is verified.
+For MATLAB work, load the complete [matlab-runner](https://github.com/VeryMath/AI4Math-MathTool/tree/main/skills/matlab-runner)
+package from `AI4Math-MathTool`, including its references. `matlab_runtime_skill`
+passes reproduction context to that shared runner and collects its actual results.
+Use `matlab_environment_setup_skill` only when environment setup is requested.
+Without the runner or MATLAB MCP access, continue with static analysis and report
+the missing dependency; this package does not provide a MATLAB/Octave CLI fallback.
 
 ## How To Interact
 
@@ -105,8 +110,8 @@ conclusions.
 - `computational_math_reproduction_workflow_skill`: default end-to-end workflow entrypoint.
 - `computational_math_domain_skill`: broad computational math domain router.
 - `continuous_optimization_skill`: mature specialist Skill for ADMM, PPA, proximal gradient, primal-dual methods, and augmented Lagrangian methods.
-- `matlab_environment_setup_skill`: agent-neutral MATLAB, Octave, and MATLAB MCP setup and verification.
-- `matlab_runtime_skill`: optional MATLAB/Octave runtime backend inspection, planning, toolbox hints, and approved execution boundary.
+- `matlab_environment_setup_skill`: requested MATLAB/MCP configuration using the shared runner's setup guidance.
+- `matlab_runtime_skill`: reproduction-context handoff to the external `matlab-runner`, plus static MATLAB source summaries.
 - `repo_reproduction_skill`: repository analysis, run planning, approved execution, and evidence collection.
 - `environment_deployment_skill`: dependency and runtime setup planning.
 - `failure_diagnosis_skill`: failure classification and repair planning.
@@ -126,7 +131,10 @@ Phase 1 focuses on continuous optimization research code, especially:
 - primal-dual methods;
 - augmented Lagrangian methods.
 
-Python projects are the primary automatic execution target. MATLAB repositories can be inspected and planned through the MATLAB Skills, then run only after approval when MATLAB, Octave, or MATLAB MCP access is available. Julia, C++, and R are detected and reported in the MVP, but are not automatically run by default.
+Python projects are the primary automatic execution target. MATLAB repositories
+can be inspected locally; MATLAB execution is delegated to `matlab-runner` under
+the user's authorization and its MCP execution rules. Julia, C++, and R are
+detected and reported in the MVP, but are not automatically run by default.
 
 Other computational math areas are routed through reference cards until they need specialist Skills:
 

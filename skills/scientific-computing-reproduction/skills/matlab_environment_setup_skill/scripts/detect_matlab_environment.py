@@ -14,25 +14,19 @@ MATLAB_ENV_VARS = ("MATLAB_ROOT", "MATLAB_HOME")
 def detect_matlab_environment() -> dict:
     executables = {
         "matlab": shutil.which("matlab"),
-        "octave": shutil.which("octave"),
     }
     env_vars = {name: os.environ.get(name) for name in MATLAB_ENV_VARS if os.environ.get(name)}
-    execution_mode = "MATLAB CLI" if executables["matlab"] else "Octave" if executables["octave"] else "static-only"
 
     return {
         "platform": platform.platform(),
         "executables": executables,
         "environment_variables": env_vars,
-        "execution_mode": execution_mode,
+        "execution_mode": "unverified",
         "mcp": {
             "status": "not_checked",
             "note": "MCP capabilities must be inspected through the active coding agent host.",
         },
-        "next_step": (
-            "Create an approved MATLAB runtime plan."
-            if execution_mode != "static-only"
-            else "Configure MATLAB CLI, Octave, or MATLAB MCP before execution."
-        ),
+        "next_step": "Load matlab-runner to check the active host's MATLAB MCP capabilities; local installation paths do not establish execution availability.",
     }
 
 

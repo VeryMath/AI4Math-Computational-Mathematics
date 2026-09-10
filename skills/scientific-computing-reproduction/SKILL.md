@@ -37,5 +37,5 @@ All adapters point back to the shared Skill layer under `skills/`. Do not fork w
 
 - Keep durable artifacts under `outputs/{run_id}/`.
 - Ask before consequential execution, source edits, dependency changes, long runs, tuning, or final conclusions.
-- Treat MATLAB as an optional runtime backend through `matlab_runtime_skill`, not as the controller.
+- Use `matlab_runtime_skill` to pass MATLAB work to the external `matlab-runner`; keep reproduction decisions and result interpretation in this workflow.
 - Use scripts and hooks only as optional helpers; they are not the workflow driver.

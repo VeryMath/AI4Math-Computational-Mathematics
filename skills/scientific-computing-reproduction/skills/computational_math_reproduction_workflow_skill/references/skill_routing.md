@@ -8,8 +8,8 @@ Use `computational_math_reproduction_workflow_skill` as the default entrypoint f
 | Classify a broad computational math domain before choosing specialist guidance | `computational_math_domain_skill` |
 | Analyze a repository, fetch source, plan commands, run approved reproduction, collect results | `repo_reproduction_skill` |
 | Detect ADMM, PPA, proximal gradient, primal-dual, augmented Lagrangian, or related continuous optimization algorithms | `continuous_optimization_skill` |
-| Configure or verify MATLAB CLI, Octave, MATLAB MCP, license/toolbox status, or agent tool exposure | `matlab_environment_setup_skill` |
-| Handle MATLAB files, toolbox requirements, MATLAB MCP availability, or MATLAB execution plans | `matlab_runtime_skill` |
+| Requested MATLAB/MCP installation or host configuration | `matlab_environment_setup_skill`, using the shared runner's setup guidance |
+| MATLAB inspection or execution for reproduction | `matlab_runtime_skill` → external `matlab-runner` |
 | Identify dependency files, deployment strategy, Python environment choices, and installation risks | `environment_deployment_skill` |
 | Record approval decisions for high-risk operations, or enforce human-in-the-loop pauses | `human_review_skill` |
 | Diagnose errors, timeouts, dependency failures, numerical failures, missing data, or unsafe commands | `failure_diagnosis_skill` |
@@ -21,8 +21,8 @@ Use `computational_math_reproduction_workflow_skill` as the default entrypoint f
 
 - Start with `computational_math_reproduction_workflow_skill` when more than one stage is involved.
 - Add `computational_math_domain_skill` when the task is computational math but the domain is broader than, or not yet known to be, continuous optimization.
-- Add `matlab_environment_setup_skill` when MATLAB execution capability itself is missing, unverified, or needs agent-platform setup.
-- Add `matlab_runtime_skill` when `.m`, `.mlx`, MATLAB toolbox names, or MATLAB README commands appear.
+- Add `matlab_environment_setup_skill` only for requested MATLAB/MCP configuration.
+- Add `matlab_runtime_skill` when the reproduction needs MATLAB inspection or execution; it loads the shared `matlab-runner` and passes the relevant source context.
 - Add `human_review_skill` only when durable approval logs are needed for high-risk operations.
 - Add `continuous_optimization_skill` for optimization repositories after domain routing or when the algorithm family is already known.
 - Add `failure_diagnosis_skill` immediately after a failed or blocked run.
@@ -57,7 +57,7 @@ outputs/{run_id}/
 | `repo_reproduction_skill` | source path or fetched repository | `logs/run.log`, `results/`, `figures/`, analysis summary in `plan.md` | `failure_diagnosis_skill` |
 | `continuous_optimization_skill` | repository files, paper notes, README, scripts | algorithm-family evidence in conversation | `human_review_skill` when evidence is ambiguous |
 | `matlab_environment_setup_skill` | platform name, optional MATLAB root, optional MCP status | MATLAB environment report, setup plan, capability summary | `human_review_skill` before global configuration changes |
-| `matlab_runtime_skill` | MATLAB files, toolbox references, optional MCP status | MATLAB runtime plan, logs, toolbox summary | `failure_diagnosis_skill` for execution failures or `human_review_skill` before MCP/config changes |
+| `matlab_runtime_skill` | MATLAB files, data, working directory, reproduction criteria, user constraints | Actual runner outputs, file locations, errors, and execution status | `failure_diagnosis_skill` for unresolved failures; requested setup goes to `matlab_environment_setup_skill` |
 | `environment_deployment_skill` | dependency files, repo analysis, runtime constraints | environment findings in conversation | `human_review_skill` before dependency changes |
 | `human_review_skill` | approval context | approval log only for high-risk operations | workflow state |
 | `failure_diagnosis_skill` | failed command, stdout, stderr, logs, traceback | diagnosis in conversation, `repair_plan.md` only if source/dependency/entrypoint/data changes needed | `human_review_skill` before any fix |

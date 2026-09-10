@@ -6,9 +6,6 @@ import shlex
 import sys
 from pathlib import Path
 
-from skills.matlab_runtime_skill.scripts.matlab_runtime import make_matlab_run_plans
-
-
 HIGH_RISK_TOKENS = ("sudo", "rm -rf", "curl", "wget", "| bash", "mkfs", "chmod 777")
 
 
@@ -22,7 +19,8 @@ def _python_cmd(script: str) -> list[str]:
 
 
 def _is_matlab_command(command: str) -> bool:
-    return bool(command.strip().lower().startswith(("matlab ", "octave ")))
+    parts = command.split(maxsplit=1)
+    return bool(parts and parts[0].lower() in {"matlab", "octave"})
 
 
 def make_run_plans(analysis: dict) -> list[dict]:
@@ -42,8 +40,6 @@ def make_run_plans(analysis: dict) -> list[dict]:
                 "risk_level": risk_level(command),
             }
         )
-
-    plans.extend(make_matlab_run_plans(analysis))
 
     priority = ["examples/", "demo.py", "main.py", "tests/", "scripts/", "benchmarks/"]
     entrypoints = analysis.get("candidate_entrypoints", [])

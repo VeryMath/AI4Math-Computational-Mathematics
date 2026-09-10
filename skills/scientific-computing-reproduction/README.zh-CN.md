@@ -81,7 +81,11 @@ Output policy:
 - ask before execution, source edits, dependency changes, long runs, tuning, or final conclusions.
 ```
 
-如果要配置 MATLAB 访问，先让 agent 使用 `matlab_environment_setup_skill`。只有在 MATLAB、Octave 或 MATLAB MCP 能力被验证之后，再使用 `matlab_runtime_skill`。
+需要 MATLAB 时，加载 `AI4Math-MathTool` 中完整的
+[matlab-runner](https://github.com/VeryMath/AI4Math-MathTool/tree/main/skills/matlab-runner)
+技能包，包括其 references。`matlab_runtime_skill` 只向这个共享 runner 传递复现上下文，
+并收回真实执行结果。只有用户要求配置环境时才使用 `matlab_environment_setup_skill`。
+缺少 runner 或 MATLAB MCP 时，继续静态分析并说明缺项；复现包不再提供 MATLAB/Octave CLI 回退。
 
 ## 如何交互使用
 
@@ -101,8 +105,8 @@ Output policy:
 - `computational_math_reproduction_workflow_skill`：默认端到端 workflow 入口。
 - `computational_math_domain_skill`：计算数学大领域路由器。
 - `continuous_optimization_skill`：成熟 specialist Skill，覆盖 ADMM、PPA、proximal gradient、primal-dual methods 和 augmented Lagrangian methods。
-- `matlab_environment_setup_skill`：agent-neutral 的 MATLAB、Octave 和 MATLAB MCP 配置与验证。
-- `matlab_runtime_skill`：可选 MATLAB/Octave 运行时后端检查、规划、toolbox 提示和获批执行边界。
+- `matlab_environment_setup_skill`：按用户要求，参考共享 runner 的说明配置 MATLAB/MCP。
+- `matlab_runtime_skill`：向外部 `matlab-runner` 传递复现上下文，并保留 MATLAB 源码的静态摘要。
 - `repo_reproduction_skill`：仓库分析、运行计划、获批执行和证据收集。
 - `environment_deployment_skill`：依赖和运行环境部署规划。
 - `failure_diagnosis_skill`：失败分类和修复计划。
@@ -122,7 +126,9 @@ Phase 1 聚焦连续优化科研代码，尤其是：
 - primal-dual methods；
 - augmented Lagrangian methods。
 
-Python 项目是当前主要自动执行目标。MATLAB 仓库可以通过 MATLAB Skills 被检查和规划；只有在 MATLAB、Octave 或 MATLAB MCP 可用且获得批准后才运行。Julia、C++ 和 R 在 MVP 中会被检测和报告，但默认不自动运行。
+Python 项目是当前主要自动执行目标。MATLAB 仓库可在本地进行静态分析；执行交给
+`matlab-runner`，遵循用户授权及其 MCP 执行规则。Julia、C++ 和 R 在 MVP 中会被检测和报告，
+但默认不自动运行。
 
 其他计算数学方向先由 reference cards 路由，等需要时再拆成 specialist Skills：
 

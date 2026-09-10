@@ -19,7 +19,7 @@ For end-to-end reproduction workflows, this Skill is selected by `computational_
 ## When Not To Use
 
 - The domain is already known and a mature specialist Skill exists.
-- The task is only runtime setup, such as MATLAB MCP configuration. Use `matlab_runtime_skill` for MATLAB execution boundaries.
+- The task is only runtime setup, such as MATLAB MCP configuration. Use `matlab_environment_setup_skill` for requested setup; `matlab_runtime_skill` delegates MATLAB work to the shared `matlab-runner`.
 
 ## Domain Routing
 

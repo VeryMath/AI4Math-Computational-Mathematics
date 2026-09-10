@@ -52,8 +52,8 @@ Do not install this project into the user's global Python environment.
 - Phase 1 focuses on continuous optimization research code.
 - Priority algorithm families: ADMM, PPA, proximal gradient, primal-dual methods, and augmented Lagrangian methods.
 - Python projects are supported for automatic environment setup and execution.
-- MATLAB environment access is configured or verified with `matlab_environment_setup_skill` in an agent-neutral way.
-- MATLAB repositories are inspected with `matlab_runtime_skill` and may be run only after run-plan approval when MATLAB/Octave CLI or MATLAB MCP is available.
+- Requested MATLAB/MCP environment changes use `matlab_environment_setup_skill` and the shared runner's setup guidance.
+- `matlab_runtime_skill` passes reproduction context to the external `matlab-runner`; MATLAB execution follows that runner's MCP route and the user's authorization. Local source analysis does not establish execution availability.
 - Julia, C++, and R are detected and reported, but are not automatically run in the MVP.
 
 ## Conversation-First Workflow

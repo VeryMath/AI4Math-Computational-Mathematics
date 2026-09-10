@@ -80,7 +80,7 @@ outputs/{run_id}/
 2. Select domain, runtime, and workflow Skills using `references/skill_routing.md`.
 3. Inspect the source or search candidates with Codex-native tools first.
 4. Use `computational_math_domain_skill` when the computational math domain is not already known.
-5. Use setup Skills such as `matlab_environment_setup_skill` when a runtime is missing or unverified, then runtime Skills such as `matlab_runtime_skill` when the source language or toolchain needs backend-specific handling.
+5. For MATLAB work, use `matlab_runtime_skill` to load the shared `matlab-runner`. Use `matlab_environment_setup_skill` only when the user requests environment configuration; the runner owns runtime checks and execution.
 6. Write `outputs/{run_id}/plan.md` with the task interpretation, candidate command, risks, timeout, and expected evidence.
 7. Summarize the plan in conversation and wait for `approve / revise / reject / skip`.
 
@@ -119,8 +119,8 @@ obligation, route it to `rethlas-proving` or `lean-formalization`.
 - Use `algorithm_discovery_skill` when the user asks Codex to search for external algorithms or implementations.
 - Use `computational_math_domain_skill` to classify broad computational math domains before choosing mature specialist Skills.
 - Use `continuous_optimization_skill` when the domain card or source evidence points to ADMM, PPA, proximal gradient, primal-dual, augmented Lagrangian, or related methods.
-- Use `matlab_environment_setup_skill` when MATLAB CLI, Octave, MATLAB MCP, toolbox/license status, or agent-platform exposure must be configured or verified.
-- Use `matlab_runtime_skill` when the source contains MATLAB files, MATLAB toolbox requirements, or MATLAB execution opportunities.
+- Use `matlab_environment_setup_skill` for requested MATLAB/MCP environment configuration.
+- Use `matlab_runtime_skill` to pass MATLAB files, reproduction context, and user constraints to the shared `matlab-runner`, then collect its actual results.
 - Use `repo_reproduction_skill` for repository analysis, run planning, execution, and result collection.
 - Use `environment_deployment_skill` for dependency and runtime reports.
 - Use `failure_diagnosis_skill` when a run fails or repair is needed.

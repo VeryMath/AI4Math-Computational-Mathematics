@@ -15,8 +15,8 @@ Claude Code can act as an operator, but it is **not the workflow driver**. The w
 - `computational_math_reproduction_workflow_skill` orchestrates end-to-end reproduction work.
 - `computational_math_domain_skill` routes broad computational math domains such as optimization, numerical linear algebra, differential equations, PDE/FEM, stochastic simulation, and inverse problems.
 - `continuous_optimization_skill` is the mature specialist domain Skill.
-- `matlab_environment_setup_skill` verifies or configures MATLAB, Octave, and MATLAB MCP access in an agent-neutral way.
-- `matlab_runtime_skill` treats MATLAB as an optional runtime backend, not as a controller.
+- Use `matlab_environment_setup_skill` only for requested MATLAB/MCP configuration.
+- `matlab_runtime_skill` hands MATLAB work to the shared `matlab-runner`; read that handoff entrypoint for the external dependency and execution rules.
 - `outputs/{run_id}/` holds compact review artifacts, logs, summaries, tuning plans, and figures when they are useful.
 
 ## Operating Rules

@@ -95,8 +95,10 @@ def _evidence_summary(run: Path) -> str:
 def _limitations(run: Path) -> str:
     limitations = []
     matlab_report = _read_json(run / "matlab_environment_report.json") or {}
-    if matlab_report.get("execution_mode") == "static-only":
-        limitations.append("MATLAB/Octave execution was not available in this environment.")
+    if matlab_report.get("execution_mode") == "unverified":
+        limitations.append("The local MATLAB setup report does not establish MCP availability; use matlab-runner's actual tool results.")
+    elif matlab_report.get("execution_mode") == "static-only":
+        limitations.append("The recorded environment report did not establish MATLAB execution availability.")
     if not (run / "tuning" / "tuning_results.csv").exists():
         limitations.append("Tuning was not run.")
     return "\n".join(f"- {item}" for item in limitations) if limitations else "No major limitations recorded."

@@ -4,7 +4,6 @@ import argparse
 import json
 import re
 import shlex
-import shutil
 from pathlib import Path
 
 
@@ -176,13 +175,6 @@ def _entrypoint_candidates(
     return sorted(dict.fromkeys(candidates))
 
 
-def matlab_executables() -> dict[str, str | None]:
-    return {
-        "matlab": shutil.which("matlab"),
-        "octave": shutil.which("octave"),
-    }
-
-
 def analyze_matlab_runtime(source: Path | str) -> dict:
     source = Path(source)
     files = _matlab_files(source)
@@ -197,8 +189,6 @@ def analyze_matlab_runtime(source: Path | str) -> dict:
         if _relative(path, source) not in function_files and _relative(path, source) not in class_files
     ]
     readme_commands = readme_matlab_commands(source)
-    executables = matlab_executables()
-    execution_available = any(executables.values())
 
     return {
         "file_counts": {suffix: sum(1 for path in files if path.suffix == suffix) for suffix in MATLAB_SUFFIXES},
@@ -212,87 +202,9 @@ def analyze_matlab_runtime(source: Path | str) -> dict:
         "entrypoint_candidates": _entrypoint_candidates(source, script_files, readme_commands),
         "readme_commands": readme_commands,
         "toolbox_requirements": _toolbox_requirements(source, files),
-        "executables": executables,
-        "mcp": {
-            "status": "not_checked",
-            "capabilities": [
-                "detect_matlab_toolboxes",
-                "check_matlab_code",
-                "run_matlab_file",
-                "run_matlab_test_file",
-                "evaluate_matlab_code",
-            ],
-        },
-        "execution_available": execution_available,
-        "warnings": [] if execution_available else ["No matlab or octave executable detected on PATH."],
+        "execution_skill": "matlab-runner",
+        "warnings": ["Static source analysis only; matlab-runner checks MATLAB MCP availability in the active agent session."] if files else [],
     }
-
-
-def _risk_level_for_matlab_command(command: list[str]) -> str:
-    lowered = " ".join(command).lower()
-    if any(token in lowered for token in ("sudo", "rm -rf", "curl", "wget", "| bash")):
-        return "high"
-    return "medium"
-
-
-def _matlab_batch_for_entrypoint(entrypoint: str) -> str:
-    if entrypoint.endswith(".m"):
-        return f"run('{entrypoint}')"
-    return entrypoint
-
-
-def make_matlab_run_plans(analysis: dict) -> list[dict]:
-    source = Path(analysis["repo_path"])
-    summary = analysis.get("matlab") or analyze_matlab_runtime(source)
-    executables = summary.get("executables", {})
-    plans: list[dict] = []
-
-    for command in summary.get("readme_commands", []):
-        parts = shlex.split(command)
-        if not parts:
-            continue
-        tool = parts[0].lower()
-        if tool in {"matlab", "octave"} and executables.get(tool):
-            plans.append(
-                {
-                    "command": parts,
-                    "working_dir": str(source),
-                    "reason": "README provides an explicit MATLAB/Octave run command.",
-                    "expected_outputs": ["stdout", "stderr", "logs/run.log", "MATLAB result files"],
-                    "timeout_seconds": 600,
-                    "risk_level": _risk_level_for_matlab_command(parts),
-                    "requires_approval": "run_plan",
-                    "runtime": "MATLAB",
-                    "skill": "matlab_runtime_skill",
-                }
-            )
-
-    if plans:
-        return plans
-
-    tool = "matlab" if executables.get("matlab") else "octave" if executables.get("octave") else None
-    if not tool:
-        return []
-
-    for entrypoint in summary.get("entrypoint_candidates", [])[:3]:
-        if tool == "matlab":
-            command = ["matlab", "-batch", _matlab_batch_for_entrypoint(entrypoint)]
-        else:
-            command = ["octave", "--quiet", "--eval", _matlab_batch_for_entrypoint(entrypoint)]
-        plans.append(
-            {
-                "command": command,
-                "working_dir": str(source),
-                "reason": f"Detected MATLAB entrypoint {entrypoint}.",
-                "expected_outputs": ["stdout", "stderr", "logs/run.log", "MATLAB result files"],
-                "timeout_seconds": 600,
-                "risk_level": _risk_level_for_matlab_command(command),
-                "requires_approval": "run_plan",
-                "runtime": "MATLAB",
-                "skill": "matlab_runtime_skill",
-            }
-        )
-    return plans
 
 
 def main() -> None:

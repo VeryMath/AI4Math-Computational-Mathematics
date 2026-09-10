@@ -2,7 +2,7 @@ schema_version: 1
 name: matlab_environment_setup_skill
 version: 0.1.0
 scope: computational-math-environment
-description: Check and prepare agent-neutral MATLAB, Octave, and MATLAB MCP availability before runtime execution.
+description: Configure requested MATLAB/MCP access using the shared matlab-runner setup guidance.
 entrypoint: SKILL.md
 requires_env:
   conda: ai4math

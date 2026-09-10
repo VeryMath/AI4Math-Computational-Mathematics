@@ -17,7 +17,7 @@ Use this index before creating a reproduction plan for a computational math repo
 
 | Trigger | Read | Do not |
 | --- | --- | --- |
-| `.m`, `.mlx`, MATLAB README commands, toolbox names | `matlab_runtime_skill/references/INDEX.md` | Do not make MATLAB the workflow driver; it is a runtime backend. |
+| `.m`, `.mlx`, MATLAB README commands, toolbox names | `matlab_runtime_skill/references/INDEX.md` | Pass reproduction context to the shared `matlab-runner`; keep scientific workflow decisions here. |
 | `requirements.txt`, `pyproject.toml`, `.py`, notebooks | `environment_deployment_skill/SKILL.md` | Do not install or upgrade dependencies before approval. |
 | `Project.toml`, `.jl` | Static analysis plus `environment_deployment_skill/SKILL.md` | Do not auto-run Julia in the MVP unless explicitly approved. |
 | `CMakeLists.txt`, `Makefile`, `.cpp`, `.c`, `.f90` | Static analysis plus `environment_deployment_skill/SKILL.md` | Do not build native code without a reviewed plan and timeout. |
@@ -40,4 +40,3 @@ Preflight: computational_math_domain_skill/references/INDEX.md -> domains/pde-fe
 ```
 
 Then state the domain, evidence, runtime, and whether a specialist Skill exists.
-

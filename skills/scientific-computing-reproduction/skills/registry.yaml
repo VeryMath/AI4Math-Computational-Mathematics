@@ -69,7 +69,7 @@ skills:
   - name: matlab_runtime_skill
     phase: runtime
     path: matlab_runtime_skill
-    description: Optional MATLAB runtime backend for MATLAB code, tests, toolboxes, and MCP execution.
+    description: Reproduction-context handoff to the shared matlab-runner for MATLAB inspection and execution.
     requires_skills:
       - environment_deployment_skill
       - human_review_skill
@@ -81,7 +81,7 @@ skills:
   - name: matlab_environment_setup_skill
     phase: environment
     path: matlab_environment_setup_skill
-    description: Agent-neutral MATLAB, Octave, and MATLAB MCP environment setup and verification.
+    description: Requested MATLAB/MCP configuration using the shared matlab-runner setup guidance.
     requires_skills:
       - environment_deployment_skill
       - human_review_skill
