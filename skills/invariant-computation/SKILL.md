@@ -85,6 +85,11 @@ outputs/<run_id>/
 └── RUN_SUMMARY.md
 ```
 
+The JSON summary should validate against the
+[versioned schema](schema/invariant_summary.schema.json). Use the
+[known-answer example](examples/invariant_summary.example.json) as a shape
+reference, not as evidence for a new computation.
+
 9. Validate results using `references/validation_checks.md`.
 10. Report the invariant, assumptions, checks passed, checks failed, software versions, and what the invariant does not prove.
 
@@ -148,6 +153,7 @@ Every final report should include:
 - coefficient ring or field and conventions;
 - backend route and version evidence;
 - exact command or code path used;
+- a non-null invariant value unless the computation failed;
 - validation checks and their results;
 - unresolved ambiguity and next repair route;
-- a classification caveat unless classification is theorem-backed.
+- either a classification caveat or explicit theorem evidence supporting its omission.
