@@ -71,6 +71,21 @@ class InvariantComputationSkillShapeTests(unittest.TestCase):
         ):
             self.assertIn(required, chinese)
 
+    def test_package_readme_local_links_resolve(self) -> None:
+        for relative_path in (
+            "skills/invariant-computation/README.md",
+            "skills/invariant-computation/README.zh-CN.md",
+        ):
+            readme = ROOT / relative_path
+            for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", self.read(relative_path)):
+                if target.startswith(("https://", "http://", "#", "mailto:")):
+                    continue
+                target = target.split("#", 1)[0]
+                self.assertTrue(
+                    (readme.parent / target).is_file(),
+                    f"Broken local link in {relative_path}: {target}",
+                )
+
     def test_reference_files_cover_route_families_and_tools(self) -> None:
         index = self.read("skills/invariant-computation/references/INDEX.md")
         route_map = self.read("skills/invariant-computation/references/method_route_map.md")

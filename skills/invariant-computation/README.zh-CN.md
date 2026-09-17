@@ -97,6 +97,13 @@ outputs/<run_id>/
 └── RUN_SUMMARY.md
 ```
 
+`invariant_summary.json` 提供
+[版本化 schema](schema/invariant_summary.schema.json)和
+[已知答案示例](examples/invariant_summary.example.json)。
+Schema 要求 `classification_caveat` 与 `classification_theorem_evidence`
+至少存在一项。启发式、部分完成和失败结果还必须记录剩余不确定性与下一步修复
+路线。除 `failed` 外，所有结果都必须提供非空的 `invariant.value`。
+
 只创建当前任务真正需要的文件。
 
 ## 安全与审查规则
@@ -117,8 +124,10 @@ skills/
     README.md
     SKILL.md
     agents/openai.yaml
+    examples/
     manifest.yaml
     references/
+    schema/
 tests/
 ```
 
@@ -127,6 +136,7 @@ tests/
 运行：
 
 ```bash
+python3 -m pip install -e '.[dev]'
 python <path-to-skill-creator>/scripts/quick_validate.py skills/invariant-computation
 python3 -m unittest discover -s tests -v
 ```
@@ -135,4 +145,4 @@ python3 -m unittest discover -s tests -v
 
 ## 许可证
 
-见 [LICENSE](LICENSE)。
+见 [LICENSE](../../LICENSE)。
