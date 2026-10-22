@@ -37,6 +37,10 @@ skills/registry.yaml
 
 The registry routes the default workflow to specialist Skills for domain classification, repository reproduction, environment deployment, MATLAB setup, MATLAB runtime planning, failure diagnosis, tuning, visualization, human review, and report generation.
 
+Each registry entry maps its existing underscore `name` (also the Python directory) to the public `skill_name` in `SKILL.md`. Both spellings resolve to the same entry; imports keep their existing directory paths. From this package, run `python3 -m skills.registry` to check names, paths, and dependencies, or `python3 -m skills.registry auto-tuning-skill` to select a workflow and list its direct dependencies.
+
+MATLAB MCP execution uses the external `matlab-runner` Skill from [VeryMath/AI4Math-MathTool](https://github.com/VeryMath/AI4Math-MathTool/tree/main/skills/matlab-runner), currently `0.1.8-verymath-review`. It remains a review candidate; no stable release is implied. Read that Skill before executing MATLAB, and report `MCP_UNAVAILABLE` when the tools are absent.
+
 What users provide:
 
 - a natural-language goal;

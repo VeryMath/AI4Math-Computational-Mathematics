@@ -6,7 +6,8 @@ description: Route MATLAB inspection and execution in a computational math repro
 # MATLAB Reproduction Handoff
 
 Use the standalone [matlab-runner](https://github.com/VeryMath/AI4Math-MathTool/tree/main/skills/matlab-runner)
-for MATLAB execution. This module connects it to reproduction work and does not
+version `0.1.8-verymath-review` for MATLAB execution. This is a review candidate;
+formal MATLAB MCP acceptance is still pending. This module connects it to reproduction work and does not
 maintain a second set of tool-selection, execution, or recovery instructions.
 
 1. Identify the MATLAB source files, intended entrypoint, data paths, working

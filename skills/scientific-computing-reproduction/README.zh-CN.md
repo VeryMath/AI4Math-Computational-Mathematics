@@ -37,6 +37,10 @@ skills/registry.yaml
 
 注册表把默认工作流路由到领域分类、仓库复现、环境部署、MATLAB 配置、MATLAB 运行时规划、失败诊断、调参、可视化、人工 review 和报告生成等 specialist Skills。
 
+每个注册表条目将现有下划线 `name`（也是 Python 目录名）映射到 `SKILL.md` 的公开 `skill_name`。两种写法解析到同一条目，Python 导入路径不变。在本包运行 `python3 -m skills.registry` 检查名称、路径和依赖；运行 `python3 -m skills.registry auto-tuning-skill` 选择工作流并列出直接依赖。
+
+MATLAB MCP 执行依赖 [VeryMath/AI4Math-MathTool](https://github.com/VeryMath/AI4Math-MathTool/tree/main/skills/matlab-runner) 的外部 `matlab-runner`，当前要求版本为 `0.1.8-verymath-review`。该版本仍为审阅候选，不表示已正式发布。实际执行 MATLAB 前读取该 Skill；工具未提供时报告 `MCP_UNAVAILABLE`。
+
 用户提供的是：
 
 - 自然语言目标；
