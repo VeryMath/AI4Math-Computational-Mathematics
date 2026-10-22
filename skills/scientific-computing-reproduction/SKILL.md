@@ -15,7 +15,7 @@ Start end-to-end work from:
 skills/computational_math_reproduction_workflow_skill/SKILL.md
 ```
 
-Use `skills/registry.yaml` to route to domain, runtime, environment, diagnosis, tuning, visualization, review, and reporting Skills.
+Resolve either the public kebab-case `skill_name` or the existing underscore `name` with `python3 -m skills.registry <name>`; both point to the same directory. Use `skills/registry.yaml` to route to domain, runtime, environment, diagnosis, tuning, visualization, review, and reporting Skills.
 
 This root `SKILL.md` is not the workflow driver. It is a compatibility entrypoint for platforms that expect one top-level Skill file.
 
