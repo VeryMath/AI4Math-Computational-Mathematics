@@ -34,7 +34,11 @@ Output policy:
 - treat MATLAB, Python, Julia, C++, and R as runtimes selected by Skills.
 ```
 
-For MATLAB access setup, use `matlab_environment_setup_skill` first; use `matlab_runtime_skill` only after MATLAB, Octave, or MATLAB MCP capability is verified.
+For MATLAB tasks, use `matlab_runtime_skill` to pass the reproduction context
+and existing user authorization to the shared `matlab-runner`, which checks
+the active agent's MATLAB MCP capabilities. Use `matlab_environment_setup_skill`
+when the user requests environment configuration. If MCP is unavailable, report
+`MCP_UNAVAILABLE` and continue with static source inspection.
 
 ## Maintainer Boundary
 

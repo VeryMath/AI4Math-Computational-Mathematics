@@ -445,7 +445,7 @@ import jaxopt
 
 def residuals(params):
     a, b, c = params
-    return y - a * jnp.exp(-b * x) + c
+    return y - (a * jnp.exp(-b * x) + c)
 
 def rss(params):
     res = residuals(params)
